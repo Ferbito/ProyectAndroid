@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GamesClub</string>
+    <string name="btn_mapa">MAPS</string>
+    <string name="btn_listview">LISTA</string>
+    <string name="btn_MAPS">VER MAPS</string>
+    <string name="btn_GAME">VER JUEGO</string>
 </resources>
