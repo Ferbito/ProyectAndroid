@@ -22,7 +22,7 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        setTheme(R.style.Theme_AppCompat_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //AQUI EMPIEZA TODO
