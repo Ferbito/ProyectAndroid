@@ -51,6 +51,7 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
         }
         if(mDots.length>0){
             mDots[position].setTextColor(getResources().getColor(R.color.red));
+
         }
 
     }
