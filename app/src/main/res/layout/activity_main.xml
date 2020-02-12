@@ -28,21 +28,23 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
    >
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"/>
     <LinearLayout
         android:id="@+id/dotsLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="20"
+        android:layout_weight="6"
         android:gravity="center"
         android:orientation="horizontal"></LinearLayout>
-    <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="4"/>
 
 
 </LinearLayout>

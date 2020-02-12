@@ -28,7 +28,8 @@ public class SliderAdapter extends PagerAdapter {
     public String[] slider_headings={
             "IRON MAN",
             "HULK",
-            "CAPITAN AMERICA"
+            "CAPITAN AMERICA",
+            "THOR"
     };
 
     //final String[] urls = {"https://img.icons8.com/bubbles/2x/iron-man.png","https://synth.agency/wp-content/uploads/2019/07/Marvel-Hulk-1024x819.png","https://i.pinimg.com/736x/06/51/1d/06511d08fcfa420f568c9ddfca2cee53.jpg" };
@@ -38,7 +39,7 @@ public class SliderAdapter extends PagerAdapter {
                 Picasso.get().load(urls[1]).error(R.drawable.ic_launcher_background).into(imageView1);
                 Picasso.get().load(urls[2]).error(R.drawable.ic_launcher_background).into(imageView1);}
     */
-   public String[]slide_descs={"Iron Man es un superhéroe ficticio que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue cocreado por el escritor y editor Stan Lee, desarrollado por el guionista Larry Lieber y diseñado por los artistas Don Heck y Jack Kirby.","Hulk es un personaje ficticio, que aparece en los cómics estadounidenses publicados por la editorial Marvel Comics. El personaje fue creado por los escritores Stan Lee y Jack Kirby siendo su primera aparición en The Incredible Hulk #1 publicado en mayo de 1962","Capitán América cuyo nombre real es Steven \"Steve\" Rogers, es un superhéroe ficticio que aparece en los cómics estadounidenses publicados por Marvel Comics."};
+   public String[]slide_descs={"Iron Man es un superhéroe ficticio que aparece en los cómics estadounidenses publicados por Marvel Comics. El personaje fue cocreado por el escritor y editor Stan Lee, desarrollado por el guionista Larry Lieber y diseñado por los artistas Don Heck y Jack Kirby.","Hulk es un personaje ficticio, que aparece en los cómics estadounidenses publicados por la editorial Marvel Comics. El personaje fue creado por los escritores Stan Lee y Jack Kirby siendo su primera aparición en The Incredible Hulk #1 publicado en mayo de 1962","Capitán América cuyo nombre real es Steven \"Steve\" Rogers, es un superhéroe ficticio que aparece en los cómics estadounidenses publicados por Marvel Comics.","Tras desatar una antigua guerra, el codicioso guerrero Thor es desterrado a la Tierra por su padre para que viva entre los hombres y descubra así el verdadero sentido de la humildad. Allí, sin sus poderes, Thor deberá enfrentarse a las fuerzas más oscuras que su mayor enemigo le enviará desde Asgard."};
     @Override
     public int getCount() {
        return slider_headings.length;
