@@ -29,23 +29,7 @@
         android:layout_gravity="center"
     android:orientation="horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:background="@color/red"
-            android:textColor="@color/colorWhite"
-            android:text="@string/btn_GAME"
-            android:id="@+id/btn_GAME"></Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@color/colorWhite"
-            android:text="@string/btn_MAPS"
-            android:textColor="@color/red"
-            android:id="@+id/btn_MAPS"></Button>
+
 
     </LinearLayout>
     <LinearLayout
@@ -78,7 +62,6 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:layout_gravity="center"
-
         android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>
