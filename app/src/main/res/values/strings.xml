@@ -2,6 +2,6 @@
     <string name="app_name">GamesClub</string>
     <string name="btn_mapa">MAPS</string>
     <string name="btn_listview">LISTA</string>
-    <string name="btn_MAPS"><b>VER MAPS</b></string>
-    <string name="btn_GAME"><b>VER JUEGO</b></string>
+    <string name="btn_MAPS"><b>TIENDAS</b></string>
+    <string name="btn_GAME"><b>COMICS</b></string>
 </resources>

@@ -60,7 +60,6 @@ public class SliderAdapter extends PagerAdapter {
         TextView slideHeading=(TextView)view.findViewById(R.id.slide_heading);
         TextView slideDescription=(TextView)view.findViewById(R.id.slide_desc);
         Picasso.get().load(imageUrls[position]).error(R.drawable.ic_launcher_background).into(slideImageView);
-
         slideHeading.setText(slider_headings[position]);
         slideDescription.setText(slide_descs[position]);
 
