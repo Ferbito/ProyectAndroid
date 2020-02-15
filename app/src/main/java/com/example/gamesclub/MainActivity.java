@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 public class MainActivity extends AppCompatActivity {
 private ViewPager mSlideViewPager;
 private LinearLayout mDotLayout;
@@ -74,6 +77,11 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
 
         }
     };
+
+    private void cargarDatosWeb(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://gateway.marvel.com/v1/public/comics?ts=9&apikey=7a18af213a25abcf54a952288670033d&hash=0bd40620c9f9e68a70795b084480daed";
+    }
 
 
 }
