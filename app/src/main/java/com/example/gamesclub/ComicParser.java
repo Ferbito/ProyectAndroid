@@ -12,20 +12,22 @@ public class ComicParser {
     private final String TAG =getClass().getSimpleName();
 
     public class comic{
-        private String name;
+        private String tittle;
         private String releaseDate;
         private String description;
         private String image;
+        private String extensionImg;
 
-        public comic(String name, String releaseDate, String description, String image) {
-            this.name = name;
+        public comic(String tittle, String releaseDate, String description, String image, String extensionImg) {
+            this.tittle = tittle;
             this.releaseDate = releaseDate;
             this.description = description;
             this.image = image;
+            this.extensionImg = extensionImg;
         }
 
-        public String getName() {
-            return name;
+        public String getTittle() {
+            return tittle;
         }
 
         public String getReleaseDate() {
@@ -38,6 +40,10 @@ public class ComicParser {
 
         public String getImage() {
             return image;
+        }
+
+        public String getExtensionImg() {
+            return extensionImg;
         }
     }
 
@@ -65,10 +71,32 @@ public class ComicParser {
     }
 
     private comic parseComic(JSONObject jsonData){
-        String name = "";
+        String tittle = "";
         String releaseDate = "";
         String description = "";
         String image = "";
+        String extensionImg = "";
+
+        try{
+            if(jsonData.has("title"))
+                tittle = jsonData.getString("tittle");
+            if(jsonData.has("textObjects")){
+                JSONObject tobj =jsonData.getJSONObject("textObjects");
+                if(tobj.has("text"))
+                    description = tobj.getString("text");
+            }
+            if(jsonData.has("images")){
+                JSONObject images = jsonData.getJSONObject(("images"));
+                if(images.has("path")){
+                    image = images.getString("path");
+                    extensionImg = images.getString("extension");
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }
