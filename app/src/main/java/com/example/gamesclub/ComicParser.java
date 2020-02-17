@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HelperParser {
+public class ComicParser {
     private final String TAG =getClass().getSimpleName();
 
     public class comic{
@@ -65,6 +65,10 @@ public class HelperParser {
     }
 
     private comic parseComic(JSONObject jsonData){
+        String name = "";
+        String releaseDate = "";
+        String description = "";
+        String image = "";
         return null;
     }
 }
