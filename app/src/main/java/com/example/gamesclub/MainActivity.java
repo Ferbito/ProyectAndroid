@@ -3,12 +3,15 @@ package com.example.gamesclub;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -39,6 +42,15 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
         addDotsIndicator(0);
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
+        Button btn_maps=findViewById(R.id.btn_MAPS);
+        btn_maps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(MainActivity.this,MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     public void addDotsIndicator(int position){
