@@ -72,6 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -90,9 +91,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
 
             buildGoogleApiClient();
-            LatLng sydney = new LatLng(mLat , mLon);
+           /* LatLng sydney = new LatLng(mLat , mLon);
             mMap.addMarker(new MarkerOptions().position(sydney).title(mTitle));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
             mMap.setMyLocationEnabled(true);
 
         }
@@ -155,6 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 {
                     Toast.makeText(this, "please write any location name...", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
 
 
@@ -175,6 +177,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
+
+    /*private void Autocompletar(){
+        PlaceAutocompleteFragment places= (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.);
+        places.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+
+                Toast.makeText(getApplicationContext(),place.getName(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Status status) {
+
+                Toast.makeText(getApplicationContext(),status.toString(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }*/
+
     private String getUrl(double latitide, double longitude, String nearbyPlace)
     {
         StringBuilder googleURL = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
@@ -213,7 +235,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if(googleApiClient==null){
                             buildGoogleApiClient();
                         }
-                        mMap.setBuildingsEnabled(true);
+                        mMap.setMyLocationEnabled(true);
                     }
                 }else{
                     Toast.makeText(this,"Permission Denied...",Toast.LENGTH_SHORT).show();
