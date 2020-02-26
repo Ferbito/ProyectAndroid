@@ -4,5 +4,5 @@
     <string name="btn_listview">LISTA</string>
     <string name="btn_MAPS"><b>TIENDAS</b></string>
     <string name="btn_GAME"><b>COMICS</b></string>
-
+    <string name="location_search">Escribe cualquier lugar aquí</string>
 </resources>

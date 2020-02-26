@@ -1,30 +1,36 @@
 package com.example.gamesclub;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
-public class MainActivity extends AppCompatActivity {
-private ViewPager mSlideViewPager;
-private LinearLayout mDotLayout;
-private SliderAdapter mSliderAdapter;
-private TextView[] mDots;
-private Button mButonGame;
-private Button mButonBuscar;
-private Typeface script;
-private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-man.png","https://synth.agency/wp-content/uploads/2019/07/Marvel-Hulk-1024x819.png","https://cdn4.iconfinder.com/data/icons/superhero-3/500/Superhero-01-512.png","https://icons-for-free.com/iconfiles/png/512/super+thor+wings+icon-1320166699905266736.png" };
+public class MainActivity extends AppCompatActivity   {
+    private ViewPager mSlideViewPager;
+    private LinearLayout mDotLayout;
+    private SliderAdapter mSliderAdapter;
+    private TextView[] mDots;
+    private Button mButonGame;
+    private Button mButonBuscar;
+    private Typeface script;
+    private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-man.png","https://synth.agency/wp-content/uploads/2019/07/Marvel-Hulk-1024x819.png","https://cdn4.iconfinder.com/data/icons/superhero-3/500/Superhero-01-512.png","https://icons-for-free.com/iconfiles/png/512/super+thor+wings+icon-1320166699905266736.png" };
+
+    private LocationManager mLocManager;
+    private final String TAG = getClass().getSimpleName();
+    private Location mCurrentLocation;
+    final static String LAT="VALOR_RETURN3";
+    final static String LONG="VALOR_RETURN2";
+    final static String TITLE="VALOR_RETURN1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +48,20 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
         addDotsIndicator(0);
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
-        Button btn_maps=findViewById(R.id.btn_MAPS);
-        btn_maps.setOnClickListener(new View.OnClickListener() {
+
+        Button btnComics =findViewById(R.id.btn_COMIC);
+        btnComics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("PRUEBA", "PULSADO");
+
+            }
+        });
+        Button btnMaps=findViewById(R.id.btn_MAPS);
+        btnMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("PRUEBA", "PULSADO");
                 Intent intent=new Intent(MainActivity.this,MapsActivity.class);
                 startActivity(intent);
             }
@@ -55,7 +70,7 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
     }
     public void addDotsIndicator(int position){
 
-        mDots=new TextView[5];
+        mDots=new TextView[4];
         mDotLayout.removeAllViews();
 
         for (int i=0;i<mDots.length;i++){
@@ -90,10 +105,9 @@ private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-
         }
     };
 
-    private void cargarDatosWeb(){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://gateway.marvel.com/v1/public/comics?ts=9&apikey=7a18af213a25abcf54a952288670033d&hash=0bd40620c9f9e68a70795b084480daed";
-    }
+
+
+
 
 
 }
