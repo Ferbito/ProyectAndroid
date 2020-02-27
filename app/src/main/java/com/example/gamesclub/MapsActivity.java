@@ -59,19 +59,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationManager mLocManager;
     private int ProximityRadius = 1000;
     private final String TAG = getClass().getSimpleName();
+
+    private Double mLatitude;
+    private Double mLongitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
-        Intent i=getIntent();
-        /*if(i!=null){
-             mTitle = i.getStringExtra(TITLE);
-             mLat=i.getDoubleExtra(LAT,00);
-             mLon=i.getDoubleExtra(LONG,00);
+        Intent intent = getIntent();
+        if (intent != null)
+        {
+            mTitle = intent.getStringExtra("TITLE");
+            mLatitude = intent.getDoubleExtra("LAT", 0.0);
+            mLongitude = intent.getDoubleExtra("LON", 0.0);
 
-        }*/
+        }
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             checkUserLocationPermision();
         }
