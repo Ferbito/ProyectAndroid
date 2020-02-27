@@ -64,7 +64,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                                     View view,
                                                     ContextMenu.ContextMenuInfo contextMenuInfo) {
                         contextMenu.add(0, 1, 0, "MAPS");
-                        contextMenu.add(0, 2, 0, "FAVORITOS");
+                        contextMenu.add(1, 2, 0, "FAVORITOS");
 
                     }
 
@@ -77,10 +77,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         //import android.widget.AdapterView.AdapterContextMenuInfo;
 
-        AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-
+       AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
 
             case 1:
@@ -88,17 +85,15 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 Toast.makeText(ListTiendas.this,
                         "MAPS", Toast.LENGTH_LONG).show();
 
-                mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+
 
                         Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
-                        intent.putExtra("TITLE", mResults.get(i).name);
-                        intent.putExtra("LAT", mResults.get(i).geometry.location.lat);
-                        intent.putExtra("LON", mResults.get(i).geometry.location.lng);
+                        intent.putExtra("TITLE", mResults.get(info.position).name);
+                        intent.putExtra("LAT", mResults.get(info.position).geometry.location.lat);
+                        intent.putExtra("LON", mResults.get(info.position).geometry.location.lng);
                         startActivity(intent);
-                    }
-                });
+
+
 
                 mAdapter.notifyDataSetChanged();
                 break;
