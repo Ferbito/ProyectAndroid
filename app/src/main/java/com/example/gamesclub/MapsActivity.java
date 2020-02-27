@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -35,8 +36,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -53,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final Integer MY_PERMISSIONS_GPS_FINE_LOCATION = 1;
     private LocationManager mLocManager;
     private int ProximityRadius = 1000;
+    private final String TAG = getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +111,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onClick(View v)
     {
-       String comic = "book_store";
+       String comic = "book_store" ;
+       String centro_comercial="shopping_mall";
        Object transferData[] = new Object[2];
        GetNearbyPlaces getNearbyPlaces = new GetNearbyPlaces();
 
@@ -115,6 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case R.id.search_adrress:
                 EditText addressField = (EditText) findViewById(R.id.location_search);
                 String address = addressField.getText().toString();
+
 
                 List<Address> addressList ;
                 MarkerOptions userMarkerOptions = new MarkerOptions();
@@ -140,6 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+
                             }
                         }
                         else
@@ -175,27 +184,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
         }
     }
 
-    /*private void Autocompletar(){
-        PlaceAutocompleteFragment places= (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.);
-        places.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+    private void Autocompletar(){
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.map);
+
+// Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+// Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-
-                Toast.makeText(getApplicationContext(),place.getName(),Toast.LENGTH_SHORT).show();
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
 
             @Override
             public void onError(Status status) {
-
-                Toast.makeText(getApplicationContext(),status.toString(),Toast.LENGTH_SHORT).show();
-
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
             }
         });
-    }*/
+    }
 
     private String getUrl(double latitide, double longitude, String nearbyPlace)
     {
@@ -377,7 +391,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(getApplicationContext(),
                     "[LOCATION] Permission granted in the past!",
                     Toast.LENGTH_SHORT).show();
-
 
         }
     }
