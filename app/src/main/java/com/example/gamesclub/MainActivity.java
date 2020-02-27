@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,38 +36,37 @@ public class MainActivity extends AppCompatActivity   {
         setTheme(R.style.Theme_AppCompat_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //AQUI EMPIEZA TODO
-       // https://api.rawg.io/api/games?
+
         mSlideViewPager=(ViewPager)findViewById(R.id.slideViewPager);
-        mDotLayout=(LinearLayout) findViewById(R.id.dotsLayout);
+        //mDotLayout=(LinearLayout) findViewById(R.id.dotsLayout);
 
         mSliderAdapter=new SliderAdapter(this,imageUrls);
 
         mSlideViewPager.setAdapter(mSliderAdapter);
-        addDotsIndicator(0);
+       // addDotsIndicator(0);
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
-        Button btnComics =findViewById(R.id.btn_COMIC);
+       /* Button btnComics =findViewById(R.id.btn_COMIC);
         btnComics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("PRUEBA", "PULSADO");
 
             }
-        });
+        });*/
         Button btnMaps=findViewById(R.id.btn_MAPS);
         btnMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("PRUEBA", "PULSADO");
-                Intent intent=new Intent(MainActivity.this,MapsActivity.class);
+                Intent intent=new Intent(MainActivity.this,ListTiendas.class);
                 startActivity(intent);
             }
         });
 
     }
-    public void addDotsIndicator(int position){
+    /*public void addDotsIndicator(int position){
 
         mDots=new TextView[4];
         mDotLayout.removeAllViews();
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity   {
 
         }
 
-    }
+    }*/
     ViewPager.OnPageChangeListener viewListener=new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int i, float v, int i1) {
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity   {
 
         @Override
         public void onPageSelected(int i) {
-            addDotsIndicator(i);
+           // addDotsIndicator(i);
         }
 
         @Override
