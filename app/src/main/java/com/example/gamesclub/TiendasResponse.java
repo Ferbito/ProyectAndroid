@@ -18,6 +18,27 @@ public class TiendasResponse {
         public final String name = null;
 
         public Float distance = null;
+
+        public String getName() {
+            return name;
+        }
+
+        public Float getDistance() {
+            return distance;
+        }
+
+        public void setDistance(Float distance) {
+            this.distance = distance;
+        }
+
+        public MyGeometry getGeometry() {
+            return geometry;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
         public final  MyGeometry geometry=null;
         public final  String icon=null;
 

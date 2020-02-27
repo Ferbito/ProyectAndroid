@@ -9,7 +9,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,7 +44,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private LocationManager mLocManager;
     private final String TAG = getClass().getSimpleName();
     private Location mCurrentLocation;
-
     private List<TiendasResponse.Tiendas> mResults;
 
     private ListView mLv = null;
@@ -57,24 +58,62 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         mAdapter = new MyAdapter(this);
 
 
+                mLv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                    @Override
+                    public void onCreateContextMenu(ContextMenu contextMenu,
+                                                    View view,
+                                                    ContextMenu.ContextMenuInfo contextMenuInfo) {
+                        contextMenu.add(0, 1, 0, "MAPS");
+                        contextMenu.add(0, 2, 0, "FAVORITOS");
 
-        Intent i2=getIntent();
+                    }
 
-
-        mLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
-                intent.putExtra("TITLE", mResults.get(i).name);
-                intent.putExtra("LAT", mResults.get(i).geometry.location.lat);
-                intent.putExtra("LON", mResults.get(i).geometry.location.lng);
-                startActivity(intent);
-                return false;
+                });
             }
-        });
-    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+
+        //import android.widget.AdapterView.AdapterContextMenuInfo;
+
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+
+        switch (item.getItemId()) {
+
+            case 1:
+
+                Toast.makeText(ListTiendas.this,
+                        "MAPS", Toast.LENGTH_LONG).show();
+
+                mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+
+                        Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
+                        intent.putExtra("TITLE", mResults.get(i).name);
+                        intent.putExtra("LAT", mResults.get(i).geometry.location.lat);
+                        intent.putExtra("LON", mResults.get(i).geometry.location.lng);
+                        startActivity(intent);
+                    }
+                });
+
+                mAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+
+                Toast.makeText(ListTiendas.this,
+                        "FAVORITOS", Toast.LENGTH_LONG).show();
+
+                mAdapter.notifyDataSetChanged();
+                break;
+
+        }
+
+        return true;
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -120,8 +159,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 
@@ -165,12 +202,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 myview = view;
 
             ImageView iv = (ImageView) myview.findViewById(R.id.imageIcon);
-            Picasso.get().load(mResults.get(i).icon).into(iv);
+            Picasso.get().load(mResults.get(i).getIcon()).into(iv);
+
             TextView tTitle = (TextView) myview.findViewById(R.id.title);
-            tTitle.setText(mResults.get(i).name);
+            tTitle.setText(mResults.get(i).getName());
 
             TextView tDistance = (TextView) myview.findViewById(R.id.distance);
-            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mResults.get(i).distance)) + " metros.");
+            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mResults.get(i).getDistance())) + " metros.");
 
             return myview;
         }
@@ -290,6 +328,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             Intent callGPSSettingIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(callGPSSettingIntent);
+
         }
         else {
 

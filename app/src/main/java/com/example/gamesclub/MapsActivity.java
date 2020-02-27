@@ -28,6 +28,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -60,8 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int ProximityRadius = 1000;
     private final String TAG = getClass().getSimpleName();
 
-    private Double mLatitude;
-    private Double mLongitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +72,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (intent != null)
         {
             mTitle = intent.getStringExtra("TITLE");
-            mLatitude = intent.getDoubleExtra("LAT", 0.0);
-            mLongitude = intent.getDoubleExtra("LON", 0.0);
+            mLat = intent.getDoubleExtra("LAT", 0.0);
+            mLon = intent.getDoubleExtra("LON", 0.0);
 
         }
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -101,9 +101,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
 
             buildGoogleApiClient();
-           /* LatLng sydney = new LatLng(mLat , mLon);
-            mMap.addMarker(new MarkerOptions().position(sydney).title(mTitle));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
+            LatLng myloc = new LatLng(mLat, mLon);
+            mMap.addMarker(new MarkerOptions().position(myloc).title(mTitle));
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(myloc, 17);
+            mMap.moveCamera(location);
             mMap.setMyLocationEnabled(true);
 
         }
@@ -151,7 +154,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                                 mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
                             }
                         }
