@@ -20,12 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -62,9 +57,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         String radius = "2000"; // 2 Kilometer
         String name = "hospital";
 
-        MyAsyncTask myAsyncTask = new MyAsyncTask();
+        /*MyAsyncTask myAsyncTask = new MyAsyncTask();
         myAsyncTask.execute(latitude, longitude, radius, name);
-        Intent i2=getIntent();
+        Intent i2=getIntent();*/
 
         mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -157,7 +152,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             return myview;
         }
     }
-    public class MyAsyncTask extends AsyncTask<String, Void, Boolean> {
+    /*public class MyAsyncTask extends AsyncTask<String, Void, Boolean> {
         private JSONObject jsonObject;
 
         @Override
@@ -203,6 +198,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }
             return null;
         }
-    }
+    }*/
 
 }
