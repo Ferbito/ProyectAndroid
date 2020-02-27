@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ComicParser {
+public class ComicParse {
     private final String TAG =getClass().getSimpleName();
 
     public class comic{
