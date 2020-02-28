@@ -1,6 +1,7 @@
 package com.example.gamesclub;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,10 +51,19 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private ListView mLv = null;
     private MyAdapter mAdapter;
     private boolean mListSimple=false;
+
+    private ProgressDialog mPd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_tiendas);
+
+        mPd = new ProgressDialog(ListTiendas.this);
+        mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
+        mPd.setTitle("SHOPS");
+        mPd.setMessage("SEARCHING... WAIT A SECOND");
+        mPd.setProgress(100);
+        mPd.show();
 
         mLv = findViewById(R.id.list);
         mAdapter = new MyAdapter(this);
@@ -238,6 +249,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                            Response<TiendasResponse> response) {
 
                         mResults = response.body().results;
+                        if(mPd.isShowing()){
+                            mPd.dismiss();
+                        }
 
                         Log.d(TAG, String.valueOf(response.code()));
                         if (response.body() != null && mResults != null) {

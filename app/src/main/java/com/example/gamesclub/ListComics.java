@@ -1,5 +1,6 @@
 package com.example.gamesclub;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 public class ListComics extends AppCompatActivity {
@@ -29,11 +32,19 @@ public class ListComics extends AppCompatActivity {
     private  ArrayList<ComicParse.comic> mComicsRellenos = new ArrayList<>();
     private Boolean relleno;
     private ListView lv;
+    private ProgressDialog mPd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
+
+        mPd = new ProgressDialog(ListComics.this);
+        mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
+        mPd.setTitle("COMICS");
+        mPd.setMessage("SEARCHING... WAIT A SECOND");
+        mPd.setProgress(100);
+        mPd.show();
 
         lv = findViewById(R.id.lista);
 
@@ -62,6 +73,7 @@ public class ListComics extends AppCompatActivity {
                                 Log.d("datos", mComics.get(i).getImage() + "." + mComics.get(i).getExtensionImg());
                             }
                         }
+                        mPd.dismiss();
                         BaseAdapter adapter = new ComicsAdapter();
                         lv.setAdapter(adapter);
                     }
