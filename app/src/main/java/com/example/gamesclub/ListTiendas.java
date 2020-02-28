@@ -56,7 +56,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mLv = findViewById(R.id.list);
         mAdapter = new MyAdapter(this);
-
+        mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i3=new Intent(ListTiendas.this,ListComics.class);
+                startActivity(i3);
+            }
+        });
         mLv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu contextMenu,

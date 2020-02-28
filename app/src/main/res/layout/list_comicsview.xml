@@ -1,50 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@color/colorWhite">
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_viewIcardUseCompactPadding="true"
+    card_viewIcardCornerRadius="8dp"
+    android:layout_marginBottom="16dp"
+
+   >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:paddingBottom="4dp"
+       >
+
 
     <ImageView
         android:id="@+id/imgIcono"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="117dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="5dp"
+
         />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:textSize="14dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="13dp"
+            android:layout_alignTop="@+id/imgIcono"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/imgIcono"
+            android:textSize="18dp"
+            android:layout_toEndOf="@+id/imgIcono"
+
            android:textStyle="bold"
             />
 
         <TextView
             android:id="@+id/txtDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="12dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+
+            android:layout_below="@+id/txtTitle"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/imgIcono"
+            android:layout_toEndOf="@+id/imgIcono"
+
             />
 
         <TextView
             android:id="@+id/txtPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="13dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/txtDescription"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/imgIcono"
+            android:layout_toEndOf="@+id/imgIcono"
+            android:textColor="@color/quantum_yellow"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
