@@ -24,7 +24,8 @@
             android:layout_marginTop="5dp"
             android:textSize="14dp"
             android:textColor="@color/black"
-            android:text="NOMBRE"/>
+           android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/txtDescription"
@@ -33,16 +34,16 @@
             android:layout_marginLeft="5dp"
             android:textSize="12dp"
             android:textColor="@color/black"
-            android:text="NOMBRE"/>
+            />
 
         <TextView
             android:id="@+id/txtPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textSize="10dp"
+            android:textSize="13dp"
             android:textColor="@color/black"
-            android:text="NOMBRE"/>
+            />
 
     </LinearLayout>
 

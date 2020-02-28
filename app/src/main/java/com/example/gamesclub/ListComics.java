@@ -1,7 +1,5 @@
 package com.example.gamesclub;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +11,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.libraries.places.internal.mc;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -109,7 +108,7 @@ public class ListComics extends AppCompatActivity {
             }
 
             ImageView img = view2.findViewById(R.id.imgIcono);
-            Picasso.get().load(mComicsRellenos.get(i).getImage() + "/portrait_small." + mComicsRellenos.get(i).getExtensionImg())
+            Picasso.get().load(mComicsRellenos.get(i).getImage() + "." + mComicsRellenos.get(i).getExtensionImg())
                     .into(img);
 
             TextView txtTitle = view2.findViewById(R.id.txtTitle);

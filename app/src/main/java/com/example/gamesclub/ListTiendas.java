@@ -80,7 +80,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
             case 1:
 
-                Toast.makeText(ListTiendas.this,
+                        Toast.makeText(ListTiendas.this,
                         "MAPS", Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
