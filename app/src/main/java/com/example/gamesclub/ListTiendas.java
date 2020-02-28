@@ -57,19 +57,17 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         mLv = findViewById(R.id.list);
         mAdapter = new MyAdapter(this);
 
+        mLv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu contextMenu,
+                                            View view,
+                                            ContextMenu.ContextMenuInfo contextMenuInfo) {
+                contextMenu.add(0, 1, 0, "MAPS");
+                contextMenu.add(1, 2, 0, "FAVORITOS");
 
-                mLv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                    @Override
-                    public void onCreateContextMenu(ContextMenu contextMenu,
-                                                    View view,
-                                                    ContextMenu.ContextMenuInfo contextMenuInfo) {
-                        contextMenu.add(0, 1, 0, "MAPS");
-                        contextMenu.add(1, 2, 0, "FAVORITOS");
-
-                    }
-
-                });
             }
+        });
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item)
@@ -85,15 +83,11 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 Toast.makeText(ListTiendas.this,
                         "MAPS", Toast.LENGTH_LONG).show();
 
-
-
                         Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
                         intent.putExtra("TITLE", mResults.get(info.position).name);
                         intent.putExtra("LAT", mResults.get(info.position).geometry.location.lat);
                         intent.putExtra("LON", mResults.get(info.position).geometry.location.lng);
                         startActivity(intent);
-
-
 
                 mAdapter.notifyDataSetChanged();
                 break;
@@ -104,7 +98,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
                 mAdapter.notifyDataSetChanged();
                 break;
-
         }
 
         return true;
@@ -151,9 +144,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                             "Permission denied by user!", Toast.LENGTH_SHORT).show();
                 }
                 return;
-
             }
-
         }
     }
 
@@ -219,13 +210,11 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
     private void getTiendas (double lat, double lng)
     {
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
-
 
         Retrofit retrofit=
                 new Retrofit.Builder()
@@ -237,18 +226,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         TiendasInterface  d = retrofit.create(TiendasInterface.class);
 
         d.getTiendas("book_store", lat + "," + lng, 1000).enqueue(
-
-
-
-
-
                 new Callback<TiendasResponse>() {
                     @Override
                     public void onResponse(Call<TiendasResponse> call,
                                            Response<TiendasResponse> response) {
-
-
-
 
                         mResults = response.body().results;
 
@@ -282,7 +263,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                 }
                             });
 
-
                             // Print
                             for (int i=0; i<mResults.size(); i++) {
                                 Log.d(TAG, mResults.get(i).name);
@@ -297,8 +277,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                 Log.d(TAG, mResults.get(i).distance.toString() + " metros.");
                                 Log.d(TAG, "********************");
                             }
-
-
                             mLv.setAdapter(mAdapter);
                         } else
                             Log.e(TAG, "Response: empty array");
@@ -318,22 +296,17 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mLocManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-
         if (! mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ) {
             Intent callGPSSettingIntent = new Intent(
                     android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(callGPSSettingIntent);
-
         }
         else {
-
             mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1, 300,
                     this);
         }
     }
-
-
 
     @Override
     @SuppressWarnings({"MissingPermission"})

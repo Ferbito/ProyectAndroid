@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity   {
             @Override
             public void onClick(View v) {
                 Log.d("PRUEBA", "PULSADO");
-                Intent intent=new Intent(MainActivity.this,ListTiendas.class);
+                Intent intent=new Intent(MainActivity.this, ListComics.class);
                 startActivity(intent);
             }
         });

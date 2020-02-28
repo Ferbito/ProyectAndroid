@@ -2,6 +2,8 @@ package com.example.gamesclub;
 
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,25 +15,21 @@ public class ComicParse {
 
     public class comic{
         private String tittle;
-        private String releaseDate;
         private String description;
         private String image;
         private String extensionImg;
+        private String price;
 
-        public comic(String tittle, String releaseDate, String description, String image, String extensionImg) {
+        public comic(String tittle, String description, String image, String extensionImg, String price) {
             this.tittle = tittle;
-            this.releaseDate = releaseDate;
             this.description = description;
             this.image = image;
             this.extensionImg = extensionImg;
+            this.price = price;
         }
 
         public String getTittle() {
             return tittle;
-        }
-
-        public String getReleaseDate() {
-            return releaseDate;
         }
 
         public String getDescription() {
@@ -45,6 +43,10 @@ public class ComicParse {
         public String getExtensionImg() {
             return extensionImg;
         }
+
+        public String getPrice() {
+            return price;
+        }
     }
 
     public ArrayList<comic> parseComics (String content){
@@ -52,10 +54,12 @@ public class ComicParse {
 
         JSONArray array;
         JSONObject json = null;
+        JSONObject data = null;
 
         try {
             json = new JSONObject(content);
-            array = json.getJSONArray("results");
+            data = json.getJSONObject("data");
+            array = data.getJSONArray("results");
 
             for(int i = 0; i < array.length();i++){
                 JSONObject node = array.getJSONObject(i);
@@ -70,33 +74,44 @@ public class ComicParse {
         }
     }
 
-    private comic parseComic(JSONObject jsonData){
+    private comic parseComic(JSONObject jsonData) throws JSONException {
         String tittle = "";
-        String releaseDate = "";
         String description = "";
         String image = "";
         String extensionImg = "";
+        String price = "";
 
         try{
             if(jsonData.has("title"))
-                tittle = jsonData.getString("tittle");
-            if(jsonData.has("textObjects")){
-                JSONObject tobj =jsonData.getJSONObject("textObjects");
-                if(tobj.has("text"))
-                    description = tobj.getString("text");
-            }
+                tittle = jsonData.getString("title");
+            if(jsonData.has("description"))
+                description = jsonData.getString("description");
             if(jsonData.has("images")){
-                JSONObject images = jsonData.getJSONObject(("images"));
-                if(images.has("path")){
-                    image = images.getString("path");
-                    extensionImg = images.getString("extension");
+                JSONArray images = jsonData.getJSONArray("images");
+                for(int i = 0; i < images.length();i++) {
+                    JSONObject node = images.getJSONObject(i);
+                    if(node.has("path"))
+                        image = node.getString("path");
+                    if(node.has("extension"))
+                        extensionImg = node.getString("extension");
                 }
             }
+            if(jsonData.has("prices")){
+                JSONArray images = jsonData.getJSONArray("prices");
+                for(int i = 0; i < images.length();i++) {
+                    JSONObject node = images.getJSONObject(i);
+                    if(node.has("price"))
+                        price = node.getString("price");
+                }
+            }
+
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return null;
+        comic comic = new comic(tittle,description,image,extensionImg,price);
+        return comic;
     }
 }
