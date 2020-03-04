@@ -45,11 +45,13 @@
             android:background="@color/red"
             android:gravity="center"
             android:text="@string/btn_MAPS"
+
             android:textSize="25dp"
             android:layout_marginLeft="@android:dimen/app_icon_size"
             android:layout_marginRight="@android:dimen/app_icon_size"
             android:layout_marginTop="@android:dimen/app_icon_size"
-            android:textColor="@color/colorWhite"></Button>
+            android:textColor="@color/colorWhite"
+            ></Button>
 
 
     </LinearLayout>

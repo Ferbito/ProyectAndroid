@@ -227,6 +227,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
     private void getTiendas (double lat, double lng)
     {
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -241,7 +242,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                         .build();
 
         TiendasInterface  d = retrofit.create(TiendasInterface.class);
-
+        
         d.getTiendas("book_store", lat + "," + lng, 1000).enqueue(
                 new Callback<TiendasResponse>() {
                     @Override

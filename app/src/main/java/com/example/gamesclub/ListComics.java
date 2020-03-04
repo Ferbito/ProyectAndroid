@@ -23,7 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 
 public class ListComics extends AppCompatActivity {
@@ -62,7 +61,7 @@ public class ListComics extends AppCompatActivity {
                     public void onResponse(String response) {
                         ComicParse comicParse = new ComicParse();
                         mComics = comicParse.parseComics(response);
-
+                        
                         for (int i = 0; i< mComics.size(); i++){
                             relleno = true;
                             if(mComics.get(i).getDescription() == "" || mComics.get(i).getImage() == "" ||

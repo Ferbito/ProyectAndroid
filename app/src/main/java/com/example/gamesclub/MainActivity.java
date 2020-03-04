@@ -103,6 +103,42 @@ public class MainActivity extends AppCompatActivity   {
         }
     };
 
+   /* private void PersistData() {
+
+
+
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        // For save
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mArray);
+        prefsEditor.putString(KEY_ARRAY, json);
+        prefsEditor.commit();
+
+        // Restore data
+        gson = new Gson();
+        json = mPrefs.getString(KEY_ARRAY, "");
+
+        Type founderListType = new TypeToken<ArrayList<Item>>(){}.getType();
+
+        ArrayList<Item> restoreArray = gson.fromJson(json, founderListType);
+
+        for (int i =0; i<restoreArray.size(); i++) {
+            Log.d(TAG, restoreArray.get(i).mName);
+
+        }
+
+
+    }*/
+
+    /*private void SendArrayIntent() {
+
+        Intent mIntent = new Intent(this, Test.class);
+        mIntent.putParcelableArrayListExtra(KEY_ARRAY, mArray);
+        startActivity(mIntent);
+
+    }*/
+
 
 
 
