@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".FiltroTiendas"></activity>
+        <activity android:name=".FavoritosTiendas"></activity>
+        <activity android:name=".FiltroTiendas" />
         <activity android:name=".ListComics" />
         <activity android:name=".ListTiendas" />
         <activity android:name=".MapsActivity" />
