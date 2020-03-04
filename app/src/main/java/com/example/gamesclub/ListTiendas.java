@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -47,10 +48,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private final String TAG = getClass().getSimpleName();
     private Location mCurrentLocation;
     private List<TiendasResponse.Tiendas> mResults;
+    private List<TiendasResponse.Tiendas> mTiendasFavorito;
 
     private ListView mLv = null;
     private MyAdapter mAdapter;
     private boolean mListSimple=false;
+    private static final int CODINTFILTROTIENDA = 0;
 
     private ProgressDialog mPd;
     @Override
@@ -60,7 +63,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mPd = new ProgressDialog(ListTiendas.this);
         mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
-        mPd.setTitle("SHOPS");
+        mPd.setTitle("LIBRARIES");
         mPd.setMessage("SEARCHING... WAIT A SECOND");
         mPd.setProgress(100);
         mPd.show();
@@ -82,6 +85,15 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 contextMenu.add(0, 1, 0, "MAPS");
                 contextMenu.add(1, 2, 0, "FAVORITOS");
 
+            }
+        });
+
+        ImageButton filtroButton = findViewById(R.id.imgBtnFiltros);
+        filtroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent filtroTienda = new Intent(ListTiendas.this, FiltroTiendas.class);
+                startActivityForResult(filtroTienda, CODINTFILTROTIENDA);
             }
         });
     }
@@ -109,11 +121,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 mAdapter.notifyDataSetChanged();
                 break;
             case 2:
+                mTiendasFavorito.add(mResults.get(info.position));
 
                 Toast.makeText(ListTiendas.this,
-                        "FAVORITOS", Toast.LENGTH_LONG).show();
-
-                mAdapter.notifyDataSetChanged();
+                        "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
                 break;
         }
 

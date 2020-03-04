@@ -8,14 +8,13 @@
     android:orientation="vertical"
   >
     <ImageButton
-        android:id="@+id/filtros"
+        android:id="@+id/imgBtnFiltros"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@color/quantum_white_100"
-        android:src="@mipmap/search"
-
+        android:src="@mipmap/filtro"
         />
     <LinearLayout
         android:layout_width="match_parent"
