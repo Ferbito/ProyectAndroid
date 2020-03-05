@@ -1,4 +1,4 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import org.junit.Test;
 

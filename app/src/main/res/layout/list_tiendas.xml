@@ -43,11 +43,10 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="23dp"
-            android:paddingHorizontal="28dp"
-            android:text="TIENDAS CERCANAS"
+
+            android:text="@string/txt_tiendas"
             android:textColor="@color/black"
 
             android:textSize="30dp"

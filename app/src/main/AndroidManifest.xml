@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gamesclub">
+    package="com.example.comicsclub">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permisson.READ_GSERVICES" />
@@ -16,19 +16,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".FavoritosTiendas"></activity>
-        <activity android:name=".FiltroTiendas" />
-        <activity android:name=".ListComics" />
-        <activity android:name=".ListTiendas" />
-        <activity android:name=".MapsActivity" />
-        <activity android:name=".Maps2" />
+        <activity android:name="com.example.comicsclub.FavoritosTiendas"></activity>
+        <activity android:name="com.example.comicsclub.FiltroTiendas" />
+        <activity android:name="com.example.comicsclub.ListComics" />
+        <activity android:name="com.example.comicsclub.ListTiendas" />
+        <activity android:name="com.example.comicsclub.MapsActivity" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.comicsclub.MainActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import android.Manifest;
 import android.content.Context;

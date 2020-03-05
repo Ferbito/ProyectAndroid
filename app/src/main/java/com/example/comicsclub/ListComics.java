@@ -1,4 +1,4 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import android.app.ProgressDialog;
 import android.content.Context;

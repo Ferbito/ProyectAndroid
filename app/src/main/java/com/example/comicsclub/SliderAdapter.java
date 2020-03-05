@@ -1,20 +1,16 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 public class SliderAdapter extends PagerAdapter {
     Context context;

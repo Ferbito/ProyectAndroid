@@ -1,4 +1,4 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import java.io.BufferedReader;
 import java.io.IOException;

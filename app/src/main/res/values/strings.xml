@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">GamesClub</string>
+    <string name="app_name">ComicsClub</string>
     <string name="btn_mapa">MAPS</string>
     <string name="btn_listview">LISTA</string>
     <string name="btn_MAPS"><b>TIENDAS</b></string>
     <string name="btn_GAME"><b>COMICS</b></string>
     <string name="location_search">Escribe cualquier lugar aquí</string>
+    <string name="txt_fav">FAVORITOS</string>
+    <string name="txt_tiendas">TIENDAS CERCANAS</string>
 </resources>

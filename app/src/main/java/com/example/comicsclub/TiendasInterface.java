@@ -1,4 +1,4 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

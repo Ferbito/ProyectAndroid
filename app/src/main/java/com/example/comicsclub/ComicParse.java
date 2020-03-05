@@ -1,8 +1,6 @@
-package com.example.gamesclub;
+package com.example.comicsclub;
 
 import android.util.Log;
-
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
