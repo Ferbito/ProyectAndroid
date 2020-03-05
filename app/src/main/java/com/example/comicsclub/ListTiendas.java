@@ -61,6 +61,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private static final int CODINTFILTROTIENDA = 0;
 
     private ProgressDialog mPd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,15 +137,28 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 mAdapter.notifyDataSetChanged();
                 break;
             case 2:
-                TiendasResponse.Tiendas tiendasfav=mResults.get(info.position);
-                mTiendasFavorito.add(tiendasfav);
-
-                Toast.makeText(ListTiendas.this,
-                        "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
-                guardarDatoSP();
-                for (int i=0;i<mTiendasFavorito.size();i++){
-                    Log.d("FAV",mTiendasFavorito.get(i).getName());
+                boolean encontrado = false;
+                TiendasResponse.Tiendas tiendasfav = mResults.get(info.position);
+                for (int x=0 ; x<mTiendasFavorito.size();x++){
+                    if(mTiendasFavorito.get(x).getName().equalsIgnoreCase(tiendasfav.getName())
+                            && (mTiendasFavorito.get(x).getIcon().equalsIgnoreCase(tiendasfav.getIcon()))){
+                        encontrado = true;
+                        break;
+                    }
                 }
+                if(encontrado){
+                    Toast.makeText(ListTiendas.this,
+                            "TIENDA YA EN FAVORITOS", Toast.LENGTH_LONG).show();
+                }else{
+                    mTiendasFavorito.add(tiendasfav);
+                    Toast.makeText(ListTiendas.this,
+                            "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
+                    guardarDatoSP();
+                }
+
+                /*for (int i=0;i<mTiendasFavorito.size();i++){
+                    Log.d("FAV",mTiendasFavorito.get(i).getName());
+                }*/
                 break;
         }
 
@@ -167,9 +181,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
 
-        for (int i =0; i<restoreArray.size(); i++) {
-            Log.d(TAG, restoreArray.get(i).getName());
+        if(restoreArray!=null){
+            mTiendasFavorito=restoreArray;
+            for (int i =0; i<restoreArray.size(); i++) {
+                Log.d("PERSIST", restoreArray.get(i).getName());
+            }
         }
+
     }
 
     @Override
