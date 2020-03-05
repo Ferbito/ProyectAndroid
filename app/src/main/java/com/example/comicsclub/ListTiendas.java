@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,8 +29,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -106,6 +110,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 startActivity(favoritosLista);
             }
         });
+        leerDatosSP();
     }
 
     @Override
@@ -136,6 +141,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
                 Toast.makeText(ListTiendas.this,
                         "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
+                guardarDatoSP();
                 for (int i=0;i<mTiendasFavorito.size();i++){
                     Log.d("FAV",mTiendasFavorito.get(i).getName());
                 }
@@ -144,6 +150,28 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         return true;
     }
+
+    private void guardarDatoSP(){
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mTiendasFavorito);
+        prefsEditor.putString(Variables.ARRAYTIENDASFAV, json);
+        prefsEditor.commit();
+    }
+
+    private void leerDatosSP(){
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString(Variables.ARRAYTIENDASFAV, "");
+        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
+        ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+
+        for (int i =0; i<restoreArray.size(); i++) {
+            Log.d(TAG, restoreArray.get(i).getName());
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
