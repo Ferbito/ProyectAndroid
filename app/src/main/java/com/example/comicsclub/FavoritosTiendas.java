@@ -34,10 +34,10 @@ public class FavoritosTiendas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos_tiendas);
 
-        leerDatosSP();
+
 
         mLv = findViewById(R.id.list_fav);
-
+        leerDatosSP();
 
         Toast.makeText(FavoritosTiendas.this, "WELCOME TO FAVORITES", Toast.LENGTH_SHORT).show();
 
@@ -69,7 +69,7 @@ public class FavoritosTiendas extends AppCompatActivity {
         }
     }
 
-    public class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
 
        /* private Context mContext;
 
