@@ -16,22 +16,20 @@ public class TiendasResponse {
 
 
         private   String name = null;
-
-
-
         private Float distance = null;
+        private   MyGeometry geometry=null;
+        private   String icon=null;
+
         public void setDistance(Float distance) {
             this.distance = distance;
         }
+
         public String getName() {
             return name;
         }
-
         public Float getDistance() {
             return distance;
         }
-
-
 
         public MyGeometry getGeometry() {
             return geometry;
@@ -40,11 +38,6 @@ public class TiendasResponse {
         public String getIcon() {
             return icon;
         }
-
-        private   MyGeometry geometry=null;
-        private   String icon=null;
-
-
 
         public class MyGeometry {
 

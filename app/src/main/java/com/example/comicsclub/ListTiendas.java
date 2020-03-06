@@ -59,7 +59,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private MyAdapter mAdapter;
     private boolean mListSimple=false;
     private static final int CODINTFILTROTIENDA = 0;
-
+    private int mRadiusBusqueda = 1000;
+    private String mSitioPref = "book_store";
     private ProgressDialog mPd;
 
     @Override
@@ -166,7 +167,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     }
 
     private void guardarDatoSP(){
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(mTiendasFavorito);
@@ -175,7 +176,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     }
 
     private void leerDatosSP(){
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(Variables.ARRAYTIENDASFAV, "");
         Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
@@ -184,10 +185,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         if(restoreArray!=null){
             mTiendasFavorito=restoreArray;
             for (int i =0; i<restoreArray.size(); i++) {
-                Log.d("PERSIST", restoreArray.get(i).getName());
+                Log.d("Leido", restoreArray.get(i).getName());
             }
         }
-
     }
 
     @Override
@@ -275,13 +275,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             } else
                 myview = view;
 
-            ImageView iv = (ImageView) myview.findViewById(R.id.imageIcon);
+            ImageView iv = myview.findViewById(R.id.imageIcon);
             Picasso.get().load(mResults.get(i).getIcon()).into(iv);
 
-            TextView tTitle = (TextView) myview.findViewById(R.id.title);
+            TextView tTitle = myview.findViewById(R.id.title);
             tTitle.setText(mResults.get(i).getName());
 
-            TextView tDistance = (TextView) myview.findViewById(R.id.distance);
+            TextView tDistance = myview.findViewById(R.id.distance);
             tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mResults.get(i).getDistance())) + " metros.");
 
             return myview;
@@ -292,91 +292,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     protected void onStop() {
         mLocManager.removeUpdates(this);
         super.onStop();
-    }
-
-    private void getCentros(double lat, double lng){
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
-
-        Retrofit retrofit=
-                new Retrofit.Builder()
-                        .baseUrl("https://maps.googleapis.com/maps/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(client)
-                        .build();
-
-        TiendasInterface  d = retrofit.create(TiendasInterface.class);
-
-        d.getTiendas("book_store", lat + "," + lng, 1000).enqueue(
-                new Callback<TiendasResponse>() {
-                    @Override
-                    public void onResponse(Call<TiendasResponse> call,
-                                           Response<TiendasResponse> response) {
-
-                        mResults = response.body().results;
-                        if(mPd.isShowing()){
-                            mPd.dismiss();
-                        }
-
-                        Log.d(TAG, String.valueOf(response.code()));
-                        if (response.body() != null && mResults != null) {
-
-                            Log.d(TAG, "Response: " + mResults.size());
-
-                            // Print
-                            for (int i=0; i<mResults.size(); i++) {
-                                Log.d(TAG, mResults.get(i).getName());
-                                Log.d(TAG, String.valueOf(mResults.get(i).getGeometry().getLocation().getLat()));
-                                Log.d(TAG, String.valueOf(mResults.get(i).getGeometry().getLocation().getLng()));
-
-                                Location location = new Location("");
-                                location.setLatitude(mResults.get(i).getGeometry().getLocation().getLat());
-                                location.setLongitude(mResults.get(i).getGeometry().getLocation().getLng());
-
-                                float distance = mCurrentLocation.distanceTo( location );
-                                mResults.get(i).setDistance(distance);
-                                Log.d(TAG, String.valueOf(distance) + " metros.");
-                                Log.d(TAG, "==================");
-                            }
-
-                            // Order Array
-                            Collections.sort(mResults, new Comparator<TiendasResponse.Tiendas>(){
-                                public int compare(TiendasResponse.Tiendas obj1,
-                                                   TiendasResponse.Tiendas obj2) {
-
-                                    return obj1.getDistance().compareTo(obj2.getDistance());
-                                }
-                            });
-
-                            // Print
-                            /*for (int i=0; i<mResults.size(); i++) {
-                                Log.d(TAG, mResults.get(i).getName());
-
-                                Log.d(TAG, String.valueOf(mResults.get(i).geometry.location.lat));
-                                Log.d(TAG, String.valueOf(mResults.get(i).geometry.location.lng));
-
-                                Location location = new Location("");
-                                location.setLatitude(mResults.get(i).geometry.location.lat);
-                                location.setLongitude(mResults.get(i).geometry.location.lng);
-
-                                Log.d(TAG, mResults.get(i).distance.toString() + " metros.");
-                                Log.d(TAG, "********************");
-                            }*/
-                            mLv.setAdapter(mAdapter);
-                        } else
-                            Log.e(TAG, "Response: empty array");
-                    }
-
-                    @Override
-                    public void onFailure(Call<TiendasResponse> call, Throwable t) {
-                        Log.e(TAG, t.getMessage());
-                    }
-                });
-
-
     }
 
     private void getTiendas (double lat, double lng)
@@ -397,7 +312,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         TiendasInterface  d = retrofit.create(TiendasInterface.class);
         
-        d.getTiendas("book_store", lat + "," + lng, 1000).enqueue(
+        d.getTiendas("book_store", lat + "," + lng, mRadiusBusqueda).enqueue(
                 new Callback<TiendasResponse>() {
                     @Override
                     public void onResponse(Call<TiendasResponse> call,
