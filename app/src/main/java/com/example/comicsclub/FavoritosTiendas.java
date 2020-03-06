@@ -51,7 +51,8 @@ public class FavoritosTiendas extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu contextMenu,
                                             View view,
                                             ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(0, 1, 0, "ELIMINAR");
+                contextMenu.add(0, 1, 0, "MAPS");
+                contextMenu.add(0, 2, 0, "ELIMINAR");
             }
         });
     }
@@ -136,6 +137,8 @@ public class FavoritosTiendas extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case 1:
+                break;
+            case 2:
                 mTiendasFavorito.remove(info.position);
                 Toast.makeText(FavoritosTiendas.this,"ELIMINADO DE FAVORITOS", Toast.LENGTH_SHORT).show();
                 guardarDatoSP();
