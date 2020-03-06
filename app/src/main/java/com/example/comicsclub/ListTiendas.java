@@ -186,6 +186,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             mTiendasFavorito=restoreArray;
             for (int i =0; i<restoreArray.size(); i++) {
                 Log.d("Leido", restoreArray.get(i).getName());
+
+
+
             }
         }
     }

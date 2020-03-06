@@ -137,6 +137,16 @@ public class FavoritosTiendas extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case 1:
+                Toast.makeText(FavoritosTiendas.this,
+                        "MAPS", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(FavoritosTiendas.this, MapsActivity.class);
+                intent.putExtra("TITLE", mTiendasFavorito.get(info.position).getName());
+                intent.putExtra("LAT", mTiendasFavorito.get(info.position).getGeometry().getLocation().getLat());
+                intent.putExtra("LON", mTiendasFavorito.get(info.position).getGeometry().getLocation().getLng());
+                startActivity(intent);
+
+                mAdapter.notifyDataSetChanged();
                 break;
             case 2:
                 mTiendasFavorito.remove(info.position);
