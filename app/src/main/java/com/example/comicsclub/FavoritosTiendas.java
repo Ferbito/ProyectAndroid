@@ -64,19 +64,19 @@ public class FavoritosTiendas extends AppCompatActivity {
             for (int i =0; i<mTiendasFavorito.size(); i++) {
                 Log.d("PERSIST2", mTiendasFavorito.get(i).getName());
             }
-            MyAdapter mAdapter = new MyAdapter(FavoritosTiendas.this);
+            MyAdapter mAdapter = new MyAdapter();
             mLv.setAdapter(mAdapter);
         }
     }
 
     public class MyAdapter extends BaseAdapter {
 
-        private Context mContext;
+       /* private Context mContext;
 
 
         public MyAdapter(Context context) {
             this.mContext = context;
-        }
+        }*/
 
         @Override
         public int getCount() {
@@ -100,8 +100,7 @@ public class FavoritosTiendas extends AppCompatActivity {
 
             if (myview == null) {
 
-                LayoutInflater inflater = (LayoutInflater) mContext
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) FavoritosTiendas.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
                 myview = inflater.inflate(R.layout.list_fav, null);
             } else

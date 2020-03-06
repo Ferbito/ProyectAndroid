@@ -312,7 +312,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         TiendasInterface  d = retrofit.create(TiendasInterface.class);
         
-        d.getTiendas("book_store", lat + "," + lng, mRadiusBusqueda).enqueue(
+        d.getTiendas(mSitioPref, lat + "," + lng, mRadiusBusqueda).enqueue(
                 new Callback<TiendasResponse>() {
                     @Override
                     public void onResponse(Call<TiendasResponse> call,
