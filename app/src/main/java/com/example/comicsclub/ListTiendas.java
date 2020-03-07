@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -113,6 +114,16 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }
         });
         leerDatosSP();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==CODINTFILTROTIENDA){
+            if(resultCode == RESULT_OK){
+
+            }
+        }
     }
 
     @Override

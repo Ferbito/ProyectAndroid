@@ -1,5 +1,6 @@
 package com.example.comicsclub;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,14 +82,18 @@ public class FiltroTiendas extends AppCompatActivity {
                 ObjetcFiltro establecerFiltro = new ObjetcFiltro(mDistance, mPosDistance, mRating, mPosRating,
                         false, false);
                 guardarDatoSP(establecerFiltro);
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK,returnIntent);
             }
         });
         if(filtroLeido!=null){
             if(filtroLeido.getPosDistance()!=0){
                 spDistancia.setSelection(filtroLeido.getPosDistance());
+                Log.d("POSICIONES", String.valueOf(filtroLeido.getPosDistance()));
             }
             if(filtroLeido.getPosRating()!=0){
                 spValoracion.setSelection(filtroLeido.getPosRating());
+                Log.d("POSICIONES", String.valueOf(filtroLeido.getPosRating()));
             }
         }
     }
