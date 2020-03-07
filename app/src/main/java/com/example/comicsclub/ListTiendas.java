@@ -236,7 +236,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     Toast.makeText(getApplicationContext(), "GPS Permission granted!",
                             Toast.LENGTH_SHORT).show();
                     startLocation();
-
                 } else {
                     // permission denied
                     Toast.makeText(getApplicationContext(),
