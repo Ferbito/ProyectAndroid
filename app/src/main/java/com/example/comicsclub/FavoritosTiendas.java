@@ -26,8 +26,6 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class FavoritosTiendas extends AppCompatActivity {
@@ -83,12 +81,7 @@ public class FavoritosTiendas extends AppCompatActivity {
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(restoreArray!=null){
             mTiendasFavorito=restoreArray;
-            Collections.sort(mTiendasFavorito, new Comparator<TiendasResponse.Tiendas>(){
-                public int compare(TiendasResponse.Tiendas obj1,
-                                   TiendasResponse.Tiendas obj2) {
-                    return obj1.getDistance().compareTo(obj2.getDistance());
-                }
-            });
+
             for (int i =0; i<mTiendasFavorito.size(); i++) {
                 Log.d("PERSIST2", mTiendasFavorito.get(i).getName());
             }
@@ -133,8 +126,6 @@ public class FavoritosTiendas extends AppCompatActivity {
             TextView tTitle = myview.findViewById(R.id.title);
             tTitle.setText(mTiendasFavorito.get(i).getName());
 
-            TextView tDistance = myview.findViewById(R.id.distance);
-            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mTiendasFavorito.get(i).getDistance())) + " metros.");
 
             return myview;
         }

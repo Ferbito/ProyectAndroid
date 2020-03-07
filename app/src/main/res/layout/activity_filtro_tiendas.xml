@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+
     android:orientation="vertical"
     tools:context=".FiltroTiendas">
 
@@ -13,8 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2"
-        android:layout_marginTop="20dp">
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,28 +31,40 @@
             android:id="@+id/spDistancia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/my_spinner_text_color"
+
             android:layout_weight="1"
             android:spinnerMode="dropdown"
-            android:visibility="visible"
+            android:popupBackground="@color/black"
+
+
             />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RANGO DE DISTANCIA"
+            android:text="RANGO DE VALORACIÓN"
             android:textColor="@color/black" />
 
-        <Switch
+        <Spinner
+            android:id="@+id/spValoración"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:backgroundTint="@color/my_spinner_text_color"
+
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/black"
+
+
             />
 
     </LinearLayout>
@@ -56,13 +72,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="2">
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RANGO DE DISTANCIA"
+            android:text="BUSCAR CENTROS COMERCIALES"
             android:textColor="@color/black" />
 
         <Switch

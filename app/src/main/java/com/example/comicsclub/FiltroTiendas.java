@@ -1,5 +1,7 @@
 package com.example.comicsclub;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,8 +11,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class FiltroTiendas extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class FiltroTiendas extends AppCompatActivity {
+    private int mRadius ;
+    private List<TiendasResponse.Tiendas> mFiltros=new ArrayList<>();
+    private double mRating;
+    private Spinner spDistancia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,13 +26,36 @@ public class FiltroTiendas extends AppCompatActivity {
 
         //Toast.makeText(FiltroTiendas.this, "WELCOME TO FILTERS", Toast.LENGTH_SHORT).show();
 
-        Spinner spDistancia = findViewById(R.id.spDistancia);
+        spDistancia = findViewById(R.id.spDistancia);
         spDistancia.setVisibility(View.VISIBLE);
-        ArrayAdapter<CharSequence> adapterDistancia = ArrayAdapter.createFromResource(FiltroTiendas.this, R.array.sp_distancias,
-                android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapterDistancia = ArrayAdapter.createFromResource(FiltroTiendas.this, R.array.sp_distancias,
+               R.layout.spinner_item);
         adapterDistancia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spDistancia.setAdapter(adapterDistancia);
         spDistancia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String text = adapterView.getItemAtPosition(i).toString();
+                SharedPreferences mispreferencias=getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mispreferencias.edit();
+                int valor = (int) spDistancia.getSelectedItem();
+                editor.putInt((String) adapterDistancia.getItem(1), valor);
+
+                Toast.makeText(FiltroTiendas.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        Spinner spValoracion = findViewById(R.id.spValoración);
+        spValoracion.setVisibility(View.VISIBLE);
+        ArrayAdapter<CharSequence> adapterValoracion = ArrayAdapter.createFromResource(FiltroTiendas.this, R.array.sp_valoracion,
+                R.layout.spinner_item);
+        adapterValoracion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spValoracion.setAdapter(adapterValoracion);
+        spValoracion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = adapterView.getItemAtPosition(i).toString();
