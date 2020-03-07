@@ -69,6 +69,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_tiendas);
 
+        pedirPermisos();
+
         mPd = new ProgressDialog(ListTiendas.this);
         mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
         mPd.setTitle("LIBRARIES");
@@ -120,9 +122,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==CODINTFILTROTIENDA){
-            if(resultCode == RESULT_OK){
-
-            }
+            Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -204,10 +204,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+    private void pedirPermisos(){
         // Ask user permission for location.
         if (PackageManager.PERMISSION_GRANTED !=
                 ContextCompat.checkSelfPermission(ListTiendas.this,

@@ -82,8 +82,7 @@ public class FiltroTiendas extends AppCompatActivity {
                 ObjetcFiltro establecerFiltro = new ObjetcFiltro(mDistance, mPosDistance, mRating, mPosRating,
                         false, false);
                 guardarDatoSP(establecerFiltro);
-                Intent returnIntent = new Intent();
-                setResult(RESULT_OK,returnIntent);
+                finish();
             }
         });
         if(filtroLeido!=null){
