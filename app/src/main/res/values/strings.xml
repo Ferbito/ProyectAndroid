@@ -7,4 +7,13 @@
     <string name="location_search">Escribe cualquier lugar aquí</string>
     <string name="txt_fav">FAVORITOS</string>
     <string name="txt_tiendas">TIENDAS CERCANAS</string>
+    <string-array name="sp_distancias">
+        <item>500 metros</item>
+        <item>1000 metros</item>
+        <item>2000 metros</item>
+        <item>5000 metros</item>
+        <item>10000 metros</item>
+        <item>50000 metros</item>
+        <item>100000 metros</item>
+    </string-array>
 </resources>

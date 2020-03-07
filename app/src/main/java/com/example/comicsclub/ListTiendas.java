@@ -59,7 +59,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private MyAdapter mAdapter;
     private boolean mListSimple=false;
     private static final int CODINTFILTROTIENDA = 0;
-    private int mRadiusBusqueda = 1000;
+    private int mRadiusBusqueda = 500;
     private String mSitioPref = "book_store";
     private ProgressDialog mPd;
 

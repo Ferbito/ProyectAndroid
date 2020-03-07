@@ -46,6 +46,14 @@ public class FavoritosTiendas extends AppCompatActivity {
         mLv = findViewById(R.id.list_fav);
         leerDatosSP();
 
+        mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i3=new Intent(FavoritosTiendas.this,ListComics.class);
+                startActivity(i3);
+            }
+        });
+
         mLv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu contextMenu,
@@ -72,7 +80,7 @@ public class FavoritosTiendas extends AppCompatActivity {
         String json = mPrefs.getString(Variables.ARRAYTIENDASFAV, "");
         Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
-        Log.d("PERSIST", String.valueOf(restoreArray.size()));
+        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(restoreArray!=null){
             mTiendasFavorito=restoreArray;
             Collections.sort(mTiendasFavorito, new Comparator<TiendasResponse.Tiendas>(){
@@ -157,4 +165,9 @@ public class FavoritosTiendas extends AppCompatActivity {
         }
         return true;
     }
+
+
+
+
+
 }
