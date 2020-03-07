@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -61,5 +62,13 @@ public class FiltroTiendas extends AppCompatActivity {
 
             }
         });
+        Button btn_savefiltros=findViewById(R.id.btn_FILTROS);
+        btn_savefiltros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
+
 }
