@@ -1,7 +1,5 @@
 package com.example.comicsclub;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,10 +34,6 @@ public class FiltroTiendas extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = adapterView.getItemAtPosition(i).toString();
-                SharedPreferences mispreferencias=getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = mispreferencias.edit();
-                int valor = (int) spDistancia.getSelectedItem();
-                editor.putInt((String) adapterDistancia.getItem(1), valor);
 
                 Toast.makeText(FiltroTiendas.this, text, Toast.LENGTH_SHORT).show();
             }
