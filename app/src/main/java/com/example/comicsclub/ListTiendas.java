@@ -125,9 +125,11 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private void actualizar(){
         leerDatosSPFiltro();
         String datosDistance[] = mFiltroLeido.getDistance().split(" ");
+
         if(datosDistance[1].contains("km")){
             datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
         }
+
         if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
             for (int i = 0; i < mResults.size(); i++) {
                 if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
@@ -143,7 +145,19 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             mRating = Double.parseDouble(mFiltroLeido.getRating());
             mSitioPref="book_store";
             getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        }
 
+        String sitioLeido;
+        if(mFiltroLeido.isBook_store()){
+            sitioLeido = "book_store";
+        }else{
+            sitioLeido = "shopping_mall";
+        }
+        if(mSitioPref.equals(sitioLeido)){
+            //NO HACE NADA
+        }else{
+            mSitioPref = sitioLeido;
+            getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         }
     }
 
