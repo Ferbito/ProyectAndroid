@@ -19,7 +19,7 @@ public class TiendasResponse {
         private Float distance = null;
         private   MyGeometry geometry=null;
         private   String icon=null;
-        private  Double rating=null;
+        private  Double rating=0.0;
         private int user_ratings_total=0;
 
         public int getUser_ratings_total() {

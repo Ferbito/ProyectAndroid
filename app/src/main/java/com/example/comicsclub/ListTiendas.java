@@ -145,6 +145,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }else{
                 mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
                 mRating = Double.parseDouble(mFiltroLeido.getRating());
+                mSitioPref="book_store";
                 getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
             }
@@ -393,6 +394,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                 mResults.get(i).setDistance(distance);
                                 Log.d(TAG, String.valueOf(distance) + " metros.");
                                 Log.d(TAG, "==================");
+
+
                             }
 
                             // Order Array
@@ -403,6 +406,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                     return obj1.getDistance().compareTo(obj2.getDistance());
                                 }
                             });
+
 
                             // Print
                             /*for (int i=0; i<mResults.size(); i++) {

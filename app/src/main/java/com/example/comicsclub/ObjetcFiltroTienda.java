@@ -29,6 +29,10 @@ public class ObjetcFiltroTienda {
         return rating;
     }
 
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
     public int getPosRating() {
         return posRating;
     }
