@@ -120,7 +120,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }
         });
         leerDatosSPFavs();
-
     }
 
     private void actualizar(){
@@ -153,28 +152,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODINTFILTROTIENDA) {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
-            leerDatosSPFiltro();
-            String datosDistance[] = mFiltroLeido.getDistance().split(" ");
-            if(datosDistance[1].contains("km")){
-                datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
-            }
-            if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
-                for (int i = 0; i < mResults.size(); i++) {
-                    if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
-                        mResults.remove(i);
-                    }else if(mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())){
-                        mResults.remove(i);
-                    }
-                }
-                mAdapter.notifyDataSetChanged();
-                mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-            }else{
-                mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-                mRating = Double.parseDouble(mFiltroLeido.getRating());
-                mSitioPref="book_store";
-                getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-
-            }
+            actualizar();
         }
     }
 
