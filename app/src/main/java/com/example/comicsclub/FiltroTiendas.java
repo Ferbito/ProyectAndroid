@@ -70,23 +70,24 @@ public class FiltroTiendas extends AppCompatActivity {
 
             }
         });
-        Switch swCentrocomercial=findViewById(R.id.swcentrocomercial);
+        final Switch swCentrocomercial=findViewById(R.id.swcentrocomercial);
+        final Switch swLibreria=findViewById(R.id.swlibreria);
         swCentrocomercial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    swLibreria.setChecked(false);
                 } else {
-                    //do something when unchecked
+                    swLibreria.setChecked(true);
                 }
             }
         });
-        Switch swLibreria=findViewById(R.id.swlibreria);
+
         swLibreria.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // do something when check is selected
+                    swCentrocomercial.setChecked(false);
                 } else {
-                    //do something when unchecked
+                    swCentrocomercial.setChecked(true);
                 }
             }
         });
@@ -95,8 +96,13 @@ public class FiltroTiendas extends AppCompatActivity {
         btn_savefiltros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObjetcFiltroTienda establecerFiltro = new ObjetcFiltroTienda(mDistance, mPosDistance, mRating, mPosRating,
-                        false, false);
+                Boolean tienda;
+                if(swLibreria.isChecked()){
+                    tienda = true;
+                }else{
+                    tienda=false;
+                }
+                ObjetcFiltroTienda establecerFiltro = new ObjetcFiltroTienda(mDistance, mPosDistance, mRating, mPosRating, tienda);
                 guardarDatoSP(establecerFiltro);
                 finish();
             }

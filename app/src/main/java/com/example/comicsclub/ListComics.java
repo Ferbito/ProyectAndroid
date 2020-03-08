@@ -80,7 +80,6 @@ public class ListComics extends AppCompatActivity {
         leerDatosSPFiltro();
 
         String datosPrecio[] = mFiltroComic.getPrice().split(" ");
-        Log.d("PERSIST24", datosPrecio[0]);
             for (int i = 0; i < mComicsRellenos.size(); i++) {
                  if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(datosPrecio[0])){
                      mComicsRellenos.remove(i);
