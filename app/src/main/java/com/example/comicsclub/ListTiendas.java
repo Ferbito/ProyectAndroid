@@ -129,7 +129,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
             leerDatosSPFiltro();
             String datosDistance[] = mFiltroLeido.getDistance().split(" ");
-            if(datosDistance[1].contains("Km")){
+            if(datosDistance[1].contains("km")){
                 datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
             }
             if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
@@ -167,6 +167,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                         intent.putExtra("TITLE", mResults.get(info.position).getName());
                         intent.putExtra("LAT", mResults.get(info.position).getGeometry().getLocation().getLat());
                         intent.putExtra("LON", mResults.get(info.position).getGeometry().getLocation().getLng());
+                        intent.putExtra("RADIUS",mRadiusBusqueda);
                         startActivity(intent);
 
                 mAdapter.notifyDataSetChanged();

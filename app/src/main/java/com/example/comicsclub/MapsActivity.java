@@ -24,7 +24,6 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -37,12 +36,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -58,7 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static double mLon;
     private static final Integer MY_PERMISSIONS_GPS_FINE_LOCATION = 1;
     private LocationManager mLocManager;
-    private int ProximityRadius = 1000;
+    private int mProximityRadius = 1000;
     private final String TAG = getClass().getSimpleName();
 
 
@@ -74,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mTitle = intent.getStringExtra("TITLE");
             mLat = intent.getDoubleExtra("LAT", 0.0);
             mLon = intent.getDoubleExtra("LON", 0.0);
+            mProximityRadius=intent.getIntExtra("RADIUS",1000);
 
         }
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -195,34 +191,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void Autocompletar(){
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.map);
 
-// Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-// Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
-    }
 
     private String getUrl(double latitide, double longitude, String nearbyPlace)
     {
         StringBuilder googleURL = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googleURL.append("location=" + latitide + "," + longitude);
-        googleURL.append("&radius=" + ProximityRadius);
+        googleURL.append("&radius=" + mProximityRadius);
         googleURL.append("&type=" + nearbyPlace);
         googleURL.append("&sensor=true");
         googleURL.append("&key=" + "AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk");
