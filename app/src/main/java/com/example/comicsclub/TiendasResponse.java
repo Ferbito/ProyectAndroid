@@ -20,10 +20,10 @@ public class TiendasResponse {
         private   MyGeometry geometry=null;
         private   String icon=null;
         private  Double rating=null;
-        private int user_rating=0;
+        private int user_ratings_total=0;
 
-        public int getUser_rating() {
-            return user_rating;
+        public int getUser_ratings_total() {
+            return user_ratings_total;
         }
 
         public Double getRating() {

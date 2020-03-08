@@ -319,7 +319,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             tTitle.setText(mResults.get(i).getName());
 
             TextView tRating = myview.findViewById(R.id.rating);
-            tRating.setText("Valoración: "+String.valueOf(mResults.get(i).getRating())+"["+String.valueOf(mResults.get(i).getUser_rating())+"]");
+            tRating.setText("Valoración: "+String.valueOf(mResults.get(i).getRating())+" "+"["+String.valueOf(mResults.get(i).getUser_ratings_total())+"]");
 
 
             TextView tDistance = myview.findViewById(R.id.distance);
@@ -372,6 +372,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                             // Print
                             for (int i=0; i<mResults.size(); i++) {
                                 Log.d(TAG, mResults.get(i).getName());
+
                                 Log.d(TAG, String.valueOf(mResults.get(i).getGeometry().getLocation().getLat()));
                                 Log.d(TAG, String.valueOf(mResults.get(i).getGeometry().getLocation().getLng()));
 
