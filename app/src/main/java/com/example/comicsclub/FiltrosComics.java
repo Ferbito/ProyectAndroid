@@ -63,9 +63,8 @@ public class FiltrosComics extends AppCompatActivity {
             if(filtroleidocomic.getPost()!=0){
                 spPrecio.setSelection(filtroleidocomic.getPost());
             }
-
-
         }
+
     }
 
     private void guardarDatoSP(ObjectFiltroComic objetcFiltro){

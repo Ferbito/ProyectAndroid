@@ -3,6 +3,7 @@ package com.example.comicsclub;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -23,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,6 +39,9 @@ public class ListComics extends AppCompatActivity {
     private ListView lv;
     private ProgressDialog mPd;
     private final int CodigoFiltros=1;
+    private static final int CODINFILTROCOMIC = 0;
+    private ObjectFiltroComic mFiltroComic = null;
+    private  BaseAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,39 @@ public class ListComics extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODINFILTROCOMIC) {
+            Toast.makeText(ListComics.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
+            actualizar();
+        }
+    }
+    private void actualizar(){
+        leerDatosSPFiltro();
+
+            for (int i = 0; i < mComicsRellenos.size(); i++) {
+                 if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(mFiltroComic.getPrice())){
+                     mComicsRellenos.remove(i);
+                }
+            }
+            adapter.notifyDataSetChanged();
+
+        }
+
+    private void leerDatosSPFiltro(){
+        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString(Variables.ARRAYCOMICSFILTROS, "");
+        //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
+        //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+        ObjectFiltroComic jsonFiltro= gson.fromJson(json, ObjectFiltroComic.class);
+        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
+        if(jsonFiltro!=null){
+            mFiltroComic = jsonFiltro;
+            Log.d("PERSIST2", String.valueOf(mFiltroComic.getPrice()));
+        }
+    }
     private void cargarComics(){
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://gateway.marvel.com/v1/public/comics?ts=9&apikey=7a18af213a25abcf54a952288670033d&hash=0bd40620c9f9e68a70795b084480daed";
@@ -85,7 +125,7 @@ public class ListComics extends AppCompatActivity {
                             }
                         }
                         mPd.dismiss();
-                        BaseAdapter adapter = new ComicsAdapter();
+                         adapter = new ComicsAdapter();
                         lv.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {
