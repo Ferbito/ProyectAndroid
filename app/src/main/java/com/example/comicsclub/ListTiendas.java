@@ -128,18 +128,22 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         if (requestCode == CODINTFILTROTIENDA) {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
             leerDatosSPFiltro();
-            if (mRadiusBusqueda > Integer.parseInt(mFiltroLeido.getDistance())) {
+            String datosDistance[] = mFiltroLeido.getDistance().split(" ");
+            if(datosDistance[1].contains("Km")){
+                datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
+            }
+            if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
                 for (int i = 0; i < mResults.size(); i++) {
-                    if (mResults.get(i).getDistance() > Integer.parseInt(mFiltroLeido.getDistance())) {
+                    if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
                         mResults.remove(i);
                     }else if(mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())){
                         mResults.remove(i);
                     }
                 }
                 mAdapter.notifyDataSetChanged();
-                mRadiusBusqueda = Integer.parseInt(mFiltroLeido.getDistance());
+                mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
             }else{
-                mRadiusBusqueda = Integer.parseInt(mFiltroLeido.getDistance());
+                mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
                 mRating = Double.parseDouble(mFiltroLeido.getRating());
                 getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             }
