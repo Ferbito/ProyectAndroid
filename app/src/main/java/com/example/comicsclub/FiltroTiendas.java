@@ -117,6 +117,14 @@ public class FiltroTiendas extends AppCompatActivity {
                 spValoracion.setSelection(filtroLeido.getPosRating());
             }
         }
+
+        if(filtroLeido.isBook_store()){
+            swLibreria.setChecked(true);
+            swCentrocomercial.setChecked(false);
+        }else{
+            swLibreria.setChecked(false);
+            swCentrocomercial.setChecked(true);
+        }
     }
 
     private void guardarDatoSP(ObjetcFiltroTienda objetcFiltro){
