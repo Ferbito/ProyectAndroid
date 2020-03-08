@@ -120,7 +120,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }
         });
         leerDatosSPFavs();
-        actualizar();
+
     }
 
     private void actualizar(){
@@ -490,6 +490,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mCurrentLocation = location;
         getTiendas(location.getLatitude(), location.getLongitude() );
+        actualizar();
 
     }
 
