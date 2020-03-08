@@ -74,7 +74,6 @@ public class FiltroTiendas extends AppCompatActivity {
         swCentrocomercial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // do something when check is selected
 
                 } else {
                     //do something when unchecked

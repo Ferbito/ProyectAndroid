@@ -78,8 +78,9 @@ public class ListComics extends AppCompatActivity {
     }
     private void actualizar(){
         leerDatosSPFiltro();
-        if(mFiltroComic.getPrice().equals()
-        String datosPrecio[] = mFiltroComic.getPrice().split("");
+
+        String datosPrecio[] = mFiltroComic.getPrice().split(" ");
+        Log.d("PERSIST24", datosPrecio[0]);
             for (int i = 0; i < mComicsRellenos.size(); i++) {
                  if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(datosPrecio[0])){
                      mComicsRellenos.remove(i);
@@ -98,7 +99,7 @@ public class ListComics extends AppCompatActivity {
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(jsonFiltro!=null){
             mFiltroComic = jsonFiltro;
-            Log.d("PERSIST2", String.valueOf(mFiltroComic.getPrice()));
+            Log.d("PERSIST24", String.valueOf(mFiltroComic.getPrice()));
         }
     }
     private void cargarComics(){

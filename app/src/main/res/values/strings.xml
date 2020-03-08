@@ -34,11 +34,9 @@
 
     </string-array>
     <string-array name="sp_precio">
-        <item>1.0 €</item>
-        <item>2.0 €</item>
-        <item>3.0 €</item>
-        <item>4.0 €</item>
         <item>5.0 €</item>
-
+        <item>8.0 €</item>
+        <item>10.0 €</item>
+        <item>20.0 €</item>
     </string-array>
 </resources>
