@@ -12,7 +12,7 @@ public interface TiendasInterface {
 
         @Headers("Accept: application/geo+json")
         @GET("api/place/nearbysearch/json?key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk")
-        Call<TiendasResponse> getTiendas(@Query("type") String type, @Query("location") String location, @Query("radius") int radius
+        Call<TiendasResponse> getTiendas(@Query("type") String type, @Query("location") String location, @Query("radius") int radius, @Query("rating") double rating
 
 
         );

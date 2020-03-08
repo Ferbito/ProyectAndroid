@@ -19,6 +19,11 @@ public class TiendasResponse {
         private Float distance = null;
         private   MyGeometry geometry=null;
         private   String icon=null;
+        private  Double rating=null;
+
+        public Double getRating() {
+            return rating;
+        }
 
         public void setDistance(Float distance) {
             this.distance = distance;

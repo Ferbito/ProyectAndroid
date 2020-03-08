@@ -64,6 +64,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private static final int CODINTFILTROTIENDA = 0;
     private int mRadiusBusqueda = 1000;
     private String mSitioPref = "book_store";
+    private Double mRating=  0.0;
     private ProgressDialog mPd;
 
     @Override
@@ -345,7 +346,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         TiendasInterface  d = retrofit.create(TiendasInterface.class);
         
-        d.getTiendas(mSitioPref, lat + "," + lng, mRadiusBusqueda).enqueue(
+        d.getTiendas(mSitioPref, lat + "," + lng, mRadiusBusqueda,mRating).enqueue(
                 new Callback<TiendasResponse>() {
                     @Override
                     public void onResponse(Call<TiendasResponse> call,
