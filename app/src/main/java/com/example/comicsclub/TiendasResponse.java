@@ -20,6 +20,11 @@ public class TiendasResponse {
         private   MyGeometry geometry=null;
         private   String icon=null;
         private  Double rating=null;
+        private int user_rating=0;
+
+        public int getUser_rating() {
+            return user_rating;
+        }
 
         public Double getRating() {
             return rating;
