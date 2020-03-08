@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RANGO DE DISTANCIA"
+            android:text="@string/txt_spDistancia"
             android:textColor="@color/black" />
 
         <Spinner
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RANGO DE VALORACIÓN"
+            android:text="@string/txt_spValoracion"
             android:textColor="@color/black" />
 
         <Spinner
@@ -78,9 +78,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="BUSCAR CENTROS COMERCIALES"
+            android:text="@string/txt_scBook"
             android:textColor="@color/black" />
 
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/txt_scShopping"
+            android:textColor="@color/black" />
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,7 +109,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="APLICAR FILTROS"
+        android:text="@string/btn_FILTROTIENDAS"
         android:textSize="24dp"
         android:textColor="@color/colorWhite"
         android:id="@+id/btn_FILTROS"

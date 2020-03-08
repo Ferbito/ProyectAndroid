@@ -1,6 +1,5 @@
 package com.example.comicsclub;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,15 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FiltroTiendas extends AppCompatActivity {
     private int mRadius ;
-    private List<TiendasResponse.Tiendas> mFiltros=new ArrayList<>();
     private String mRating;
     private Spinner spDistancia;
     private int mPosDistance = 0;
@@ -88,11 +81,9 @@ public class FiltroTiendas extends AppCompatActivity {
         if(filtroLeido!=null){
             if(filtroLeido.getPosDistance()!=0){
                 spDistancia.setSelection(filtroLeido.getPosDistance());
-                Log.d("POSICIONES", String.valueOf(filtroLeido.getPosDistance()));
             }
             if(filtroLeido.getPosRating()!=0){
                 spValoracion.setSelection(filtroLeido.getPosRating());
-                Log.d("POSICIONES", String.valueOf(filtroLeido.getPosRating()));
             }
         }
     }

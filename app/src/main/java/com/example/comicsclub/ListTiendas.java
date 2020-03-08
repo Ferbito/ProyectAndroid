@@ -139,7 +139,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
                         Toast.makeText(ListTiendas.this,
                         "MAPS", Toast.LENGTH_LONG).show();
-
                         Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
                         intent.putExtra("TITLE", mResults.get(info.position).getName());
                         intent.putExtra("LAT", mResults.get(info.position).getGeometry().getLocation().getLat());

@@ -7,6 +7,14 @@
     <string name="location_search">Escribe cualquier lugar aquí</string>
     <string name="txt_fav">FAVORITOS</string>
     <string name="txt_tiendas">TIENDAS CERCANAS</string>
+   <string name="txt_spDistancia">RANGO DE DISTANCIA</string>
+    <string name="txt_spValoracion">RANGO DE VALORACION</string>
+    <string name="txt_spPrecio">RANGO DE PRECIO</string>
+    <string name="txt_scShopping">CENTRO COMERCIAL</string>
+    <string name="txt_scBook">LIBRERIA</string>
+   <string name="btn_FILTROTIENDAS">APLICAR FILTROS</string>
+    <string name="btn_FILTROSCOMICS">APLICAR FILTROS</string>
+
 
     <string-array name="sp_distancias">
         <item>500 metros</item>
@@ -23,6 +31,14 @@
     <item>3</item>
     <item>4</item>
     <item>5</item>
+
+    </string-array>
+    <string-array name="sp_precio">
+        <item>1€</item>
+        <item>2€</item>
+        <item>3€</item>
+        <item>4€</item>
+        <item>5€</item>
 
     </string-array>
 </resources>

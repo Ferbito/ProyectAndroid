@@ -2,12 +2,14 @@ package com.example.comicsclub;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -32,6 +34,7 @@ public class ListComics extends AppCompatActivity {
     private Boolean relleno;
     private ListView lv;
     private ProgressDialog mPd;
+    private final int CodigoFiltros=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +47,19 @@ public class ListComics extends AppCompatActivity {
         mPd.setMessage("SEARCHING... WAIT A SECOND");
         mPd.setProgress(100);
         mPd.show();
-
         lv = findViewById(R.id.lista);
 
         cargarComics();
+
+        ImageButton filtroButton = findViewById(R.id.filtros);
+        filtroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent filtroComic = new Intent(ListComics.this, FiltrosComics.class);
+                startActivityForResult(filtroComic, CodigoFiltros);
+            }
+        });
+
     }
 
     private void cargarComics(){

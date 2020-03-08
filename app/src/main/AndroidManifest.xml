@@ -23,7 +23,7 @@
         <activity android:name="com.example.comicsclub.ListComics" />
         <activity android:name="com.example.comicsclub.ListTiendas" />
         <activity android:name="com.example.comicsclub.MapsActivity" />
-
+        <activity android:name="com.example.comicsclub.FiltrosComics" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
