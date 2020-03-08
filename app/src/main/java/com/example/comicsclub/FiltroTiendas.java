@@ -72,6 +72,7 @@ public class FiltroTiendas extends AppCompatActivity {
         });
         final Switch swCentrocomercial=findViewById(R.id.swcentrocomercial);
         final Switch swLibreria=findViewById(R.id.swlibreria);
+        swLibreria.setChecked(true);
         swCentrocomercial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
