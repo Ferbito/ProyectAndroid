@@ -38,8 +38,7 @@ public class ListComics extends AppCompatActivity {
     private Boolean relleno;
     private ListView lv;
     private ProgressDialog mPd;
-    private final int CodigoFiltros=1;
-    private static final int CODINFILTROCOMIC = 0;
+    private final int CODINFILTROCOMIC = 0;
     private ObjectFiltroComic mFiltroComic = null;
     private  BaseAdapter adapter;
 
@@ -63,7 +62,7 @@ public class ListComics extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent filtroComic = new Intent(ListComics.this, FiltrosComics.class);
-                startActivityForResult(filtroComic, CodigoFiltros);
+                startActivityForResult(filtroComic, CODINFILTROCOMIC);
             }
         });
 
@@ -79,6 +78,7 @@ public class ListComics extends AppCompatActivity {
     }
     private void actualizar(){
         leerDatosSPFiltro();
+        if(mFiltroComic.getPrice().equals()
         String datosPrecio[] = mFiltroComic.getPrice().split("");
             for (int i = 0; i < mComicsRellenos.size(); i++) {
                  if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(datosPrecio[0])){

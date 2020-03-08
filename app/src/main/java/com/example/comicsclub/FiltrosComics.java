@@ -60,7 +60,6 @@ public class FiltrosComics extends AppCompatActivity {
             }
         });
         if(filtroleidocomic !=null){
-
             if(filtroleidocomic.getPost()!=0){
                 spPrecio.setSelection(filtroleidocomic.getPost());
             }
