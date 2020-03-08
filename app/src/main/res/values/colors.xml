@@ -9,4 +9,5 @@
     <color name="black">#000000</color>
     <color name="gris">#eeeeee</color>
     <color name="my_spinner_text_color">#000000</color>
+    <color name="red_s">#a51b0d</color>
 </resources>

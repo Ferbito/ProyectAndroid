@@ -8,22 +8,58 @@
 
     android:orientation="vertical"
     tools:context=".FiltroTiendas">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        android:layout_gravity="center_vertical"
+
+        >
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:text="FILTROS"
+            android:textColor="@color/black"
+
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:gravity="center"
+
+            ></TextView>
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+   android:layout_gravity="center"
+    android:gravity="center"
+
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"
+
+        android:layout_marginTop="0dp"
         android:layout_gravity="center"
+        android:paddingRight="40dp"
+        android:layout_margin="8dp"
+
 
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:textAlignment="center"
             android:text="@string/txt_spDistancia"
             android:textColor="@color/black" />
 
@@ -33,7 +69,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/my_spinner_text_color"
 
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:spinnerMode="dropdown"
             android:popupBackground="@color/black"
 
@@ -45,14 +81,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_margin="8dp"
+        android:paddingRight="40dp"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="@string/txt_spValoracion"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textAlignment="center"/>
 
         <Spinner
             android:id="@+id/spValoración"
@@ -60,7 +99,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/my_spinner_text_color"
 
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:spinnerMode="dropdown"
             android:popupBackground="@color/black"
 
@@ -71,54 +110,71 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_margin="18dp"
+        android:background="@color/red_s"
+       >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+
+                android:text="@string/txt_scBook"
+                android:textColor="@color/colorWhite" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:id="@+id/swlibreria"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/txt_scBook"
-            android:textColor="@color/black" />
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:id="@+id/swlibreria"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/txt_scShopping"
-            android:textColor="@color/black" />
+            android:textColor="@color/colorWhite" />
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_margin="8dp"
             android:id="@+id/swcentrocomercial"
             />
-
+        </LinearLayout>
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:layout_weight="1"
-    >
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_FILTROTIENDAS"
-        android:textSize="24dp"
-        android:textColor="@color/colorWhite"
-        android:id="@+id/btn_FILTROS"
-        android:padding="11dp"
 
-        android:background="@color/quantum_bluegrey400"></Button>
+
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="1"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_FILTROTIENDAS"
+            android:textSize="24dp"
+            android:textColor="@color/red"
+            android:id="@+id/btn_FILTROS"
+            android:padding="11dp"
+
+            android:background="@color/gris"></Button>
+    </LinearLayout>
 
 </LinearLayout>
 
