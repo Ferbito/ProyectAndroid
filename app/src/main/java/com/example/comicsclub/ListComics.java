@@ -79,14 +79,13 @@ public class ListComics extends AppCompatActivity {
     }
     private void actualizar(){
         leerDatosSPFiltro();
-
+        String datosPrecio[] = mFiltroComic.getPrice().split("");
             for (int i = 0; i < mComicsRellenos.size(); i++) {
-                 if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(mFiltroComic.getPrice())){
+                 if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(datosPrecio[0])){
                      mComicsRellenos.remove(i);
                 }
             }
             adapter.notifyDataSetChanged();
-
         }
 
     private void leerDatosSPFiltro(){

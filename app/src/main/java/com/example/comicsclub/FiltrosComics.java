@@ -20,6 +20,7 @@ public class FiltrosComics extends AppCompatActivity {
     private Spinner spPrecio;
     private int mPostPrice=0;
     private ObjectFiltroComic filtroleidocomic = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
