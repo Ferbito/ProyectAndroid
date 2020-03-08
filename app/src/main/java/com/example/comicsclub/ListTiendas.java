@@ -153,12 +153,16 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         }else{
             sitioLeido = "shopping_mall";
         }
+        Log.d("MISITIO",sitioLeido);
         if(mSitioPref.equals(sitioLeido)){
             //NO HACE NADA
         }else{
             mSitioPref = sitioLeido;
+            Log.d("MISITIO2",mSitioPref);
             getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+
         }
+
     }
 
     @Override
