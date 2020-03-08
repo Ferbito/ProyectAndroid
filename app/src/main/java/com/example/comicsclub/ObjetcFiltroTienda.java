@@ -1,6 +1,6 @@
 package com.example.comicsclub;
 
-public class ObjetcFiltro {
+public class ObjetcFiltroTienda {
     private String distance;
     private int posDistance;
     private String rating;
@@ -8,7 +8,7 @@ public class ObjetcFiltro {
     private boolean book_store;
     private boolean shopping_mall;
 
-    public ObjetcFiltro(String distance, int posDistance, String rating, int posRating, boolean book_store, boolean shopping_mall) {
+    public ObjetcFiltroTienda(String distance, int posDistance, String rating, int posRating, boolean book_store, boolean shopping_mall) {
         this.distance = distance;
         this.posDistance = posDistance;
         this.rating = rating;

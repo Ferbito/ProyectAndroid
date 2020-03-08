@@ -21,7 +21,7 @@ public class FiltroTiendas extends AppCompatActivity {
     private int mPosDistance = 0;
     private int mPosRating = 0;
     private String mDistance = "1000";
-    private ObjetcFiltro filtroLeido = null;
+    private ObjetcFiltroTienda filtroLeido = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +72,7 @@ public class FiltroTiendas extends AppCompatActivity {
         btn_savefiltros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObjetcFiltro establecerFiltro = new ObjetcFiltro(mDistance, mPosDistance, mRating, mPosRating,
+                ObjetcFiltroTienda establecerFiltro = new ObjetcFiltroTienda(mDistance, mPosDistance, mRating, mPosRating,
                         false, false);
                 guardarDatoSP(establecerFiltro);
                 finish();
@@ -88,7 +88,7 @@ public class FiltroTiendas extends AppCompatActivity {
         }
     }
 
-    private void guardarDatoSP(ObjetcFiltro objetcFiltro){
+    private void guardarDatoSP(ObjetcFiltroTienda objetcFiltro){
         SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
@@ -103,7 +103,7 @@ public class FiltroTiendas extends AppCompatActivity {
         String json = mPrefs.getString(Variables.ARRAYTIENDASFILTROS, "");
         //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
-        ObjetcFiltro jsonFiltro= gson.fromJson(json, ObjetcFiltro.class);
+        ObjetcFiltroTienda jsonFiltro= gson.fromJson(json, ObjetcFiltroTienda.class);
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(jsonFiltro!=null){
             filtroLeido = jsonFiltro;

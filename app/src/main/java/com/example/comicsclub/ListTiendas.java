@@ -55,12 +55,14 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private Location mCurrentLocation;
     private List<TiendasResponse.Tiendas> mResults;
     private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
+    private ObjetcFiltroTienda mFiltroLeido = null;
+
 
     private ListView mLv = null;
     private MyAdapter mAdapter;
     private boolean mListSimple=false;
     private static final int CODINTFILTROTIENDA = 0;
-    private int mRadiusBusqueda = 500;
+    private int mRadiusBusqueda = 1000;
     private String mSitioPref = "book_store";
     private ProgressDialog mPd;
 
@@ -115,14 +117,25 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 startActivity(favoritosLista);
             }
         });
-        leerDatosSP();
+        leerDatosSPFavs();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==CODINTFILTROTIENDA){
+        if (requestCode == CODINTFILTROTIENDA) {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
+            leerDatosSPFiltro();
+            if (mRadiusBusqueda > Integer.parseInt(mFiltroLeido.getDistance())) {
+                for (int i = 0; i < mResults.size(); i++) {
+                    if (mResults.get(i).getDistance() < Integer.parseInt(mFiltroLeido.getDistance())) {
+                        mResults.remove(i);
+                    }
+
+                }
+                mAdapter.notifyDataSetChanged();
+                mRadiusBusqueda = Integer.parseInt(mFiltroLeido.getDistance());
+            }
         }
     }
 
@@ -164,7 +177,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     mTiendasFavorito.add(tiendasfav);
                     Toast.makeText(ListTiendas.this,
                             "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
-                    guardarDatoSP();
+                    guardarDatoSPFavs();
                 }
 
                 /*for (int i=0;i<mTiendasFavorito.size();i++){
@@ -176,7 +189,21 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         return true;
     }
 
-    private void guardarDatoSP(){
+    private void leerDatosSPFiltro(){
+        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString(Variables.ARRAYTIENDASFILTROS, "");
+        //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
+        //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+        ObjetcFiltroTienda jsonFiltro= gson.fromJson(json, ObjetcFiltroTienda.class);
+        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
+        if(jsonFiltro!=null){
+            mFiltroLeido = jsonFiltro;
+            Log.d("PERSIST2", String.valueOf(mFiltroLeido.getDistance()));
+        }
+    }
+
+    private void guardarDatoSPFavs(){
         SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
@@ -185,7 +212,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         prefsEditor.commit();
     }
 
-    private void leerDatosSP(){
+    private void leerDatosSPFavs(){
         SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(Variables.ARRAYTIENDASFAV, "");
@@ -196,9 +223,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             mTiendasFavorito=restoreArray;
             for (int i =0; i<restoreArray.size(); i++) {
                 Log.d("Leido", restoreArray.get(i).getName());
-
-
-
             }
         }
     }
