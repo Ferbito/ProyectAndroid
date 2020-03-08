@@ -146,6 +146,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
                 mRating = Double.parseDouble(mFiltroLeido.getRating());
                 getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+
             }
         }
     }

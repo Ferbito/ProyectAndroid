@@ -59,14 +59,26 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/tiendas"
+            android:id="@+id/libreria"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
 
             android:onClick="onClick"
-            android:src="@mipmap/tiendas"
+            android:src="@mipmap/libreria"
+            android:background="@color/colorWhite"
+            />
+
+        <ImageButton
+            android:id="@+id/centrocomercial"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+
+            android:onClick="onClick"
+            android:src="@mipmap/centro"
             android:background="@color/colorWhite"
             />
 

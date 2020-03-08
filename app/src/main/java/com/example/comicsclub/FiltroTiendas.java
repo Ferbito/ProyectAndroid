@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,6 +70,28 @@ public class FiltroTiendas extends AppCompatActivity {
 
             }
         });
+        Switch swCentrocomercial=findViewById(R.id.swcentrocomercial);
+        swCentrocomercial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // do something when check is selected
+
+                } else {
+                    //do something when unchecked
+                }
+            }
+        });
+        Switch swLibreria=findViewById(R.id.swlibreria);
+        swLibreria.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // do something when check is selected
+                } else {
+                    //do something when unchecked
+                }
+            }
+        });
+
         Button btn_savefiltros=findViewById(R.id.btn_FILTROS);
         btn_savefiltros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +102,7 @@ public class FiltroTiendas extends AppCompatActivity {
                 finish();
             }
         });
+
         if(filtroLeido!=null){
             if(filtroLeido.getPosDistance()!=0){
                 spDistancia.setSelection(filtroLeido.getPosDistance());

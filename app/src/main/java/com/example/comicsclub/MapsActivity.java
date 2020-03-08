@@ -172,7 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
 
 
-           case R.id.tiendas:
+           case R.id.libreria:
                     mMap.clear();
                     String url = getUrl(mLat, mLon, comic);
                     transferData[0] = mMap;
@@ -182,6 +182,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(this, "Searching for Nearby Shop...", Toast.LENGTH_SHORT).show();
                     Toast.makeText(this, "Showing Nearby Shop...", Toast.LENGTH_SHORT).show();
                     break;
+            case R.id.centrocomercial:
+                mMap.clear();
+                String url2 = getUrl(mLat, mLon, centro_comercial);
+                transferData[0] = mMap;
+                transferData[1] = url2;
+
+                getNearbyPlaces.execute(transferData);
+                Toast.makeText(this, "Searching for Nearby Shop...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Showing Nearby Shop...", Toast.LENGTH_SHORT).show();
+                break;
 
 
 
