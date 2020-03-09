@@ -82,7 +82,7 @@ public class MyService extends Service implements LocationListener {
         Notification notification = new NotificationCompat.Builder(this, "1")
                 .setContentTitle("Foreground Service")
                 .setContentText("Bucando favoritos cerca de ti.")
-                .setSmallIcon(R.mipmap.logomarvel)
+                .setSmallIcon(R.drawable.marv_serv)
                 .build();
 
         startForeground(1, notification);
