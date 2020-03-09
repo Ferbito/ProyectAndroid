@@ -128,8 +128,10 @@ public class MyService extends Service implements LocationListener {
                 Location location = new Location("");
                 location.setLatitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLat());
                 location.setLongitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLng());
-                Log.d("LOCATION", String.valueOf(location.getLatitude()));
-                Log.d("LOCATION", String.valueOf(location.getLongitude()));
+                Log.d("LOCATION9999", String.valueOf(location.getLatitude()));
+                Log.d("LOCATION9999", String.valueOf(location.getLongitude()));
+                Log.d("LOCATION9999", String.valueOf(mCurrentLocation.getLatitude()));
+                Log.d("LOCATION9999", String.valueOf(mCurrentLocation.getLongitude()));
                 float distance = mCurrentLocation.distanceTo(location);
                 mTiendasFavorito.get(i).setDistance(distance);
             }
