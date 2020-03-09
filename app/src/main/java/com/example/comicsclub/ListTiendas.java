@@ -147,53 +147,57 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private void actualizar(){
         leerDatosSPFiltro();
         if(mResults!=null){
-            if(mFiltroLeido!=null){
+            if(mFiltroLeido!=null) {
                 boolean busquedaNueva = false;
+                //DISTANCIA
                 String datosDistance[] = mFiltroLeido.getDistance().split(" ");
-
-                if(datosDistance[1].contains("km")){
-                    datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
+                if (datosDistance[1].contains("km")) {
+                    datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0]) * 1000);
                 }
 
                 if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
                     for (int i = 0; i < mResults.size(); i++) {
                         if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
                             mResults.remove(i);
-                        }else if(mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())){
-                            mResults.remove(i);
-                            Log.d("BORRADO","BORRADO");
                         }
-
                     }
                     mAdapter.notifyDataSetChanged();
                     mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-                }else{
+                } else {
                     mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-                    mRating = Double.parseDouble(mFiltroLeido.getRating());
-                    busquedaNueva=true;
+                    busquedaNueva = true;
                 }
-
-
-
+                //RATING
+                if (mRating < Double.parseDouble(mFiltroLeido.getRating())) {
+                    for (int i = 0; i < mResults.size(); i++) {
+                        if (mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())) {
+                            mResults.remove(i);
+                        }
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    mRating = Double.parseDouble(mFiltroLeido.getRating());
+                    busquedaNueva = true;
+                }
+                //TIPO
                 String sitioLeido;
-                if(mFiltroLeido.isBook_store()){
+                if (mFiltroLeido.isBook_store()) {
                     sitioLeido = "book_store";
-                }else{
+                } else {
                     sitioLeido = "shopping_mall";
                 }
-                Log.d("MISITIO",sitioLeido);
-                if(mSitioPref.equals(sitioLeido)){
+                if (mSitioPref.equals(sitioLeido)) {
                     //NO HACE NADA
-                }else{
+                } else {
                     mSitioPref = sitioLeido;
-                    Log.d("MISITIO2",mSitioPref);
-                    busquedaNueva=true;
+                    Log.d("MISITIO2", mSitioPref);
+                    busquedaNueva = true;
                 }
 
-                if(busquedaNueva)
-                    getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+                if (busquedaNueva)
+                    getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
             }else{
-                getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+                Log.d("VACIO","VACIO");
             }
         }else {
             getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
