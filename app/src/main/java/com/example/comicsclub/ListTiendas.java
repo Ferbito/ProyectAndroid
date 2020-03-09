@@ -117,13 +117,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         favoritosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYCURRENTLOCATION,MODE_PRIVATE);
-                SharedPreferences.Editor prefsEditor = mPrefs.edit();
-                Gson gson = new Gson();
-                String json = gson.toJson(mCurrentLocation);
-                prefsEditor.putString(HelperGlobal.CURRENTLOCATION, json);
-                prefsEditor.commit();
                 Intent favoritosLista = new Intent(ListTiendas.this, FavoritosTiendas.class);
+                favoritosLista.putExtra("locationLat", mCurrentLocation.getLatitude());
+                favoritosLista.putExtra("locationLong", mCurrentLocation.getLongitude());
                 startActivity(favoritosLista);
             }
         });
