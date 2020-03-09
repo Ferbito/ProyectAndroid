@@ -162,7 +162,7 @@ public class MyService extends Service implements LocationListener {
         Log.d("POSICIONGUARDADA", String.valueOf(mCurrentLocation.getLatitude()));
 
         Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
-        intent.putExtra(HelperGlobal.KEY_MESSAGE, "New Location");
+        intent.putExtra(HelperGlobal.KEY_MESSAGE, mCurrentLocation);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
     }
