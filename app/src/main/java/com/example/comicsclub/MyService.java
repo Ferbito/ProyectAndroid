@@ -78,8 +78,7 @@ public class MyService extends Service implements LocationListener {
         Notification notification = new NotificationCompat.Builder(this, "1")
                 .setContentTitle("Foreground Service")
                 .setContentText(tiendasCercanas() + " tiendas favoritas cerca de ti")
-                //
-                .setSmallIcon(R.drawable.logomarvel)
+                .setSmallIcon(R.mipmap.logomarvel)
                 .build();
 
         startForeground(1, notification);
@@ -97,6 +96,7 @@ public class MyService extends Service implements LocationListener {
     }
 
     public int tiendasCercanas(){
+        leerDatosSPFavs();
         int contTiendas =0;
         if(mTiendasFavorito!=null){
             for(int i=0; i<mTiendasFavorito.size();i++){
