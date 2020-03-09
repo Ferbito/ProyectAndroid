@@ -114,11 +114,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }
         });
 
-        ImageButton favoritosButton = findViewById(R.id.imgBtnFavoritos);
+        final ImageButton favoritosButton = findViewById(R.id.imgBtnFavoritos);
         favoritosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent favoritosLista = new Intent(ListTiendas.this, FavoritosTiendas.class);
+                favoritosLista.putExtra("locationLat", mCurrentLocation.getLatitude());
+                favoritosLista.putExtra("locationLong", mCurrentLocation.getLongitude());
                 startActivity(favoritosLista);
             }
         });

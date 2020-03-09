@@ -3,6 +3,7 @@ package com.example.comicsclub;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -26,13 +27,15 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class FavoritosTiendas extends AppCompatActivity {
     private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
     private ListView mLv = null;
     private MyAdapter mAdapter;
-
+    private Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,9 @@ public class FavoritosTiendas extends AppCompatActivity {
         setContentView(R.layout.activity_favoritos_tiendas);
         Toast.makeText(FavoritosTiendas.this, "WELCOME TO FAVORITES", Toast.LENGTH_SHORT).show();
 
+        Intent getIntent = getIntent();
+        mCurrentLocation.setLatitude(getIntent.getDoubleExtra("locationLat", 0.0));
+        mCurrentLocation.setLongitude(getIntent.getDoubleExtra("locationLong", 0.0));
 
         mLv = findViewById(R.id.list_fav);
         leerDatosSP();
@@ -83,9 +89,22 @@ public class FavoritosTiendas extends AppCompatActivity {
             mTiendasFavorito=restoreArray;
 
             for (int i =0; i<mTiendasFavorito.size(); i++) {
-                Log.d("PERSIST2", mTiendasFavorito.get(i).getName());
+                Location location = new Location("");
+                location.setLatitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLat());
+                location.setLongitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLng());
 
+                float distance = mCurrentLocation.distanceTo( location );
+                mTiendasFavorito.get(i).setDistance(distance);
             }
+
+            Collections.sort(mTiendasFavorito, new Comparator<TiendasResponse.Tiendas>(){
+                public int compare(TiendasResponse.Tiendas obj1,
+                                   TiendasResponse.Tiendas obj2) {
+
+                    return obj1.getDistance().compareTo(obj2.getDistance());
+                }
+            });
+
             mAdapter = new MyAdapter();
             mLv.setAdapter(mAdapter);
         }
@@ -127,11 +146,12 @@ public class FavoritosTiendas extends AppCompatActivity {
             TextView tTitle = myview.findViewById(R.id.title);
             tTitle.setText(mTiendasFavorito.get(i).getName());
 
-
             TextView tRating = myview.findViewById(R.id.rating);
-            tRating.setText("Valoración: "+String.valueOf(mTiendasFavorito.get(i).getRating())+" "+"["+String.valueOf(mTiendasFavorito.get(i).getUser_ratings_total())+"]");
+            tRating.setText("Valoración: "+String.valueOf(mTiendasFavorito.get(i).getRating())+" "+"["+
+                    String.valueOf(mTiendasFavorito.get(i).getUser_ratings_total())+"]");
 
-
+            TextView tDistance = myview.findViewById(R.id.distance);
+            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mTiendasFavorito.get(i).getDistance())) + " metros.");
 
             return myview;
         }

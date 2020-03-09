@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,10 +18,20 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyService extends Service implements LocationListener {
 
     private final String TAG = getClass().getSimpleName();
     private LocationManager mLocManager = null;
+    private Location mCurrentLocation;
+    private ObjetcFiltroTienda mFiltroLeido = null;
+    private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
 
 
     public MyService() {
@@ -66,9 +77,9 @@ public class MyService extends Service implements LocationListener {
 
         Notification notification = new NotificationCompat.Builder(this, "1")
                 .setContentTitle("Foreground Service")
-                .setContentText("3 tiendas cerca de ti")
+                .setContentText(tiendasCercanas() + " tiendas favoritas cerca de ti")
                 //
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.logomarvel)
                 .build();
 
         startForeground(1, notification);
@@ -85,8 +96,38 @@ public class MyService extends Service implements LocationListener {
         return START_STICKY;
     }
 
+    public int tiendasCercanas(){
+        int contTiendas =0;
+        if(mTiendasFavorito!=null){
+            for(int i=0; i<mTiendasFavorito.size();i++){
+                if(mTiendasFavorito.get(i).getDistance()<500){
+                    contTiendas++;
+                }
+            }
+        }
+        return contTiendas;
+    }
 
 
+    private void leerDatosSPFavs(){
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
+        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
+        ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
+        if(restoreArray!=null){
+            mTiendasFavorito=restoreArray;
+            for (int i =0; i<mTiendasFavorito.size(); i++) {
+                Location location = new Location("");
+                location.setLatitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLat());
+                location.setLongitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLng());
+
+                float distance = mCurrentLocation.distanceTo( location );
+                mTiendasFavorito.get(i).setDistance(distance);
+            }
+        }
+    }
 
     @Override
     public void onDestroy() {
@@ -110,7 +151,7 @@ public class MyService extends Service implements LocationListener {
 
         Log.d(TAG, "new location");
         Toast.makeText(this, "New Location", Toast.LENGTH_SHORT).show();
-
+        mCurrentLocation = location;
 
         Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
         intent.putExtra(HelperGlobal.KEY_MESSAGE, "New Location");
