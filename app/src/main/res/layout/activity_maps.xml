@@ -56,7 +56,9 @@
         android:id="@+id/second_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="80dp"
+        >
 
         <ImageButton
             android:id="@+id/libreria"
