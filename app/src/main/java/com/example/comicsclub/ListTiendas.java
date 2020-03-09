@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -36,8 +35,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
-
-import org.apache.http.conn.routing.BasicRouteDirector;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -173,6 +170,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 mRating = Double.parseDouble(mFiltroLeido.getRating());
                 busquedaNueva=true;
             }
+
+
 
             String sitioLeido;
             if(mFiltroLeido.isBook_store()){
@@ -433,6 +432,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                 Log.d(TAG, String.valueOf(distance) + " metros.");
                                 Log.d(TAG, "==================");
 
+                                if(mResults.get(i).getRating()<mRating && mResults.get(i).getRating()==null){
+                                    mResults.remove(i);
+                                }
 
                             }
 
