@@ -1,11 +1,14 @@
 package com.example.comicsclub;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,6 +18,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -31,7 +35,7 @@ public class MyService extends Service implements LocationListener {
     private LocationManager mLocManager = null;
     private Location mCurrentLocation;
     private ObjetcFiltroTienda mFiltroLeido = null;
-    private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
+    private List<TiendasResponse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
 
     public MyService() {
@@ -47,6 +51,7 @@ public class MyService extends Service implements LocationListener {
     public void onCreate() {
         super.onCreate();
 
+        startLocation();
         Log.d(TAG, "Servicio creado");
 
     }
@@ -85,7 +90,7 @@ public class MyService extends Service implements LocationListener {
 
 
         // Set GPS Listener
-        mLocManager=(LocationManager) getSystemService(LOCATION_SERVICE);
+        mLocManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1, 300,
                 this);
@@ -95,12 +100,12 @@ public class MyService extends Service implements LocationListener {
         return START_STICKY;
     }
 
-    public int tiendasCercanas(){
+    public int tiendasCercanas() {
         leerDatosSPFavs();
-        int contTiendas =0;
-        if(mTiendasFavorito!=null){
-            for(int i=0; i<mTiendasFavorito.size();i++){
-                if(mTiendasFavorito.get(i).getDistance()<500){
+        int contTiendas = 0;
+        if (mTiendasFavorito != null) {
+            for (int i = 0; i < mTiendasFavorito.size(); i++) {
+                if (mTiendasFavorito.get(i).getDistance() < 500) {
                     contTiendas++;
                 }
             }
@@ -109,21 +114,22 @@ public class MyService extends Service implements LocationListener {
     }
 
 
-    private void leerDatosSPFavs(){
-        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
+    private void leerDatosSPFavs() {
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
-        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
+        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>() {
+        }.getType();
         ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
-        if(restoreArray!=null){
-            mTiendasFavorito=restoreArray;
-            for (int i =0; i<mTiendasFavorito.size(); i++) {
+        if (restoreArray != null) {
+            mTiendasFavorito = restoreArray;
+            for (int i = 0; i < mTiendasFavorito.size(); i++) {
                 Location location = new Location("");
                 location.setLatitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLat());
                 location.setLongitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLng());
 
-                float distance = mCurrentLocation.distanceTo( location );
+                float distance = mCurrentLocation.distanceTo(location);
                 mTiendasFavorito.get(i).setDistance(distance);
             }
         }
@@ -144,7 +150,23 @@ public class MyService extends Service implements LocationListener {
         return super.onUnbind(intent);
     }
 
+    private void startLocation() {
 
+        mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Intent callGPSSettingIntent = new Intent(
+                    android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(callGPSSettingIntent);
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    1, 300,
+                    this);
+        }
+    }
 
     @Override
     public void onLocationChanged(Location location) {
