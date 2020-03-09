@@ -123,7 +123,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             }
         });
         leerDatosSPFavs();
-        startService();
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -147,50 +146,59 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
     private void actualizar(){
         leerDatosSPFiltro();
-        if(mFiltroLeido!=null){
-            boolean busquedaNueva = false;
-            String datosDistance[] = mFiltroLeido.getDistance().split(" ");
+        if(mResults!=null){
+            if(mFiltroLeido!=null){
+                boolean busquedaNueva = false;
+                String datosDistance[] = mFiltroLeido.getDistance().split(" ");
 
-            if(datosDistance[1].contains("km")){
-                datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
-            }
-
-            if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
-                for (int i = 0; i < mResults.size(); i++) {
-                    if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
-                        mResults.remove(i);
-                    }else if(mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())){
-                        mResults.remove(i);
-                    }
+                if(datosDistance[1].contains("km")){
+                    datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0])*1000);
                 }
-                mAdapter.notifyDataSetChanged();
-                mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
+
+                if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
+                    for (int i = 0; i < mResults.size(); i++) {
+                        if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
+                            mResults.remove(i);
+                        }else if(mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())){
+                            mResults.remove(i);
+                            Log.d("BORRADO","BORRADO");
+                        }
+
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
+                }else{
+                    mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
+                    mRating = Double.parseDouble(mFiltroLeido.getRating());
+                    busquedaNueva=true;
+                }
+
+
+
+                String sitioLeido;
+                if(mFiltroLeido.isBook_store()){
+                    sitioLeido = "book_store";
+                }else{
+                    sitioLeido = "shopping_mall";
+                }
+                Log.d("MISITIO",sitioLeido);
+                if(mSitioPref.equals(sitioLeido)){
+                    //NO HACE NADA
+                }else{
+                    mSitioPref = sitioLeido;
+                    Log.d("MISITIO2",mSitioPref);
+                    busquedaNueva=true;
+                }
+
+                if(busquedaNueva)
+                    getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
             }else{
-                mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-                mRating = Double.parseDouble(mFiltroLeido.getRating());
-                busquedaNueva=true;
-            }
-
-
-
-            String sitioLeido;
-            if(mFiltroLeido.isBook_store()){
-                sitioLeido = "book_store";
-            }else{
-                sitioLeido = "shopping_mall";
-            }
-            Log.d("MISITIO",sitioLeido);
-            if(mSitioPref.equals(sitioLeido)){
-                //NO HACE NADA
-            }else{
-                mSitioPref = sitioLeido;
-                Log.d("MISITIO2",mSitioPref);
-                busquedaNueva=true;
-            }
-
-            if(busquedaNueva)
                 getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+            }
+        }else {
+            getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
         }
+
     }
 
     @Override
@@ -293,7 +301,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     "[LOCATION] Permission granted in the past!",
                     Toast.LENGTH_SHORT).show();
 
+
             startLocation();
+
         }
     }
 
@@ -503,9 +513,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 location.getAltitude());
 
         mCurrentLocation = location;
-        getTiendas(location.getLatitude(), location.getLongitude());
         actualizar();
-
+        startService();
     }
 
     @Override
