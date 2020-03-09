@@ -84,6 +84,7 @@ public class FavoritosTiendas extends AppCompatActivity {
 
             for (int i =0; i<mTiendasFavorito.size(); i++) {
                 Log.d("PERSIST2", mTiendasFavorito.get(i).getName());
+
             }
             mAdapter = new MyAdapter();
             mLv.setAdapter(mAdapter);
@@ -125,6 +126,11 @@ public class FavoritosTiendas extends AppCompatActivity {
 
             TextView tTitle = myview.findViewById(R.id.title);
             tTitle.setText(mTiendasFavorito.get(i).getName());
+
+
+            TextView tRating = myview.findViewById(R.id.rating);
+            tRating.setText("Valoración: "+String.valueOf(mTiendasFavorito.get(i).getRating())+" "+"["+String.valueOf(mTiendasFavorito.get(i).getUser_ratings_total())+"]");
+
 
 
             return myview;
