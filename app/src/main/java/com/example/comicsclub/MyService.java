@@ -33,7 +33,7 @@ public class MyService extends Service implements LocationListener {
 
     private final String TAG = getClass().getSimpleName();
     private LocationManager mLocManager = null;
-    private Location mCurrentLocation;
+    private Location mCurrentLocation = new Location("");
     private ObjetcFiltroTienda mFiltroLeido = null;
     private List<TiendasResponse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
@@ -51,7 +51,6 @@ public class MyService extends Service implements LocationListener {
     public void onCreate() {
         super.onCreate();
 
-        startLocation();
         Log.d(TAG, "Servicio creado");
 
     }
@@ -153,30 +152,14 @@ public class MyService extends Service implements LocationListener {
         return super.onUnbind(intent);
     }
 
-    private void startLocation() {
-
-        mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (!mLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Intent callGPSSettingIntent = new Intent(
-                    android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(callGPSSettingIntent);
-        } else {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    1, 300,
-                    this);
-        }
-    }
-
     @Override
     public void onLocationChanged(Location location) {
 
         Log.d(TAG, "new location");
         Toast.makeText(this, "New Location", Toast.LENGTH_SHORT).show();
         mCurrentLocation = location;
+        Log.d("POSICIONGUARDADA", String.valueOf(mCurrentLocation.getLongitude()));
+        Log.d("POSICIONGUARDADA", String.valueOf(mCurrentLocation.getLatitude()));
 
         Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
         intent.putExtra(HelperGlobal.KEY_MESSAGE, "New Location");

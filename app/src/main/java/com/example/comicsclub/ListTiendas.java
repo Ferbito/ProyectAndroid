@@ -139,6 +139,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     public void startService() {
 
         mServiceIntent = new Intent(getApplicationContext(), MyService.class);
+        mServiceIntent.putExtra("locationLat", mCurrentLocation.getLatitude());
+        mServiceIntent.putExtra("locationLong", mCurrentLocation.getLongitude());
         startService(mServiceIntent);
     }
 
