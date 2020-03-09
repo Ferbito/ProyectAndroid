@@ -66,6 +66,7 @@ public class MyService extends Service implements LocationListener {
 
         Notification notification = new NotificationCompat.Builder(this, "1")
                 .setContentTitle("Foreground Service")
+                .setContentText("3 tiendas cerca de ti")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .build();
 
