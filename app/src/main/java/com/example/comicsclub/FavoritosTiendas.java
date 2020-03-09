@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -44,8 +45,14 @@ public class FavoritosTiendas extends AppCompatActivity {
         Toast.makeText(FavoritosTiendas.this, "WELCOME TO FAVORITES", Toast.LENGTH_SHORT).show();
 
         Intent getIntent = getIntent();
-        mCurrentLocation.setLatitude(getIntent.getDoubleExtra("locationLat", 0.0));
-        mCurrentLocation.setLongitude(getIntent.getDoubleExtra("locationLong", 0.0));
+        Double latitude;
+        Double longitude;
+        latitude = (getIntent.getDoubleExtra("locationLat", 0.0));
+        longitude = (getIntent.getDoubleExtra("locationLong", 0.0));
+
+        LatLng posicion =new LatLng(latitude,longitude);
+        mCurrentLocation.setLatitude(posicion.latitude);
+        mCurrentLocation.setLongitude(posicion.longitude);
 
         mLv = findViewById(R.id.list_fav);
         leerDatosSP();
