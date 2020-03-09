@@ -5,7 +5,7 @@ public class ObjetcFiltroTienda {
     private int posDistance;
     private String rating;
     private int posRating;
-    private boolean book_store;
+    private boolean book_store=true;
 
     public ObjetcFiltroTienda(String distance, int posDistance, String rating, int posRating, boolean book_store) {
         this.distance = distance;
