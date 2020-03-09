@@ -128,18 +128,18 @@ public class FiltroTiendas extends AppCompatActivity {
     }
 
     private void guardarDatoSP(ObjetcFiltroTienda objetcFiltro){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(objetcFiltro);
-        prefsEditor.putString(Variables.ARRAYTIENDASFILTROS, json);
+        prefsEditor.putString(HelperGlobal.ARRAYTIENDASFILTROS, json);
         prefsEditor.commit();
     }
 
     private void leerDatosSP(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString(Variables.ARRAYTIENDASFILTROS, "");
+        String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFILTROS, "");
         //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         ObjetcFiltroTienda jsonFiltro= gson.fromJson(json, ObjetcFiltroTienda.class);

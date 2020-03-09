@@ -68,18 +68,18 @@ public class FiltrosComics extends AppCompatActivity {
     }
 
     private void guardarDatoSP(ObjectFiltroComic objetcFiltro){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(objetcFiltro);
-        prefsEditor.putString(Variables.ARRAYCOMICSFILTROS, json);
+        prefsEditor.putString(HelperGlobal.ARRAYCOMICSFILTROS, json);
         prefsEditor.commit();
     }
 
     private void leerDatosSP(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString(Variables.ARRAYCOMICSFILTROS, "");
+        String json = mPrefs.getString(HelperGlobal.ARRAYCOMICSFILTROS, "");
         //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         ObjectFiltroComic jsonFiltro= gson.fromJson(json, ObjectFiltroComic.class);

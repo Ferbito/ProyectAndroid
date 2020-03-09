@@ -2,8 +2,10 @@ package com.example.comicsclub;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -29,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -56,7 +59,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private List<TiendasResponse.Tiendas> mResults;
     private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
     private ObjetcFiltroTienda mFiltroLeido = null;
-
+    private Intent mServiceIntent;
 
     private ListView mLv = null;
     private MyAdapter mAdapter;
@@ -122,6 +125,29 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         leerDatosSPFavs();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter(HelperGlobal.INTENT_LOCALIZATION_ACTION));
+
+        startService();
+    }
+
+    public void startService() {
+
+        mServiceIntent = new Intent(getApplicationContext(), MyService.class);
+        startService(mServiceIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i(TAG, "Activity onDestroy!");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
+
     private void actualizar(){
         leerDatosSPFiltro();
         String datosDistance[] = mFiltroLeido.getDistance().split(" ");
@@ -164,6 +190,16 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         }
 
     }
+    // Este receiver gestiona mensajes recibidos con el intent 'location-event-position'
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra(HelperGlobal.KEY_MESSAGE);
+            Log.d(TAG, "BroadcastReceiver::Got message: " + message);
+        }
+    };
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -226,9 +262,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     }
 
     private void leerDatosSPFiltro(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString(Variables.ARRAYTIENDASFILTROS, "");
+        String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFILTROS, "");
         //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         ObjetcFiltroTienda jsonFiltro= gson.fromJson(json, ObjetcFiltroTienda.class);
@@ -240,18 +276,18 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     }
 
     private void guardarDatoSPFavs(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(mTiendasFavorito);
-        prefsEditor.putString(Variables.ARRAYTIENDASFAV, json);
+        prefsEditor.putString(HelperGlobal.ARRAYTIENDASFAV, json);
         prefsEditor.commit();
     }
 
     private void leerDatosSPFavs(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString(Variables.ARRAYTIENDASFAV, "");
+        String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
         Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
 

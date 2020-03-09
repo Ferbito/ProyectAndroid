@@ -89,9 +89,9 @@ public class ListComics extends AppCompatActivity {
         }
 
     private void leerDatosSPFiltro(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString(Variables.ARRAYCOMICSFILTROS, "");
+        String json = mPrefs.getString(HelperGlobal.ARRAYCOMICSFILTROS, "");
         //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         ObjectFiltroComic jsonFiltro= gson.fromJson(json, ObjectFiltroComic.class);

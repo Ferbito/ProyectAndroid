@@ -64,18 +64,18 @@ public class FavoritosTiendas extends AppCompatActivity {
     }
 
     private void guardarDatoSP(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(mTiendasFavorito);
-        prefsEditor.putString(Variables.ARRAYTIENDASFAV, json);
+        prefsEditor.putString(HelperGlobal.ARRAYTIENDASFAV, json);
         prefsEditor.commit();
     }
 
     private void leerDatosSP(){
-        SharedPreferences mPrefs = getSharedPreferences(Variables.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString(Variables.ARRAYTIENDASFAV, "");
+        String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
         Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
         ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
