@@ -44,15 +44,13 @@ public class FavoritosTiendas extends AppCompatActivity {
         setContentView(R.layout.activity_favoritos_tiendas);
         Toast.makeText(FavoritosTiendas.this, "WELCOME TO FAVORITES", Toast.LENGTH_SHORT).show();
 
-        Intent getIntent = getIntent();
-        Double latitude;
-        Double longitude;
-        latitude = (getIntent.getDoubleExtra("locationLat", 0.0));
-        longitude = (getIntent.getDoubleExtra("locationLong", 0.0));
-
-        LatLng posicion =new LatLng(latitude,longitude);
-        mCurrentLocation.setLatitude(posicion.latitude);
-        mCurrentLocation.setLongitude(posicion.longitude);
+        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYCURRENTLOCATION,MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString(HelperGlobal.CURRENTLOCATION, "");
+        Location jsonFiltro= gson.fromJson(json, Location.class);
+        if(jsonFiltro!=null){
+            mCurrentLocation = jsonFiltro;
+        }
 
         mLv = findViewById(R.id.list_fav);
         leerDatosSP();

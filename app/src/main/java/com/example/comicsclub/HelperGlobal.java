@@ -9,4 +9,6 @@ public class HelperGlobal {
     public final static String ARRAYCOMICSFILTROS = "ARRAYCOMICSFILTROS";
     public static final String INTENT_LOCALIZATION_ACTION = "location-event-position";
     public static final String KEY_MESSAGE = "message";
+    public  final static  String KEYCURRENTLOCATION = "KEYCURRENTLOCATION";
+    public final static String CURRENTLOCATION = "CURRENTLOCATION";
 }
