@@ -187,7 +187,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 mSitioPref = sitioLeido;
                 Log.d("MISITIO2",mSitioPref);
                 getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-
             }
         }
 
