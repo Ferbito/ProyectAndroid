@@ -424,7 +424,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
             }
         });
-
+        stringRequest.setShouldCache(false);
+        queue.add(stringRequest);
     }
     // Methods to implement due to GPS Listener.
 

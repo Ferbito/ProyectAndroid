@@ -132,7 +132,6 @@ public class TiendasParse {
         Double latitude = 0.0, longitude= 0.0, rating= 0.0;
         Integer numberUserRating = 0;
 
-
         try {
             if(jsonData.has("name"))
                 name = jsonData.getString("name");
