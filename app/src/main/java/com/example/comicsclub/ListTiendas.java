@@ -429,6 +429,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                             @Override
                             public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
                                 return obj1.getDistance().compareTo(obj2.getDistance());
+
                             }
                         });
 
