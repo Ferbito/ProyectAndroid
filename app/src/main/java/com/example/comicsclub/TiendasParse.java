@@ -119,6 +119,7 @@ public class TiendasParse {
                 Tiendas pnode = parsePlace (node);
 
                 lplaces.add(pnode);
+                Log.d("HOLAPARSE", lplaces.get(i).getName());
             }
             return lplaces;
         } catch (JSONException e) {

@@ -403,16 +403,34 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
     private void getTiendas (double lat, double lng)
     {
+        Log.d("HOLAPARSE", "url");
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
+        final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
                 + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("HOLAPARSE", url);
                         TiendasParse tiendasParse = new TiendasParse();
                         mResultsTiendas = tiendasParse.parsePlaces(response);
+
+                        for(int i = 0; i<mResultsTiendas.size();i++){
+                            Location location = new Location("");
+                            location.setLatitude(mResultsTiendas.get(i).getLat());
+                            location.setLongitude(mResultsTiendas.get(i).getLng());
+
+                            float distance = mCurrentLocation.distanceTo( location );
+                            mResultsTiendas.get(i).setDistance(distance);
+                        }
+                        // Order Array
+                        Collections.sort(mResultsTiendas, new Comparator<TiendasParse.Tiendas>() {
+                            @Override
+                            public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
+                                return obj1.getDistance().compareTo(obj2.getDistance());
+                            }
+                        });
 
                         mPd.dismiss();
                         mAdapter = new MyAdapter(ListTiendas.this);
