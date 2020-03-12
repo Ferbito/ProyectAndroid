@@ -120,11 +120,10 @@ public class ListComics extends AppCompatActivity {
 
                             }else{
                                 mComicsRellenos.add(mComics.get(i));
-                                Log.d("datos", mComics.get(i).getImage() + "." + mComics.get(i).getExtensionImg());
                             }
                         }
                         mPd.dismiss();
-                         adapter = new ComicsAdapter();
+                        adapter = new ComicsAdapter();
                         lv.setAdapter(adapter);
                     }
                 }, new Response.ErrorListener() {

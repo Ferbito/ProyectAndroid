@@ -178,9 +178,6 @@ public class MyService extends Service implements LocationListener {
         Toast.makeText(this, "New Location", Toast.LENGTH_SHORT).show();
         mCurrentLocation = location;
 
-        Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
-        intent.putExtra(HelperGlobal.KEY_MESSAGE, mCurrentLocation);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
     }
 

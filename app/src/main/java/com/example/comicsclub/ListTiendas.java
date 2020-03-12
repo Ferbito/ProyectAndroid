@@ -32,6 +32,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -46,7 +52,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -55,7 +60,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private LocationManager mLocManager;
     private final String TAG = getClass().getSimpleName();
     private Location mCurrentLocation;
-    private List<TiendasResponse.Tiendas> mResults;
+    private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
     private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
@@ -144,9 +149,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         super.onDestroy();
     }
 
-    private void actualizar(){
+    /*private void actualizar(){
         leerDatosSPFiltro();
-        if(mResults!=null){
+        if(mResultsTiendas!=null){
             if(mFiltroLeido!=null) {
                 boolean busquedaNueva = false;
                 //DISTANCIA
@@ -156,9 +161,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 }
 
                 if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
-                    for (int i = 0; i < mResults.size(); i++) {
-                        if (mResults.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
-                            mResults.remove(i);
+                    for (int i = 0; i < mResultsTiendas.size(); i++) {
+                        if (mResultsTiendas.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
+                            mResultsTiendas.remove(i);
                         }
                     }
                     mAdapter.notifyDataSetChanged();
@@ -169,9 +174,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 }
                 //RATING
                 if (mRating < Double.parseDouble(mFiltroLeido.getRating())) {
-                    for (int i = 0; i < mResults.size(); i++) {
-                        if (mResults.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())) {
-                            mResults.remove(i);
+                    for (int i = 0; i < mResultsTiendas.size(); i++) {
+                        if (mResultsTiendas.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())) {
+                            mResultsTiendas.remove(i);
                         }
                     }
                     mAdapter.notifyDataSetChanged();
@@ -203,18 +208,18 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
         }
 
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODINTFILTROTIENDA) {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
-            actualizar();
+            //actualizar();
         }
     }
 
-    @Override
+    /*@Override
     public boolean onContextItemSelected(MenuItem item)
     {
        AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -224,9 +229,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                         Toast.makeText(ListTiendas.this,
                         "MAPS", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
-                        intent.putExtra("TITLE", mResults.get(info.position).getName());
-                        intent.putExtra("LAT", mResults.get(info.position).getGeometry().getLocation().getLat());
-                        intent.putExtra("LON", mResults.get(info.position).getGeometry().getLocation().getLng());
+                        intent.putExtra("TITLE", mResultsTiendas.get(info.position).getName());
+                        intent.putExtra("LAT", mResultsTiendas.get(info.position).getGeometry().getLocation().getLat());
+                        intent.putExtra("LON", mResultsTiendas.get(info.position).getGeometry().getLocation().getLng());
                         intent.putExtra("RADIUS",mRadiusBusqueda);
                         startActivity(intent);
 
@@ -234,7 +239,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 break;
             case 2:
                 boolean encontrado = false;
-                TiendasResponse.Tiendas tiendasfav = mResults.get(info.position);
+                TiendasResponse.Tiendas tiendasfav = mResultsTiendas.get(info.position);
                 for (int x=0 ; x<mTiendasFavorito.size();x++){
                     if(mTiendasFavorito.get(x).getName().equalsIgnoreCase(tiendasfav.getName())
                             && (mTiendasFavorito.get(x).getIcon().equalsIgnoreCase(tiendasfav.getIcon()))){
@@ -254,7 +259,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 break;
         }
         return true;
-    }
+    }*/
 
     private void leerDatosSPFiltro(){
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
@@ -346,12 +351,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         @Override
         public int getCount() {
-            return mResults.size();
+            return mResultsTiendas.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return mResults.get(i);
+            return mResultsTiendas.get(i);
         }
 
         @Override
@@ -374,17 +379,17 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 myview = view;
 
             ImageView iv = myview.findViewById(R.id.imageIcon);
-            Picasso.get().load(mResults.get(i).getIcon()).into(iv);
+            Picasso.get().load(mResultsTiendas.get(i).getIcon()).into(iv);
 
             TextView tTitle = myview.findViewById(R.id.title);
-            tTitle.setText(mResults.get(i).getName());
+            tTitle.setText(mResultsTiendas.get(i).getName());
 
             TextView tRating = myview.findViewById(R.id.rating);
-            tRating.setText("Valoración: "+String.valueOf(mResults.get(i).getRating())+" "+"["+String.valueOf(mResults.get(i).getUser_ratings_total())+"]");
+            tRating.setText("Valoración: "+String.valueOf(mResultsTiendas.get(i).getRating())+" "+"["+String.valueOf(mResultsTiendas.get(i).getUser_ratings_total())+"]");
 
 
             TextView tDistance = myview.findViewById(R.id.distance);
-            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mResults.get(i).getDistance())) + " metros.");
+            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mResultsTiendas.get(i).getDistance())) + " metros.");
 
             return myview;
         }
@@ -398,94 +403,27 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
     private void getTiendas (double lat, double lng)
     {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
+                + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
-
-        Retrofit retrofit=
-                new Retrofit.Builder()
-                        .baseUrl("https://maps.googleapis.com/maps/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(client)
-                        .build();
-
-        TiendasInterface  d = retrofit.create(TiendasInterface.class);
-        
-        d.getTiendas(mSitioPref, lat + "," + lng, mRadiusBusqueda,mRating,mUserRating).enqueue(
-                new Callback<TiendasResponse>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(Call<TiendasResponse> call,
-                                           Response<TiendasResponse> response) {
+                    public void onResponse(String response) {
+                        TiendasParse tiendasParse = new TiendasParse();
+                        mResultsTiendas = tiendasParse.parsePlaces(response);
 
-                        mResults = response.body().results;
-                        if(mPd.isShowing()){
-                            mPd.dismiss();
-                        }
-
-                        Log.d(TAG, String.valueOf(response.code()));
-                        if (response.body() != null && mResults != null) {
-
-                            Log.d(TAG, "Response: " + mResults.size());
-
-                            // Print
-                            for (int i=0; i<mResults.size(); i++) {
-                                Log.d(TAG, mResults.get(i).getName());
-
-                                Log.d(TAG, String.valueOf(mResults.get(i).getGeometry().getLocation().getLat()));
-                                Log.d(TAG, String.valueOf(mResults.get(i).getGeometry().getLocation().getLng()));
-
-                                Location location = new Location("");
-                                location.setLatitude(mResults.get(i).getGeometry().getLocation().getLat());
-                                location.setLongitude(mResults.get(i).getGeometry().getLocation().getLng());
-
-                                float distance = mCurrentLocation.distanceTo( location );
-                                mResults.get(i).setDistance(distance);
-                                Log.d(TAG, String.valueOf(distance) + " metros.");
-                                Log.d(TAG, "==================");
-
-                                if(mResults.get(i).getRating()<mRating && mResults.get(i).getRating()==null){
-                                    mResults.remove(i);
-                                }
-
-                            }
-
-                            // Order Array
-                            Collections.sort(mResults, new Comparator<TiendasResponse.Tiendas>(){
-                                public int compare(TiendasResponse.Tiendas obj1,
-                                                   TiendasResponse.Tiendas obj2) {
-
-                                    return obj1.getDistance().compareTo(obj2.getDistance());
-                                }
-                            });
-
-
-                            // Print
-                            /*for (int i=0; i<mResults.size(); i++) {
-                                Log.d(TAG, mResults.get(i).getName());
-
-                                Log.d(TAG, String.valueOf(mResults.get(i).geometry.location.lat));
-                                Log.d(TAG, String.valueOf(mResults.get(i).geometry.location.lng));
-
-                                Location location = new Location("");
-                                location.setLatitude(mResults.get(i).geometry.location.lat);
-                                location.setLongitude(mResults.get(i).geometry.location.lng);
-
-                                Log.d(TAG, mResults.get(i).distance.toString() + " metros.");
-                                Log.d(TAG, "********************");
-                            }*/
-                            mLv.setAdapter(mAdapter);
-                        } else
-                            Log.e(TAG, "Response: empty array");
+                        mPd.dismiss();
+                        mAdapter = new MyAdapter(ListTiendas.this);
+                        mLv.setAdapter(mAdapter);
                     }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-                    @Override
-                    public void onFailure(Call<TiendasResponse> call, Throwable t) {
-                        Log.e(TAG, t.getMessage());
-                    }
-                });
+            }
+        });
 
     }
     // Methods to implement due to GPS Listener.
@@ -517,8 +455,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 location.getAltitude());
 
         mCurrentLocation = location;
-        actualizar();
-        startService();
+        getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+        //startService();
     }
 
     @Override
