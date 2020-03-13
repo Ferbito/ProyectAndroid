@@ -151,7 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mMap.addMarker(userMarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
                             }
                         }
                         else
@@ -168,7 +167,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 {
                     Toast.makeText(this, "please write any location name...", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
 
 
@@ -192,16 +190,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(this, "Searching for Nearby Shop...", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Showing Nearby Shop...", Toast.LENGTH_SHORT).show();
                 break;
-
-
-
-
-
-
         }
     }
-
-
 
     private String getUrl(double latitide, double longitude, String nearbyPlace)
     {

@@ -53,7 +53,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private final String TAG = getClass().getSimpleName();
     private Location mCurrentLocation;
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
-    private ArrayList<TiendasParse.Tiendas> mTiendasFinal;
+    private ArrayList<TiendasParse.Tiendas> mTiendasFinal = new ArrayList<>();
     private ArrayList<TiendasParse.Tiendas> mResultsCentros;
     private ArrayList<TiendasParse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
@@ -148,11 +148,15 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private void actualizar() {
         leerDatosSPFiltro();
             if (mFiltroLeido != null) {
+                Log.d("TAMAÑO", String.valueOf(mResultsCentros.size()));
+                Log.d("TAMAÑO", String.valueOf(mResultsTiendas.size()));
                 //TIPO
                 if (mFiltroLeido.isBook_store()) {
                     mTiendasFinal = mResultsTiendas;
+                    Log.d("TIENDA", "LIBRERIA");
                 } else {
                     mTiendasFinal = mResultsCentros;
+                    Log.d("TIENDA", "COMERCIAL");
                 }
                 //DISTANCIA
                 String datosDistance[] = mFiltroLeido.getDistance().split(" ");
@@ -160,6 +164,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0]) * 1000);
                 }
                 mRadiusBusqueda=Integer.parseInt(datosDistance[0]);
+                Log.d("DISTANCIA", String.valueOf(mRadiusBusqueda));
                 for(int dist=0; dist<mTiendasFinal.size();dist++){
                     if(mTiendasFinal.get(dist).getDistance()>mRadiusBusqueda){
                         mTiendasFinal.remove(dist);
@@ -415,18 +420,16 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                         @Override
                         public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
                             return obj1.getDistance().compareTo(obj2.getDistance());
-
                         }
                     });
 
-                  /*  mPd.dismiss();
-                    Log.d("SIZE", String.valueOf(mResultsTiendas.size()));*/
+                    Log.d("SIZE", String.valueOf(mResultsTiendas.size()));
 
                 }
             }, new Response.ErrorListener() {
                 @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d("SIZE", "PETOSE LOCO");
             }
         });
         stringRequest.setShouldCache(false);
