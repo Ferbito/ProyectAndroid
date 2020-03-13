@@ -53,6 +53,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private final String TAG = getClass().getSimpleName();
     private Location mCurrentLocation;
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
+    private ArrayList<TiendasParse.Tiendas> mTiendasFinal;
     private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
@@ -141,10 +142,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         super.onDestroy();
     }
 
-    /*private void actualizar(){
+    private void actualizar() {
         leerDatosSPFiltro();
-        if(mResultsTiendas!=null){
-            if(mFiltroLeido!=null) {
+            if (mFiltroLeido != null) {
                 boolean busquedaNueva = false;
                 //DISTANCIA
                 String datosDistance[] = mFiltroLeido.getDistance().split(" ");
@@ -152,29 +152,17 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0]) * 1000);
                 }
 
-                if (mRadiusBusqueda > Integer.parseInt(datosDistance[0])) {
-                    for (int i = 0; i < mResultsTiendas.size(); i++) {
-                        if (mResultsTiendas.get(i).getDistance() > Integer.parseInt(datosDistance[0])) {
-                            mResultsTiendas.remove(i);
-                        }
+                for(int dist=0; dist<mResultsTiendas.size();dist++){
+                    if(mResultsTiendas.get(dist).getDistance()<Float.parseFloat(datosDistance[0])){
+                        mTiendasFinal.add(mResultsTiendas.get(dist));
                     }
-                    mAdapter.notifyDataSetChanged();
-                    mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-                } else {
-                    mRadiusBusqueda = Integer.parseInt(datosDistance[0]);
-                    busquedaNueva = true;
                 }
+
                 //RATING
-                if (mRating < Double.parseDouble(mFiltroLeido.getRating())) {
-                    for (int i = 0; i < mResultsTiendas.size(); i++) {
-                        if (mResultsTiendas.get(i).getRating() < Double.parseDouble(mFiltroLeido.getRating())) {
-                            mResultsTiendas.remove(i);
-                        }
+                for(int rat = 0; rat<mTiendasFinal.size(); rat++){
+                    if(Double.parseDouble(mFiltroLeido.getRating()) > mTiendasFinal.get(rat).getRating()){
+                        mTiendasFinal.remove(rat);
                     }
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    mRating = Double.parseDouble(mFiltroLeido.getRating());
-                    busquedaNueva = true;
                 }
                 //TIPO
                 String sitioLeido;
@@ -193,14 +181,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
                 if (busquedaNueva)
                     getTiendas(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            }else{
-                Log.d("VACIO","VACIO");
+            } else {
+                Log.d("VACIO", "VACIO");
             }
-        }else {
-            getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-        }
-
-    }*/
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -399,46 +383,44 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
                 + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Log.d("HOLAPARSE", url);
-                                        TiendasParse tiendasParse = new TiendasParse();
-                                        mResultsTiendas = tiendasParse.parsePlaces(response);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("HOLAPARSE", url);
+                    TiendasParse tiendasParse = new TiendasParse();
+                    mResultsTiendas = tiendasParse.parsePlaces(response);
 
-                                        for (int i = 0; i < mResultsTiendas.size(); i++) {
-                                            Location location = new Location("");
-                                            location.setLatitude(mResultsTiendas.get(i).getLat());
-                                            location.setLongitude(mResultsTiendas.get(i).getLng());
+                    for (int i = 0; i < mResultsTiendas.size(); i++) {
+                        Location location = new Location("");
+                        location.setLatitude(mResultsTiendas.get(i).getLat());
+                        location.setLongitude(mResultsTiendas.get(i).getLng());
 
-                                            float distance = mCurrentLocation.distanceTo(location);
-                                            mResultsTiendas.get(i).setDistance(distance);
-                                        }
-                                        // Order Array
-                                        Collections.sort(mResultsTiendas, new Comparator<TiendasParse.Tiendas>() {
-                                            @Override
-                                            public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
-                                                return obj1.getDistance().compareTo(obj2.getDistance());
+                        float distance = mCurrentLocation.distanceTo(location);
+                        mResultsTiendas.get(i).setDistance(distance);
+                    }
+                    // Order Array
+                    Collections.sort(mResultsTiendas, new Comparator<TiendasParse.Tiendas>() {
+                        @Override
+                        public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
+                            return obj1.getDistance().compareTo(obj2.getDistance());
 
-                                            }
-                                        });
+                        }
+                    });
 
-                                        mPd.dismiss();
-                                        Log.d("SIZE", String.valueOf(mResultsTiendas.size()));
-                                        mAdapter = new MyAdapter(ListTiendas.this);
-                                        mLv.setAdapter(mAdapter);
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
+                    mPd.dismiss();
+                    Log.d("SIZE", String.valueOf(mResultsTiendas.size()));
+                    mAdapter = new MyAdapter(ListTiendas.this);
+                    mLv.setAdapter(mAdapter);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+            public void onErrorResponse(VolleyError error) {
 
-                            }
-                        });
-                        stringRequest.setShouldCache(false);
-                        queue.add(stringRequest);
-
-
+            }
+        });
+        stringRequest.setShouldCache(false);
+        queue.add(stringRequest);
     }
     // Methods to implement due to GPS Listener.
 
