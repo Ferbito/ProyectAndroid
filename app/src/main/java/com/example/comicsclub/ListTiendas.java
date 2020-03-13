@@ -152,7 +152,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 Log.d("TAMAÑO", String.valueOf(mResultsTiendas.size()));
                 //TIPO
                 if (mFiltroLeido.isBook_store()) {
-                    mTiendasFinal = mResultsTiendas;
+                    for(int i = 0; i<mResultsTiendas.size();i++){
+                        mTiendasFinal.add(mResultsTiendas.get(i));
+                    }
                     Log.d("TIENDA", "LIBRERIA");
                 } else {
                     mTiendasFinal = mResultsCentros;
@@ -163,9 +165,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 if (datosDistance[1].contains("km")) {
                     datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0]) * 1000);
                 }
-                mRadiusBusqueda=Integer.parseInt(datosDistance[0]);
+                mRadiusBusqueda=Integer.parseInt(datosDistance[0].concat(".00"));
                 Log.d("DISTANCIA", String.valueOf(mRadiusBusqueda));
                 for(int dist=0; dist<mTiendasFinal.size();dist++){
+                    Log.d("DISTANCIATIENDA", String.valueOf(mTiendasFinal.get(dist).getDistance()));
                     if(mTiendasFinal.get(dist).getDistance()>mRadiusBusqueda){
                         mTiendasFinal.remove(dist);
                     }
@@ -177,18 +180,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     }
                 }
             } else {
-
                 mTiendasFinal = mResultsTiendas;
-
             }
-            if(mAdapter==null){
+
                 mAdapter = new MyAdapter(ListTiendas.this);
                 mLv.setAdapter(mAdapter);
 
-            }else{
-                mAdapter.notifyDataSetChanged();
-                Log.d("VACIO", String.valueOf(mTiendasFinal.size()));
-            }
 
     }
 
@@ -434,9 +431,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         });
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
+    }
 
-
-
+    private void getComerciales(double lat, double lng){
+        final RequestQueue queue = Volley.newRequestQueue(this);
         final String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
                 + "&radius=50000&type=shopping_mall&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
         StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
@@ -506,6 +504,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mCurrentLocation = location;
         getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+        getComerciales(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
         //startService();
     }
 
