@@ -55,7 +55,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
     private ArrayList<TiendasParse.Tiendas> mTiendasFinal;
     private ArrayList<TiendasParse.Tiendas> mResultsCentros;
-    private ArrayList<TiendasParse.Tiendas> mTiendasFavorito;
+    private ArrayList<TiendasParse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
@@ -117,6 +117,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             @Override
             public void onClick(View view) {
                 Intent favoritosLista = new Intent(ListTiendas.this, FavoritosTiendas.class);
+                favoritosLista.putParcelableArrayListExtra("KEY_ARRAY", mTiendasFavorito);
                 favoritosLista.putExtra("locationLat", mCurrentLocation.getLatitude());
                 favoritosLista.putExtra("locationLong", mCurrentLocation.getLongitude());
                 startActivity(favoritosLista);
@@ -456,7 +457,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                             @Override
                             public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
                                 return obj1.getDistance().compareTo(obj2.getDistance());
-
                             }
                         });
 

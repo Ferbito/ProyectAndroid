@@ -47,9 +47,12 @@ public class FavoritosTiendas extends AppCompatActivity {
 
         mCurrentLocation.setLatitude(getIntent.getDoubleExtra("locationLat", 0.0));
         mCurrentLocation.setLongitude(getIntent.getDoubleExtra("locationLong", 0.0));
+        mTiendasFavorito = getIntent.getParcelableArrayListExtra("KEY_ARRAY");
 
         mLv = findViewById(R.id.list_fav);
-        leerDatosSP();
+        mAdapter = new MyAdapter();
+        mLv.setAdapter(mAdapter);
+        //leerDatosSP();
 
         mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,7 +82,7 @@ public class FavoritosTiendas extends AppCompatActivity {
         prefsEditor.commit();
     }
 
-    private void leerDatosSP(){
+    /*private void leerDatosSP(){
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
@@ -110,7 +113,7 @@ public class FavoritosTiendas extends AppCompatActivity {
             mAdapter = new MyAdapter();
             mLv.setAdapter(mAdapter);
         }
-    }
+    }*/
 
     private class MyAdapter extends BaseAdapter {
 
