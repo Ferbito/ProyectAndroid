@@ -1,6 +1,8 @@
 package com.example.comicsclub;
 
-public class ObjectFiltroComic {
+import android.os.Parcelable;
+
+public class ObjectFiltroComic  {
 
         private String price;
         private int post;

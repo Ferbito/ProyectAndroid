@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,13 +46,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListTiendas extends AppCompatActivity implements LocationListener {
     private static final Integer MY_PERMISSIONS_GPS_FINE_LOCATION = 1;
@@ -404,38 +396,54 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private void getTiendas (double lat, double lng)
     {
         Log.d("HOLAPARSE", "url");
-        RequestQueue queue = Volley.newRequestQueue(this);
+        final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
+                + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk" +
+                "&pagetoken=CqQCHwEAAHvqVONUFN6C3baOzED5FprDlO1j471JjP3gM8QC9J7KXnXC5ULtgu5v_aiEHJVfJhm9ZiH7FIySOHi4jryEgu7kTvee9bCxJtADhJzJ9OJ6cvRriZuLaEMpJK2j31x9n3dmL2YOApqpw84r7KBG6eLJWUQQr3zL9ZjYklZagruXb0xzTaPWhQrvo7aoSG1Xjt8SfAuyo2yxmeiWV9p6AS5sFkJS_zucM7CipYa2pfnFpRU1DlMEhCbwsY11xBd2rpbGw1PsNp_qB8cuxSE-nXyaLJ8myxmzl2rUPO_NwlYq9mYGm3wpHFF2FsSoFQYdMggabVs9C8slYgBuzHV8UGu6lS0fm2w-61uwRth7Sd87MASlaIAwGRoI3Af7JAHtEBIQBSKU_gUMQ0Foo91T4peGCRoUXHROFvCZf-W61gXPJYfnVqkd124";
+        final String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
                 + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("HOLAPARSE", url);
-                        TiendasParse tiendasParse = new TiendasParse();
-                        mResultsTiendas = tiendasParse.parsePlaces(response);
+                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.d("HOLAPARSE", url2);
+                                        TiendasParse tiendasParse = new TiendasParse();
+                                        mResultsTiendas = tiendasParse.parsePlaces(response);
 
-                        for(int i = 0; i<mResultsTiendas.size();i++){
-                            Location location = new Location("");
-                            location.setLatitude(mResultsTiendas.get(i).getLat());
-                            location.setLongitude(mResultsTiendas.get(i).getLng());
+                                        for (int i = 0; i < mResultsTiendas.size(); i++) {
+                                            Location location = new Location("");
+                                            location.setLatitude(mResultsTiendas.get(i).getLat());
+                                            location.setLongitude(mResultsTiendas.get(i).getLng());
 
-                            float distance = mCurrentLocation.distanceTo( location );
-                            mResultsTiendas.get(i).setDistance(distance);
-                        }
-                        // Order Array
-                        Collections.sort(mResultsTiendas, new Comparator<TiendasParse.Tiendas>() {
+                                            float distance = mCurrentLocation.distanceTo(location);
+                                            mResultsTiendas.get(i).setDistance(distance);
+                                        }
+                                        // Order Array
+                                        Collections.sort(mResultsTiendas, new Comparator<TiendasParse.Tiendas>() {
+                                            @Override
+                                            public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
+                                                return obj1.getDistance().compareTo(obj2.getDistance());
+
+                                            }
+                                        });
+
+                                        mPd.dismiss();
+                                        Log.d("SIZE", String.valueOf(mResultsTiendas.size()));
+                                        mAdapter = new MyAdapter(ListTiendas.this);
+                                        mLv.setAdapter(mAdapter);
+                                    }
+                                }, new Response.ErrorListener() {
                             @Override
-                            public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
-                                return obj1.getDistance().compareTo(obj2.getDistance());
+                            public void onErrorResponse(VolleyError error) {
 
                             }
                         });
-
-                        mPd.dismiss();
-                        mAdapter = new MyAdapter(ListTiendas.this);
-                        mLv.setAdapter(mAdapter);
+                        stringRequest.setShouldCache(false);
+                        queue.add(stringRequest);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -443,8 +451,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
             }
         });
-        stringRequest.setShouldCache(false);
-        queue.add(stringRequest);
+        stringRequest2.setShouldCache(false);
+        queue.add(stringRequest2);
+
     }
     // Methods to implement due to GPS Listener.
 
