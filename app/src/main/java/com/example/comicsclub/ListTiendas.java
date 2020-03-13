@@ -53,9 +53,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private final String TAG = getClass().getSimpleName();
     private Location mCurrentLocation;
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
-    private ArrayList<TiendasParse.Tiendas> mTiendasFinal = new ArrayList<>();
+    public static ArrayList<TiendasParse.Tiendas> mTiendasFinal = new ArrayList<>();
     private ArrayList<TiendasParse.Tiendas> mResultsCentros;
-    private ArrayList<TiendasParse.Tiendas> mTiendasFavorito = new ArrayList<>();
+    public static ArrayList<TiendasParse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
