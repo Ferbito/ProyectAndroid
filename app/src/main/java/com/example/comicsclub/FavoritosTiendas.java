@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -95,6 +96,7 @@ public class FavoritosTiendas extends AppCompatActivity {
 
                 float distance = mCurrentLocation.distanceTo( location );
                 mTiendasFavorito.get(i).setDistance(distance);
+
             }
 
             Collections.sort(mTiendasFavorito, new Comparator<TiendasParse.Tiendas>(){
@@ -145,6 +147,7 @@ public class FavoritosTiendas extends AppCompatActivity {
 
             TextView tTitle = myview.findViewById(R.id.title);
             tTitle.setText(mTiendasFavorito.get(i).getName());
+            Log.d("hee",mTiendasFavorito.get(i).getName());
 
             TextView tRating = myview.findViewById(R.id.rating);
             tRating.setText("Valoración: "+String.valueOf(mTiendasFavorito.get(i).getRating())+" "+"["+
