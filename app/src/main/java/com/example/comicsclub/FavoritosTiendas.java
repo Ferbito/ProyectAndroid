@@ -31,7 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FavoritosTiendas extends AppCompatActivity {
-    private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
+    private List<TiendasParse.Tiendas> mTiendasFavorito=new ArrayList<>();
     private ListView mLv = null;
     private MyAdapter mAdapter;
     private Location mCurrentLocation = new Location("");
@@ -82,24 +82,24 @@ public class FavoritosTiendas extends AppCompatActivity {
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
-        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
-        ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+        Type founderListType = new TypeToken<ArrayList<TiendasParse.Tiendas>>(){}.getType();
+        ArrayList<TiendasParse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(restoreArray!=null){
             mTiendasFavorito=restoreArray;
 
             for (int i =0; i<mTiendasFavorito.size(); i++) {
                 Location location = new Location("");
-                location.setLatitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLat());
-                location.setLongitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLng());
+                location.setLatitude(mTiendasFavorito.get(i).getLat());
+                location.setLongitude(mTiendasFavorito.get(i).getLng());
 
                 float distance = mCurrentLocation.distanceTo( location );
                 mTiendasFavorito.get(i).setDistance(distance);
             }
 
-            Collections.sort(mTiendasFavorito, new Comparator<TiendasResponse.Tiendas>(){
-                public int compare(TiendasResponse.Tiendas obj1,
-                                   TiendasResponse.Tiendas obj2) {
+            Collections.sort(mTiendasFavorito, new Comparator<TiendasParse.Tiendas>(){
+                public int compare(TiendasParse.Tiendas obj1,
+                                   TiendasParse.Tiendas obj2) {
 
                     return obj1.getDistance().compareTo(obj2.getDistance());
                 }
@@ -167,8 +167,8 @@ public class FavoritosTiendas extends AppCompatActivity {
 
                 Intent intent = new Intent(FavoritosTiendas.this, MapsActivity.class);
                 intent.putExtra("TITLE", mTiendasFavorito.get(info.position).getName());
-                intent.putExtra("LAT", mTiendasFavorito.get(info.position).getGeometry().getLocation().getLat());
-                intent.putExtra("LON", mTiendasFavorito.get(info.position).getGeometry().getLocation().getLng());
+                intent.putExtra("LAT", mTiendasFavorito.get(info.position).getLat());
+                intent.putExtra("LON", mTiendasFavorito.get(info.position).getLng());
                 startActivity(intent);
 
                 mAdapter.notifyDataSetChanged();

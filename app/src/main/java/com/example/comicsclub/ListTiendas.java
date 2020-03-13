@@ -56,7 +56,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
     private ArrayList<TiendasParse.Tiendas> mTiendasFinal;
     private ArrayList<TiendasParse.Tiendas> mResultsCentros;
-    private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
+    private List<TiendasParse.Tiendas> mTiendasFavorito=new ArrayList<>();
 
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
@@ -86,7 +86,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         mPd.show();
 
         mLv = findViewById(R.id.list);
-        mAdapter = new MyAdapter(this);
+
         mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -161,7 +161,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 }
                 mRadiusBusqueda=Integer.parseInt(datosDistance[0]);
                 for(int dist=0; dist<mTiendasFinal.size();dist++){
-                    if(mTiendasFinal.get(dist).getDistance()>Float.parseFloat(datosDistance[0])){
+                    if(mTiendasFinal.get(dist).getDistance()>mRadiusBusqueda){
                         mTiendasFinal.remove(dist);
                     }
                 }
@@ -172,14 +172,19 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     }
                 }
             } else {
-                Log.d("VACIO", "VACIO");
+
                 mTiendasFinal = mResultsTiendas;
+
             }
             if(mAdapter==null){
                 mAdapter = new MyAdapter(ListTiendas.this);
                 mLv.setAdapter(mAdapter);
-            }else
+
+            }else{
                 mAdapter.notifyDataSetChanged();
+                Log.d("VACIO", String.valueOf(mTiendasFinal.size()));
+            }
+
     }
 
     @Override
@@ -187,7 +192,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODINTFILTROTIENDA) {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
-            //actualizar();
+            actualizar();
         }
     }
 
@@ -215,6 +220,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 for (int x=0 ; x<mTiendasFinal.size();x++){
                     if(mTiendasFinal.get(x).getName().equalsIgnoreCase(tiendasfav.getName())
                             && (mTiendasFinal.get(x).getIcon().equalsIgnoreCase(tiendasfav.getIcon()))){
+
                         encontrado = true;
                         break;
                     }
@@ -227,6 +233,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     Toast.makeText(ListTiendas.this,
                             "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
                     guardarDatoSPFavs();
+
                 }
                 break;
         }
@@ -256,8 +263,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
-        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
-        ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+        Type founderListType = new TypeToken<ArrayList<TiendasParse.Tiendas>>(){}.getType();
+        ArrayList<TiendasParse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
 
         if(restoreArray!=null){
             mTiendasFavorito=restoreArray;
@@ -324,12 +331,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         @Override
         public int getCount() {
-            return mResultsTiendas.size();
+            return mTiendasFinal.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return mResultsTiendas.get(i);
+            return mTiendasFinal.get(i);
         }
 
         @Override
@@ -352,17 +359,17 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 myview = view;
 
             ImageView iv = myview.findViewById(R.id.imageIcon);
-            Picasso.get().load(mResultsTiendas.get(i).getIcon()).into(iv);
+            Picasso.get().load(mTiendasFinal.get(i).getIcon()).into(iv);
 
             TextView tTitle = myview.findViewById(R.id.title);
-            tTitle.setText(mResultsTiendas.get(i).getName());
+            tTitle.setText(mTiendasFinal.get(i).getName());
 
             TextView tRating = myview.findViewById(R.id.rating);
-            tRating.setText("Valoración: "+String.valueOf(mResultsTiendas.get(i).getRating())+" "+"["+String.valueOf(mResultsTiendas.get(i).getUser_ratings_total())+"]");
+            tRating.setText("Valoración: "+String.valueOf(mTiendasFinal.get(i).getRating())+" "+"["+String.valueOf(mTiendasFinal.get(i).getUser_ratings_total())+"]");
 
 
             TextView tDistance = myview.findViewById(R.id.distance);
-            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mResultsTiendas.get(i).getDistance())) + " metros.");
+            tDistance.setText("Se encuentra a " + String.valueOf(Math.round(mTiendasFinal.get(i).getDistance())) + " metros.");
 
             return myview;
         }

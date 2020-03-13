@@ -22,7 +22,7 @@ public class FiltroTiendas extends AppCompatActivity {
     private Spinner spDistancia;
     private int mPosDistance = 0;
     private int mPosRating = 0;
-    private String mDistance = "1000";
+    private String mDistance = "500";
     private ObjetcFiltroTienda filtroLeido = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
