@@ -54,7 +54,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private Location mCurrentLocation;
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
     private ArrayList<TiendasParse.Tiendas> mTiendasFinal;
+    private ArrayList<TiendasParse.Tiendas> mResultsCentros;
     private List<TiendasResponse.Tiendas> mTiendasFavorito=new ArrayList<>();
+
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
 
@@ -315,6 +317,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         }
     }
 
+
     public class MyAdapter extends BaseAdapter {
 
         private Context mContext;
@@ -383,6 +386,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
                 + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
             new Response.Listener<String>() {
                 @Override
@@ -408,10 +412,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                         }
                     });
 
-                    mPd.dismiss();
+                  /*  mPd.dismiss();
                     Log.d("SIZE", String.valueOf(mResultsTiendas.size()));
                     mAdapter = new MyAdapter(ListTiendas.this);
-                    mLv.setAdapter(mAdapter);
+                    mLv.setAdapter(mAdapter);*/
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -421,7 +425,55 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         });
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
+
+
+
+        final String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
+                + "&radius=50000&type=shopping_mall&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
+        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("HOLAPARSE", url2);
+                        TiendasParse tiendasParse = new TiendasParse();
+                        mResultsCentros = tiendasParse.parsePlaces(response);
+
+                        for (int i = 0; i < mResultsCentros.size(); i++) {
+                            Location location = new Location("");
+                            location.setLatitude(mResultsCentros.get(i).getLat());
+                            location.setLongitude(mResultsCentros.get(i).getLng());
+
+                            float distance = mCurrentLocation.distanceTo(location);
+                            mResultsCentros.get(i).setDistance(distance);
+                        }
+                        // Order Array
+                        Collections.sort(mResultsCentros, new Comparator<TiendasParse.Tiendas>() {
+                            @Override
+                            public int compare(TiendasParse.Tiendas obj1, TiendasParse.Tiendas obj2) {
+                                return obj1.getDistance().compareTo(obj2.getDistance());
+
+                            }
+                        });
+
+                        mPd.dismiss();
+                        Log.d("SIZE", String.valueOf(mResultsCentros.size()));
+                        mAdapter = new MyAdapter(ListTiendas.this);
+                        mLv.setAdapter(mAdapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        stringRequest2.setShouldCache(false);
+        queue.add(stringRequest2);
+
+        actualizar();
+
+
     }
+
     // Methods to implement due to GPS Listener.
 
     @SuppressWarnings({"MissingPermission"})
