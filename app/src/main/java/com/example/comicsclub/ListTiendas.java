@@ -398,19 +398,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         Log.d("HOLAPARSE", "url");
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
-                + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk" +
-                "&pagetoken=CqQCHwEAAHvqVONUFN6C3baOzED5FprDlO1j471JjP3gM8QC9J7KXnXC5ULtgu5v_aiEHJVfJhm9ZiH7FIySOHi4jryEgu7kTvee9bCxJtADhJzJ9OJ6cvRriZuLaEMpJK2j31x9n3dmL2YOApqpw84r7KBG6eLJWUQQr3zL9ZjYklZagruXb0xzTaPWhQrvo7aoSG1Xjt8SfAuyo2yxmeiWV9p6AS5sFkJS_zucM7CipYa2pfnFpRU1DlMEhCbwsY11xBd2rpbGw1PsNp_qB8cuxSE-nXyaLJ8myxmzl2rUPO_NwlYq9mYGm3wpHFF2FsSoFQYdMggabVs9C8slYgBuzHV8UGu6lS0fm2w-61uwRth7Sd87MASlaIAwGRoI3Af7JAHtEBIQBSKU_gUMQ0Foo91T4peGCRoUXHROFvCZf-W61gXPJYfnVqkd124";
-        final String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
                 + "&radius=50000&type=book_store&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
-        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        Log.d("HOLAPARSE", url2);
+                                        Log.d("HOLAPARSE", url);
                                         TiendasParse tiendasParse = new TiendasParse();
                                         mResultsTiendas = tiendasParse.parsePlaces(response);
 
@@ -444,15 +437,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                         });
                         stringRequest.setShouldCache(false);
                         queue.add(stringRequest);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
 
-            }
-        });
-        stringRequest2.setShouldCache(false);
-        queue.add(stringRequest2);
 
     }
     // Methods to implement due to GPS Listener.
