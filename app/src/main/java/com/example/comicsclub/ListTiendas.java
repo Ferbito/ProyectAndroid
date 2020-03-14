@@ -449,7 +449,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                             }
                         }
                     }
-
+                    getComerciales(lat, lng);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -459,7 +459,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         });
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
-        getComerciales(lat, lng);
+
     }
 
     private void getComerciales(double lat, double lng){
