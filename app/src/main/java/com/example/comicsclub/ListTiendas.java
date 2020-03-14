@@ -77,12 +77,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         pedirPermisos();
 
-        mPd = new ProgressDialog(ListTiendas.this);
-        mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
-        mPd.setTitle("LIBRARIES");
-        mPd.setMessage("SEARCHING... WAIT A SECOND");
-        mPd.setProgress(100);
-        mPd.show();
+
+        //mPd.show();
 
         mLv = findViewById(R.id.list);
 
@@ -158,7 +154,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     }
                     Log.d("TIENDA", "LIBRERIA");
                 } else {
-                    mTiendasFinal = mResultsCentros;
+                    for(int i = 0; i<mResultsCentros.size();i++){
+                        mTiendasFinal.add(mResultsCentros.get(i));
+                    }
                     Log.d("TIENDA", "COMERCIAL");
                 }
                 Log.d("TAMAÑO", String.valueOf(mTiendasFinal.size()));
@@ -305,7 +303,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             Toast.makeText(getApplicationContext(),
                     "[LOCATION] Permission granted in the past!",
                     Toast.LENGTH_SHORT).show();
-
+            mPd = new ProgressDialog(ListTiendas.this);
+            mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
+            mPd.setTitle("LIBRARIES");
+            mPd.setMessage("SEARCHING... WAIT A SECOND");
+            mPd.setProgress(100);
+            mPd.show();
 
             startLocation();
 
@@ -324,6 +327,12 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     // Permission granted by user
                     Toast.makeText(getApplicationContext(), "GPS Permission granted!",
                             Toast.LENGTH_SHORT).show();
+                    mPd = new ProgressDialog(ListTiendas.this);
+                    mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
+                    mPd.setTitle("LIBRARIES");
+                    mPd.setMessage("SEARCHING... WAIT A SECOND");
+                    mPd.setProgress(100);
+                    mPd.show();
                     startLocation();
                 } else {
                     // permission denied
@@ -394,11 +403,11 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
     @Override
     protected void onStop() {
-        mLocManager.removeUpdates(this);
+        //mLocManager.removeUpdates(this);
         super.onStop();
     }
 
-    private void getTiendas (double lat, double lng)
+    private void getTiendas (final double lat, final double lng)
     {
         Log.d("HOLAPARSE", "url");
         final RequestQueue queue = Volley.newRequestQueue(this);
@@ -440,8 +449,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                             }
                         }
                     }
-                    actualizar();
-                    mPd.dismiss();
 
                 }
             }, new Response.ErrorListener() {
@@ -452,12 +459,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         });
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
+        getComerciales(lat, lng);
     }
 
     private void getComerciales(double lat, double lng){
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url2 = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ lat + "," + lng
-                + "&radius=50000&type=shopping_mall&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
+                + "&rankby=distance&type=shopping_mall&key=AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk";
         StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
                 new Response.Listener<String>() {
                     @Override
@@ -485,6 +493,14 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                                 return obj1.getDistance().compareTo(obj2.getDistance());
                             }
                         });
+
+                        while(true){
+                            if(mResultsCentros!=null){
+                                if (mResultsCentros.size()==20){
+                                    break;
+                                }
+                            }
+                        }
 
                         mPd.dismiss();
                         actualizar();
@@ -529,8 +545,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mCurrentLocation = location;
         getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-        //getComerciales(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-
         //startService();
     }
 
