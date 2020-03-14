@@ -175,14 +175,15 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     Log.d("DISTANCIATIENDA", String.valueOf(mTiendasFinal.get(dist).getDistance()));
                     if(mTiendasFinal.get(dist).getDistance()>mRadiusBusqueda){
                         mTiendasFinal.remove(dist);
+                        dist--;
                         Log.d("TAMAÑO2", String.valueOf(mTiendasFinal.size()));
-
                     }
                 }
                 //RATING
                 for(int rat = 0; rat<mTiendasFinal.size(); rat++){
                     if(Double.parseDouble(mFiltroLeido.getRating()) > mTiendasFinal.get(rat).getRating()){
                         mTiendasFinal.remove(rat);
+                        rat--;
                         Log.d("TAMAÑO23", String.valueOf(mTiendasFinal.size()));
                     }
                 }
