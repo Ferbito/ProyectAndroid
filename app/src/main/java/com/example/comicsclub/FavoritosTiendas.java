@@ -32,7 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FavoritosTiendas extends AppCompatActivity {
-    private ArrayList<TiendasParse.Tiendas> mTiendasFavorito=new ArrayList<>();
+    public static ArrayList<TiendasParse.Tiendas> mTiendasFavorito;
     private ListView mLv = null;
     private MyAdapter mAdapter;
     private Location mCurrentLocation = new Location("");
@@ -50,15 +50,16 @@ public class FavoritosTiendas extends AppCompatActivity {
         ArrayList<TiendasParse.Tiendas> tiendasIntent = getIntent.getParcelableArrayListExtra("KEY_ARRAY");
 
         mLv = findViewById(R.id.list_fav);
-        mAdapter = new MyAdapter();
-        mLv.setAdapter(mAdapter);
-        //leerDatosSP();
 
+        //leerDatosSP();
+        mTiendasFavorito = new ArrayList<>();
         Log.d("FAVORITES", String.valueOf(tiendasIntent.size()));
         for(int i = 0; i<tiendasIntent.size();i++){
             Log.d("FAVORITESTIENDAS", tiendasIntent.get(i).getName());
             mTiendasFavorito.add(tiendasIntent.get(i));
         }
+        mAdapter = new MyAdapter();
+        mLv.setAdapter(mAdapter);
 
         mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,8 +74,8 @@ public class FavoritosTiendas extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu contextMenu,
                                             View view,
                                             ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(0, 1, 0, "MAPS");
-                contextMenu.add(0, 2, 0, "ELIMINAR");
+                contextMenu.add(0, 1, 0, "ABRIR EN MAPA");
+                contextMenu.add(0, 2, 0, "ELIMINAR DE FAVORITOS");
             }
         });
     }
@@ -88,38 +89,6 @@ public class FavoritosTiendas extends AppCompatActivity {
         prefsEditor.commit();
     }
 
-    /*private void leerDatosSP(){
-        SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES,MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
-        Type founderListType = new TypeToken<ArrayList<TiendasParse.Tiendas>>(){}.getType();
-        ArrayList<TiendasParse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
-        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
-        if(restoreArray!=null){
-            mTiendasFavorito=restoreArray;
-
-            for (int i =0; i<mTiendasFavorito.size(); i++) {
-                Location location = new Location("");
-                location.setLatitude(mTiendasFavorito.get(i).getLat());
-                location.setLongitude(mTiendasFavorito.get(i).getLng());
-
-                float distance = mCurrentLocation.distanceTo( location );
-                mTiendasFavorito.get(i).setDistance(distance);
-
-            }
-
-            Collections.sort(mTiendasFavorito, new Comparator<TiendasParse.Tiendas>(){
-                public int compare(TiendasParse.Tiendas obj1,
-                                   TiendasParse.Tiendas obj2) {
-
-                    return obj1.getDistance().compareTo(obj2.getDistance());
-                }
-            });
-
-            mAdapter = new MyAdapter();
-            mLv.setAdapter(mAdapter);
-        }
-    }*/
 
     private class MyAdapter extends BaseAdapter {
 

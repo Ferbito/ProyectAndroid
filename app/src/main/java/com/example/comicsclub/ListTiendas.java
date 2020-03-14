@@ -64,6 +64,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private MyAdapter mAdapter = null;
     private boolean mListSimple=false;
     private static final int CODINTFILTROTIENDA = 0;
+    private static final int CODINTFAVORITOTIENDA = 1;
     private double mRadiusBusqueda = 1000.00;
     private String mSitioPref = "book_store";
     private Double mRating=  0.0;
@@ -91,8 +92,8 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
             public void onCreateContextMenu(ContextMenu contextMenu,
                                             View view,
                                             ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(0, 1, 0, "MAPS");
-                contextMenu.add(0, 2, 0, "FAVORITOS");
+                contextMenu.add(0, 1, 0, "ABRIR EN MAPA");
+                contextMenu.add(0, 2, 0, "AÑADIR A FAVORITOS");
             }
         });
 
@@ -113,7 +114,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 favoritosLista.putParcelableArrayListExtra("KEY_ARRAY", mTiendasFavorito);
                 favoritosLista.putExtra("locationLat", mCurrentLocation.getLatitude());
                 favoritosLista.putExtra("locationLong", mCurrentLocation.getLongitude());
-                startActivity(favoritosLista);
+                startActivityForResult(favoritosLista, CODINTFAVORITOTIENDA);
             }
         });
         leerDatosSPFavs();
@@ -199,7 +200,10 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         if (requestCode == CODINTFILTROTIENDA) {
             Toast.makeText(ListTiendas.this, "VUELTA A CASA", Toast.LENGTH_SHORT).show();
             actualizar();
+        }else if(requestCode == CODINTFAVORITOTIENDA){
+            leerDatosSPFavs();
         }
+
     }
 
     @Override
