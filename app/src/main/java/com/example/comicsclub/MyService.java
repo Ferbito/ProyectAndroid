@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -172,12 +173,12 @@ public class MyService extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
         Log.d(TAG, "new location");
         Toast.makeText(this, "New Location", Toast.LENGTH_SHORT).show();
         mCurrentLocation = location;
-
-
+        Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
+        intent.putExtra(HelperGlobal.KEY_MESSAGE, mCurrentLocation);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     @Override

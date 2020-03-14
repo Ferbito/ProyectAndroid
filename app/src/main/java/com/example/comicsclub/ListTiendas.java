@@ -1,15 +1,21 @@
 package com.example.comicsclub;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -29,6 +35,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -80,6 +87,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mLv = findViewById(R.id.list);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter(HelperGlobal.INTENT_LOCALIZATION_ACTION));
+
         mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,22 +130,69 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         leerDatosSPFavs();
     }
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mCurrentLocation = intent.getParcelableExtra(HelperGlobal.KEY_MESSAGE);
-        }
-    };
-
     public void startService() {
         mServiceIntent = new Intent(getApplicationContext(), MyService.class);
         startService(mServiceIntent);
     }
 
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Location posicion = intent.getParcelableExtra(HelperGlobal.KEY_MESSAGE);
+            ArrayList<TiendasParse.Tiendas> tiendasCercanas = new ArrayList<>();
+            Log.d("SERVICE", String.valueOf(posicion.getLatitude()));
+            leerDatosSPFavs();
+            int cont = 0;
+            for(int i = 0; i<mTiendasFavorito.size();i++){
+                Location location = new Location("");
+                location.setLatitude(mTiendasFavorito.get(i).getLat());
+                location.setLongitude(mTiendasFavorito.get(i).getLng());
+
+                double distance = posicion.distanceTo(location);
+                mTiendasFavorito.get(i).setDistance(distance);
+                if(distance<1000){
+                    cont++;
+                    tiendasCercanas.add(mTiendasFavorito.get(i));
+                }
+            }
+
+            NotificationManager notificationManager=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            String CHANNEL_ID="my_channel_01";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                CharSequence name="my_channel";
+                String Description="This is my channel";
+                int importance=NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel=new NotificationChannel(CHANNEL_ID,name,importance);
+                mChannel.setDescription(Description);
+                mChannel.enableLights(true);
+                mChannel.setLightColor(Color.RED);
+                mChannel.enableVibration(true);
+                mChannel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,400});
+                mChannel.setShowBadge(false);
+                notificationManager.createNotificationChannel(mChannel);
+            }
+
+            Intent cercanas = new Intent(ListTiendas.this, TiendasCercanas.class);
+            cercanas.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            cercanas.putParcelableArrayListExtra("ARRAY_CERCANO",tiendasCercanas);
+            PendingIntent pendingIntent=PendingIntent.getActivity(ListTiendas.this,0,cercanas,PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(ListTiendas.this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.marv_serv)
+                    .setContentTitle("TIENDAS FAVORITAS CERCA")
+                    .setContentText("Tienes " + cont + " tiendas favoritas cerca de ti.")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            notificationManager.notify(2,builder.build());
+        }
+    };
+
     @Override
     protected void onDestroy() {
-        Log.i(TAG, "Activity onDestroy!");
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        if (mLocManager != null) {
+            mLocManager.removeUpdates(this);
+        }
         super.onDestroy();
     }
 
@@ -205,6 +262,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         }
 
     }
+
 
     @Override
     public boolean onContextItemSelected(MenuItem item)
@@ -398,12 +456,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         }
     }
 
-    @Override
-    protected void onStop() {
-        //mLocManager.removeUpdates(this);
-        super.onStop();
-    }
-
     private void getTiendas (final double lat, final double lng)
     {
         Log.d("HOLAPARSE", "url");
@@ -542,7 +594,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
 
         mCurrentLocation = location;
         getTiendas(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-        //startService();
+        startService();
     }
 
     @Override
