@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class TiendasParse {
     private final String TAG = getClass().getSimpleName();
 
-    public class Tiendas implements Parcelable {
+    public static class Tiendas implements Parcelable {
         private String name = null;
         private Double lat = 0.0;
         private Double lng = 0.0;
@@ -90,7 +90,7 @@ public class TiendasParse {
             parcel.writeInt(user_ratings_total);
         }
 
-    public final Parcelable.Creator<Tiendas> CREATOR =
+    public static Parcelable.Creator<Tiendas> CREATOR =
             new Creator<Tiendas>() {
                 @Override
                 public Tiendas createFromParcel(Parcel parcel) {
