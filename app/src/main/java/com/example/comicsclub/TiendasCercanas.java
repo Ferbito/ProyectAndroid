@@ -3,7 +3,6 @@ package com.example.comicsclub;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 
 public class TiendasCercanas extends AppCompatActivity {
 
+    private final String TAG = getClass().getSimpleName();
     private ArrayList<TiendasParse.Tiendas> mTiendasCercanas;
     private MyAdapter mAdapter = null;
     private ListView mLv = null;
@@ -35,8 +35,8 @@ public class TiendasCercanas extends AppCompatActivity {
         mLv = findViewById(R.id.list_notify);
         Intent in=getIntent();
         if(in!=null){
-            mTiendasCercanas = in.getParcelableArrayListExtra("ARRAY_CERCANO");
-            Log.e("MENSAJE", String.valueOf(mTiendasCercanas.size()));
+            mTiendasCercanas = in.getParcelableArrayListExtra(HelperGlobal.NAMEPARCELABLEARRAY);
+
             if(mAdapter==null) {
                 mAdapter = new MyAdapter(TiendasCercanas.this);
                 mLv.setAdapter(mAdapter);
@@ -58,7 +58,7 @@ public class TiendasCercanas extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu contextMenu,
                                             View view,
                                             ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(0, 1, 0, "ABRIR EN MAPA");
+                contextMenu.add(0, 1, 0, HelperGlobal.LISTVIEWCONTEXT);
 
             }
         });
@@ -72,14 +72,12 @@ public class TiendasCercanas extends AppCompatActivity {
 
             case 1:
                 Toast.makeText(TiendasCercanas.this,
-                        "MAPS", Toast.LENGTH_LONG).show();
+                        HelperGlobal.MAPSTOAST, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(TiendasCercanas.this, MapsActivity.class);
-                intent.putExtra("TITLE", mTiendasCercanas.get(info.position).getName());
-                intent.putExtra("LAT", mTiendasCercanas.get(info.position).getLat());
-                intent.putExtra("LON", mTiendasCercanas.get(info.position).getLng());
+                intent.putExtra(HelperGlobal.TITLEINPUTTIENDASCERCANAS, mTiendasCercanas.get(info.position).getName());
+                intent.putExtra(HelperGlobal.LATINPUTTIENDASCERCANAS, mTiendasCercanas.get(info.position).getLat());
+                intent.putExtra(HelperGlobal.LONINPUTTIENDASCERCANAS, mTiendasCercanas.get(info.position).getLng());
                 startActivity(intent);
-
-
 
                 mAdapter.notifyDataSetChanged();
                 break;

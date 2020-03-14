@@ -128,10 +128,7 @@ public class MyService extends Service implements LocationListener {
                 Location location = new Location("");
                 location.setLatitude(mTiendasFavorito.get(i).getLat());
                 location.setLongitude(mTiendasFavorito.get(i).getLng());
-                Log.d("LOCATION9999", String.valueOf(location.getLatitude()));
-                Log.d("LOCATION9999", String.valueOf(location.getLongitude()));
-                Log.d("LOCATION9999", String.valueOf(mCurrentLocation.getLatitude()));
-                Log.d("LOCATION9999", String.valueOf(mCurrentLocation.getLongitude()));
+
                 float distance = mCurrentLocation.distanceTo(location);
                 mTiendasFavorito.get(i).setDistance((double) distance);
             }
@@ -141,7 +138,6 @@ public class MyService extends Service implements LocationListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
 
         if (mLocManager != null) {
             mLocManager.removeUpdates(this);
