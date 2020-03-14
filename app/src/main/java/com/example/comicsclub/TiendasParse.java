@@ -17,12 +17,12 @@ public class TiendasParse {
         private String name = null;
         private Double lat = 0.0;
         private Double lng = 0.0;
-        private Float distance = null;
+        private Double distance = null;
         private String icon=null;
         private Double rating=0.0;
         private int user_ratings_total=0;
 
-        public Tiendas(String name, Double lat, Double lng, Float distance, String icon, Double rating, int user_ratings_total) {
+        public Tiendas(String name, Double lat, Double lng, Double distance, String icon, Double rating, int user_ratings_total) {
             this.name = name;
             this.lat = lat;
             this.lng = lng;
@@ -44,7 +44,7 @@ public class TiendasParse {
             return lng;
         }
 
-        public Float getDistance() {
+        public Double getDistance() {
             return distance;
         }
 
@@ -60,7 +60,7 @@ public class TiendasParse {
             return user_ratings_total;
         }
 
-        public void setDistance(Float distance) {
+        public void setDistance(Double distance) {
             this.distance = distance;
         }
 
@@ -68,7 +68,7 @@ public class TiendasParse {
             name = in.readString();
             lat = in.readDouble();
             lng = in.readDouble();
-            distance = in.readFloat();
+            distance = in.readDouble();
             icon = in.readString();
             rating = in.readDouble();
             user_ratings_total = in.readInt();
@@ -84,7 +84,7 @@ public class TiendasParse {
             parcel.writeString(name);
             parcel.writeDouble(lat);
             parcel.writeDouble(lng);
-            parcel.writeFloat(distance);
+            parcel.writeDouble(distance);
             parcel.writeString(icon);
             parcel.writeDouble(rating);
             parcel.writeInt(user_ratings_total);
