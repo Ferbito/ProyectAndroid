@@ -161,11 +161,13 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     Log.d("TIENDA", "COMERCIAL");
                 }
                 //DISTANCIA
+
                 String datosDistance[] = mFiltroLeido.getDistance().split(" ");
+                datosDistance[0].replace(",", "");
                 if (datosDistance[1].contains("km")) {
                     datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0]) * 1000);
                 }
-                mRadiusBusqueda=Integer.parseInt(datosDistance[0].concat(".00"));
+                mRadiusBusqueda=Integer.parseInt(datosDistance[0]);
                 Log.d("DISTANCIA", String.valueOf(mRadiusBusqueda));
                 for(int dist=0; dist<mTiendasFinal.size();dist++){
                     Log.d("DISTANCIATIENDA", String.valueOf(mTiendasFinal.get(dist).getDistance()));
