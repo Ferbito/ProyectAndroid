@@ -183,7 +183,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 for(int rat = 0; rat<mTiendasFinal.size(); rat++){
                     if(Double.parseDouble(mFiltroLeido.getRating()) > mTiendasFinal.get(rat).getRating()){
                         mTiendasFinal.remove(rat);
-                        Log.d("TAMAÑO2", String.valueOf(mTiendasFinal.size()));
+                        Log.d("TAMAÑO23", String.valueOf(mTiendasFinal.size()));
                     }
                 }
             } else {
