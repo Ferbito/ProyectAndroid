@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,7 +34,7 @@ public class MyService extends Service implements LocationListener {
     private LocationManager mLocManager = null;
     private Location mCurrentLocation;
     private ObjetcFiltroTienda mFiltroLeido = null;
-    private List<TiendasResponse.Tiendas> mTiendasFavorito = new ArrayList<>();
+    private List<TiendasParse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
 
     public MyService() {
@@ -118,22 +117,22 @@ public class MyService extends Service implements LocationListener {
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFAVSPREFERENCES, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFAV, "");
-        Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>() {
+        Type founderListType = new TypeToken<ArrayList<TiendasParse.Tiendas>>() {
         }.getType();
-        ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
+        ArrayList<TiendasParse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if (restoreArray != null) {
             mTiendasFavorito = restoreArray;
             for (int i = 0; i < mTiendasFavorito.size(); i++) {
                 Location location = new Location("");
-                location.setLatitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLat());
-                location.setLongitude(mTiendasFavorito.get(i).getGeometry().getLocation().getLng());
+                location.setLatitude(mTiendasFavorito.get(i).getLat());
+                location.setLongitude(mTiendasFavorito.get(i).getLng());
                 Log.d("LOCATION9999", String.valueOf(location.getLatitude()));
                 Log.d("LOCATION9999", String.valueOf(location.getLongitude()));
                 Log.d("LOCATION9999", String.valueOf(mCurrentLocation.getLatitude()));
                 Log.d("LOCATION9999", String.valueOf(mCurrentLocation.getLongitude()));
                 float distance = mCurrentLocation.distanceTo(location);
-                mTiendasFavorito.get(i).setDistance(distance);
+                mTiendasFavorito.get(i).setDistance((double) distance);
             }
         }
     }
