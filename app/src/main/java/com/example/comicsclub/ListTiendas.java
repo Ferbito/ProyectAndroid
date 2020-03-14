@@ -164,7 +164,9 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 Log.d("TAMAÑO", String.valueOf(mTiendasFinal.size()));
 
                 //DISTANCIA
+
                 String datosDistance[] = mFiltroLeido.getDistance().split(" ");
+                datosDistance[0].replace(",", "");
                 if (datosDistance[1].contains("km")) {
                     datosDistance[0] = String.valueOf(Integer.parseInt(datosDistance[0]) * 1000);
                 }
