@@ -32,7 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FavoritosTiendas extends AppCompatActivity {
-    private List<TiendasParse.Tiendas> mTiendasFavorito=new ArrayList<>();
+    private ArrayList<TiendasParse.Tiendas> mTiendasFavorito=new ArrayList<>();
     private ListView mLv = null;
     private MyAdapter mAdapter;
     private Location mCurrentLocation = new Location("");
@@ -47,12 +47,18 @@ public class FavoritosTiendas extends AppCompatActivity {
 
         mCurrentLocation.setLatitude(getIntent.getDoubleExtra("locationLat", 0.0));
         mCurrentLocation.setLongitude(getIntent.getDoubleExtra("locationLong", 0.0));
-        mTiendasFavorito = getIntent.getParcelableArrayListExtra("KEY_ARRAY");
+        ArrayList<TiendasParse.Tiendas> tiendasIntent = getIntent.getParcelableArrayListExtra("KEY_ARRAY");
 
         mLv = findViewById(R.id.list_fav);
         mAdapter = new MyAdapter();
         mLv.setAdapter(mAdapter);
         //leerDatosSP();
+
+        Log.d("FAVORITES", String.valueOf(tiendasIntent.size()));
+        for(int i = 0; i<tiendasIntent.size();i++){
+            Log.d("FAVORITESTIENDAS", tiendasIntent.get(i).getName());
+            mTiendasFavorito.add(tiendasIntent.get(i));
+        }
 
         mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

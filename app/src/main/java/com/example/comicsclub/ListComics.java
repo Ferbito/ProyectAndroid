@@ -35,12 +35,13 @@ public class ListComics extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private ArrayList<ComicParse.comic> mComics = new ArrayList<>();
     private  ArrayList<ComicParse.comic> mComicsRellenos = new ArrayList<>();
+    private  ArrayList<ComicParse.comic> mComicsFiltrados;
     private Boolean relleno;
-    private ListView lv;
+    private ListView mLv;
     private ProgressDialog mPd;
     private final int CODINFILTROCOMIC = 0;
     private ObjectFiltroComic mFiltroComic = null;
-    private  BaseAdapter adapter;
+    private  BaseAdapter mAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class ListComics extends AppCompatActivity {
         mPd.setMessage("SEARCHING... WAIT A SECOND");
         mPd.setProgress(100);
         mPd.show();
-        lv = findViewById(R.id.lista);
+        mLv = findViewById(R.id.lista);
 
         cargarComics();
 
@@ -79,14 +80,28 @@ public class ListComics extends AppCompatActivity {
     private void actualizar(){
         leerDatosSPFiltro();
 
-        String datosPrecio[] = mFiltroComic.getPrice().split(" ");
-            for (int i = 0; i < mComicsRellenos.size(); i++) {
-                 if(Double.parseDouble(mComicsRellenos.get(i).getPrice()) >  Double.parseDouble(datosPrecio[0])){
-                     mComicsRellenos.remove(i);
+        mComicsFiltrados = new ArrayList<>();
+        for(int i = 0;i<mComicsRellenos.size();i++){
+            mComicsFiltrados.add(mComicsRellenos.get(i));
+        }
+
+        if(mFiltroComic!=null){
+            String datosPrecio[] = mFiltroComic.getPrice().split(" ");
+            for (int i = 0; i < mComicsFiltrados.size(); i++) {
+                if(Double.parseDouble(mComicsFiltrados.get(i).getPrice()) >  Double.parseDouble(datosPrecio[0])){
+                    mComicsFiltrados.remove(i);
+                    i--;
                 }
             }
-            adapter.notifyDataSetChanged();
         }
+
+        if(mAdapter==null){
+            mAdapter = new ComicsAdapter();
+            mLv.setAdapter(mAdapter);
+        }else{
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
     private void leerDatosSPFiltro(){
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
@@ -123,8 +138,7 @@ public class ListComics extends AppCompatActivity {
                             }
                         }
                         mPd.dismiss();
-                        adapter = new ComicsAdapter();
-                        lv.setAdapter(adapter);
+                        actualizar();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -140,15 +154,14 @@ public class ListComics extends AppCompatActivity {
 
         Integer i = 0;
 
-
         @Override
         public int getCount() {
-            return mComicsRellenos.size();
+            return mComicsFiltrados.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return mComicsRellenos.get(i);
+            return mComicsFiltrados.get(i);
         }
 
         @Override
@@ -169,17 +182,17 @@ public class ListComics extends AppCompatActivity {
             }
 
             ImageView img = view2.findViewById(R.id.imgIcono);
-            Picasso.get().load(mComicsRellenos.get(i).getImage() + "." + mComicsRellenos.get(i).getExtensionImg())
+            Picasso.get().load(mComicsFiltrados.get(i).getImage() + "." + mComicsFiltrados.get(i).getExtensionImg())
                     .into(img);
 
             TextView txtTitle = view2.findViewById(R.id.txtTitle);
-            txtTitle.setText(mComicsRellenos.get(i).getTittle());
+            txtTitle.setText(mComicsFiltrados.get(i).getTittle());
 
             TextView txtDescription = view2.findViewById(R.id.txtDescription);
-            txtDescription.setText(mComicsRellenos.get(i).getDescription());
+            txtDescription.setText(mComicsFiltrados.get(i).getDescription());
 
             TextView txtPrice = view2.findViewById(R.id.txtPrice);
-            txtPrice.setText(mComicsRellenos.get(i).getPrice() + "€");
+            txtPrice.setText(mComicsFiltrados.get(i).getPrice() + "€");
 
             return view2;
         }

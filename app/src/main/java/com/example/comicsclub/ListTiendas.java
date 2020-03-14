@@ -55,7 +55,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     private ArrayList<TiendasParse.Tiendas> mResultsTiendas;
     public static ArrayList<TiendasParse.Tiendas> mTiendasFinal = new ArrayList<>();
     private ArrayList<TiendasParse.Tiendas> mResultsCentros;
-    public static ArrayList<TiendasParse.Tiendas> mTiendasFavorito;
+    public static ArrayList<TiendasParse.Tiendas> mTiendasFavorito = new ArrayList<>();
 
     private ObjetcFiltroTienda mFiltroLeido = null;
     private Intent mServiceIntent;
@@ -76,9 +76,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         setContentView(R.layout.list_tiendas);
 
         pedirPermisos();
-
-
-        //mPd.show();
 
         mLv = findViewById(R.id.list);
 
@@ -225,18 +222,16 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                 break;
             case 2:
                 boolean encontrado = false;
-                TiendasParse.Tiendas tiendasfav = mTiendasFavorito.get(info.position);
-                if(mTiendasFavorito.size()!=0){
-                    for (int x=0 ; x<mTiendasFavorito.size();x++){
-                        if(mTiendasFavorito.get(x).getName().equalsIgnoreCase(tiendasfav.getName())
-                                && (mTiendasFavorito.get(x).getIcon().equalsIgnoreCase(tiendasfav.getIcon()))){
+                TiendasParse.Tiendas tiendasfav = mTiendasFinal.get(info.position);
+                if(mTiendasFavorito.size()!=0) {
+                    for (int x = 0; x < mTiendasFavorito.size(); x++) {
+                        if (mTiendasFavorito.get(x).getName().equalsIgnoreCase(tiendasfav.getName())
+                                && (mTiendasFavorito.get(x).getIcon().equalsIgnoreCase(tiendasfav.getIcon()))) {
 
                             encontrado = true;
                             break;
                         }
                     }
-                }else{
-                    encontrado=true;
                 }
 
                 if(encontrado){
@@ -247,8 +242,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     Toast.makeText(ListTiendas.this,
                             "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
                     guardarDatoSPFavs();
-
-
                 }
                 break;
         }
