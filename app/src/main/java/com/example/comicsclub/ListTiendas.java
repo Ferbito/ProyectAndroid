@@ -238,7 +238,7 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     Toast.makeText(ListTiendas.this,
                             "TIENDA YA EN FAVORITOS", Toast.LENGTH_LONG).show();
                 }else{
-                    mTiendasFinal.add(tiendasfav);
+                    mTiendasFavorito.add(tiendasfav);
                     Toast.makeText(ListTiendas.this,
                             "AÑADIDO A FAVORITOS", Toast.LENGTH_LONG).show();
                     guardarDatoSPFavs();
