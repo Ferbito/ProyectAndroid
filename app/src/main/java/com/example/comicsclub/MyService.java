@@ -15,7 +15,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -52,7 +51,7 @@ public class MyService extends Service implements LocationListener {
         super.onCreate();
 
         startLocation();
-        Log.d(TAG, "Servicio creado");
+
 
     }
 
@@ -60,8 +59,8 @@ public class MyService extends Service implements LocationListener {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
-                    "1",
-                    "Foreground Service Channel",
+                    HelperGlobal.NOTIFICACIONCHANNELID,
+                    HelperGlobal.NOTIFICACIONCHANNELTEXT,
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
@@ -81,8 +80,8 @@ public class MyService extends Service implements LocationListener {
         createNotificationChannel();
 
         Notification notification = new NotificationCompat.Builder(this, "1")
-                .setContentTitle("hi Service")
-                .setContentText("Bucando favoritos cerca de ti.")
+                .setContentTitle(HelperGlobal.NOTIFICACIONTITLE)
+                .setContentText(HelperGlobal.NOTIFICACIONTEXT)
                 .setSmallIcon(R.drawable.marv_serv)
                 .build();
 
@@ -95,7 +94,7 @@ public class MyService extends Service implements LocationListener {
                 1, 300,
                 this);
 
-        Log.d(TAG, "Listener set");
+
 
         return START_STICKY;
     }
@@ -121,7 +120,7 @@ public class MyService extends Service implements LocationListener {
         Type founderListType = new TypeToken<ArrayList<TiendasParse.Tiendas>>() {
         }.getType();
         ArrayList<TiendasParse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
-        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
+
         if (restoreArray != null) {
             mTiendasFavorito = restoreArray;
             for (int i = 0; i < mTiendasFavorito.size(); i++) {
@@ -169,8 +168,8 @@ public class MyService extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d(TAG, "new location");
-        Toast.makeText(this, "New Location", Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, HelperGlobal.TOASTNEWLOCATION, Toast.LENGTH_SHORT).show();
         mCurrentLocation = location;
         Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
         intent.putExtra(HelperGlobal.KEY_MESSAGE, mCurrentLocation);

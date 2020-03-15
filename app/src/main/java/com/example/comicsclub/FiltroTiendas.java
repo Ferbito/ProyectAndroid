@@ -2,7 +2,6 @@ package com.example.comicsclub;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +28,6 @@ public class FiltroTiendas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtro_tiendas);
 
-        //Toast.makeText(FiltroTiendas.this, "WELCOME TO FILTERS", Toast.LENGTH_SHORT).show();
         leerDatosSP();
 
         spDistancia = findViewById(R.id.spDistancia);
@@ -141,13 +139,9 @@ public class FiltroTiendas extends AppCompatActivity {
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCES,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYTIENDASFILTROS, "");
-        //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
-        //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         ObjetcFiltroTienda jsonFiltro= gson.fromJson(json, ObjetcFiltroTienda.class);
-        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(jsonFiltro!=null){
             filtroLeido = jsonFiltro;
-            Log.d("PERSIST2", String.valueOf(filtroLeido.getDistance()));
         }
     }
 

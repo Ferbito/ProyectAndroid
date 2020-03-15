@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity   {
     private Button mButonGame;
     private Button mButonBuscar;
     private Typeface script;
-    private String []imageUrls=new String[]{"https://img.icons8.com/bubbles/2x/iron-man.png","https://synth.agency/wp-content/uploads/2019/07/Marvel-Hulk-1024x819.png","https://cdn4.iconfinder.com/data/icons/superhero-3/500/Superhero-01-512.png","https://icons-for-free.com/iconfiles/png/512/super+thor+wings+icon-1320166699905266736.png" };
+    private String []imageUrls=new String[]{HelperGlobal.IMAGEURL1,HelperGlobal.IMAGEURL2,HelperGlobal.IMAGEURL3, HelperGlobal.IMAGEURL4};
 
     private LocationManager mLocManager;
     private final String TAG = getClass().getSimpleName();
@@ -38,54 +37,28 @@ public class MainActivity extends AppCompatActivity   {
         setContentView(R.layout.activity_main);
 
         mSlideViewPager=(ViewPager)findViewById(R.id.slideViewPager);
-        //mDotLayout=(LinearLayout) findViewById(R.id.dotsLayout);
+
 
         mSliderAdapter=new SliderAdapter(this,imageUrls);
 
         mSlideViewPager.setAdapter(mSliderAdapter);
-       // addDotsIndicator(0);
+
 
         mSlideViewPager.addOnPageChangeListener(viewListener);
 
-       /* Button btnComics =findViewById(R.id.btn_COMIC);
-        btnComics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("PRUEBA", "PULSADO");
 
-            }
-        });*/
         Button btnMaps=findViewById(R.id.btn_MAPS);
         btnMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("PRUEBA", "PULSADO");
+
                 Intent intent=new Intent(MainActivity.this, ListTiendas.class);
                 startActivity(intent);
             }
         });
 
     }
-    /*public void addDotsIndicator(int position){
 
-        mDots=new TextView[4];
-        mDotLayout.removeAllViews();
-
-        for (int i=0;i<mDots.length;i++){
-            mDots[i]=new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226;"));
-            mDots[i].setTextSize(50);
-            mDots[i].setTextColor(getResources().getColor(R.color.colorTransparentWhite));
-            mDots[i].setTypeface(script);
-            mDotLayout.addView(mDots[i]);
-
-        }
-        if(mDots.length>0){
-            mDots[position].setTextColor(getResources().getColor(R.color.red));
-
-        }
-
-    }*/
     ViewPager.OnPageChangeListener viewListener=new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int i, float v, int i1) {
@@ -102,46 +75,6 @@ public class MainActivity extends AppCompatActivity   {
 
         }
     };
-
-   /* private void PersistData() {
-
-
-
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        // For save
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(mArray);
-        prefsEditor.putString(KEY_ARRAY, json);
-        prefsEditor.commit();
-
-        // Restore data
-        gson = new Gson();
-        json = mPrefs.getString(KEY_ARRAY, "");
-
-        Type founderListType = new TypeToken<ArrayList<Item>>(){}.getType();
-
-        ArrayList<Item> restoreArray = gson.fromJson(json, founderListType);
-
-        for (int i =0; i<restoreArray.size(); i++) {
-            Log.d(TAG, restoreArray.get(i).mName);
-
-        }
-
-
-    }*/
-
-    /*private void SendArrayIntent() {
-
-        Intent mIntent = new Intent(this, Test.class);
-        mIntent.putParcelableArrayListExtra(KEY_ARRAY, mArray);
-        startActivity(mIntent);
-
-    }*/
-
-
-
-
 
 
 }

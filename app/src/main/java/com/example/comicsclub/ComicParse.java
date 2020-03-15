@@ -56,8 +56,8 @@ public class ComicParse {
 
         try {
             json = new JSONObject(content);
-            data = json.getJSONObject("data");
-            array = data.getJSONArray("results");
+            data = json.getJSONObject(HelperGlobal.JSONOBJECTDATA);
+            array = data.getJSONArray(HelperGlobal.JSONARRAY);
 
             for(int i = 0; i < array.length();i++){
                 JSONObject node = array.getJSONObject(i);
@@ -80,31 +80,28 @@ public class ComicParse {
         String price = "";
 
         try{
-            if(jsonData.has("title"))
-                tittle = jsonData.getString("title");
-            if(jsonData.has("description"))
-                description = jsonData.getString("description");
-            if(jsonData.has("images")){
-                JSONArray images = jsonData.getJSONArray("images");
+            if(jsonData.has(HelperGlobal.JSONDATATITLE))
+                tittle = jsonData.getString(HelperGlobal.JSONDATATITLE);
+            if(jsonData.has(HelperGlobal.JSONDATADESCRIPTION))
+                description = jsonData.getString(HelperGlobal.JSONDATADESCRIPTION);
+            if(jsonData.has(HelperGlobal.JSONDATAIMAGES)){
+                JSONArray images = jsonData.getJSONArray(HelperGlobal.JSONDATAIMAGES);
                 for(int i = 0; i < images.length();i++) {
                     JSONObject node = images.getJSONObject(i);
-                    if(node.has("path"))
-                        image = node.getString("path");
-                    if(node.has("extension"))
-                        extensionImg = node.getString("extension");
+                    if(node.has(HelperGlobal.JSONOBJECTPATH))
+                        image = node.getString(HelperGlobal.JSONOBJECTPATH);
+                    if(node.has(HelperGlobal.JSONOBJECTEXTENSION))
+                        extensionImg = node.getString(HelperGlobal.JSONOBJECTEXTENSION);
                 }
             }
-            if(jsonData.has("prices")){
-                JSONArray images = jsonData.getJSONArray("prices");
+            if(jsonData.has(HelperGlobal.JSONDATAPRICES)){
+                JSONArray images = jsonData.getJSONArray(HelperGlobal.JSONDATAPRICES);
                 for(int i = 0; i < images.length();i++) {
                     JSONObject node = images.getJSONObject(i);
-                    if(node.has("price"))
-                        price = node.getString("price");
+                    if(node.has(HelperGlobal.JSONOBJECTPRICE))
+                        price = node.getString(HelperGlobal.JSONOBJECTPRICE);
                 }
             }
-
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();

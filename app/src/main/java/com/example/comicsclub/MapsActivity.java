@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -61,15 +60,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         Intent intent = getIntent();
         if (intent != null)
         {
-            mTitle = intent.getStringExtra("TITLE");
-            mLat = intent.getDoubleExtra("LAT", 0.0);
-            mLon = intent.getDoubleExtra("LON", 0.0);
-            mProximityRadius=intent.getIntExtra("RADIUS",1000);
+            mTitle = intent.getStringExtra(HelperGlobal.TITLEINPUTTIENDASCERCANAS);
+            mLat = intent.getDoubleExtra(HelperGlobal.LATINPUTTIENDASCERCANAS, 0.0);
+            mLon = intent.getDoubleExtra(HelperGlobal.LONINPUTTIENDASCERCANAS, 0.0);
+            mProximityRadius=intent.getIntExtra(HelperGlobal.RADIUSINPUTTIENDASCERCANAS,1000);
 
         }
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -82,15 +80,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -155,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         else
                         {
-                            Toast.makeText(this, "Location not found...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, HelperGlobal.LOCATIONNOTFOUNDTOAST, Toast.LENGTH_SHORT).show();
                         }
                     }
                     catch (IOException e)
@@ -165,7 +154,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 else
                 {
-                    Toast.makeText(this, "please write any location name...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, HelperGlobal.PLEASEWRITETOAST, Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -177,8 +166,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     transferData[1] = url;
 
                     getNearbyPlaces.execute(transferData);
-                    Toast.makeText(this, "Searching for Nearby Shop...", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "Showing Nearby Shop...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, HelperGlobal.SHEARCHINGNEARBYSHOP, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,HelperGlobal.SHOWINGNEARBYSHOP , Toast.LENGTH_SHORT).show();
                     break;
             case R.id.centrocomercial:
                 mMap.clear();
@@ -187,25 +176,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 transferData[1] = url2;
 
                 getNearbyPlaces.execute(transferData);
-                Toast.makeText(this, "Searching for Nearby Shop...", Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Showing Nearby Shop...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, HelperGlobal.SHEARCHINGNEARBYSHOP, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, HelperGlobal.SHOWINGNEARBYSHOP, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
     private String getUrl(double latitide, double longitude, String nearbyPlace)
     {
-        StringBuilder googleURL = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        StringBuilder googleURL = new StringBuilder(HelperGlobal.GOOGLEURL);
         googleURL.append("location=" + latitide + "," + longitude);
         googleURL.append("&radius=" + mProximityRadius);
         googleURL.append("&type=" + nearbyPlace);
         googleURL.append("&sensor=true");
-        googleURL.append("&key=" + "AIzaSyAn93plb2763qJNDzPIzNM0hwKJ1fDYvhk");
-
-        Log.d("GoogleMapsActivity", "url = " + googleURL.toString());
-
+        googleURL.append("&key=" +HelperGlobal.KEY);
         return googleURL.toString();
     }
+
     public boolean checkUserLocationPermision(){
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -234,7 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.setMyLocationEnabled(true);
                     }
                 }else{
-                    Toast.makeText(this,"Permission Denied...",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,HelperGlobal.PERMISIONDENIED,Toast.LENGTH_SHORT).show();
 
                 }
                 return;
@@ -245,21 +232,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                         // Permission granted by user
-                        Toast.makeText(getApplicationContext(), "GPS Permission granted!",
+                        Toast.makeText(getApplicationContext(), HelperGlobal.GPSPERMISEDGARANTED,
                                 Toast.LENGTH_SHORT).show();
                         startLocation();
 
                     } else {
                         // permission denied
                         Toast.makeText(getApplicationContext(),
-                                "Permission denied by user!", Toast.LENGTH_SHORT).show();
+                                HelperGlobal.PERMISSIONDENIEDUSER, Toast.LENGTH_SHORT).show();
                     }
                     return;
 
-
-
-                // other 'case' lines to check for other
-                // permissions this app might request.
             }
         }
     }
@@ -292,7 +275,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions markerOptions=new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title(" Estas aquí ");
+        markerOptions.title(HelperGlobal.MARKEROPTIONSTITLE);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
         currentUserLocationMarker=mMap.addMarker(markerOptions);
@@ -371,7 +354,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         } else {
             Toast.makeText(getApplicationContext(),
-                    "[LOCATION] Permission granted in the past!",
+                    HelperGlobal.PERMISSIONGRANTEDPAST,
                     Toast.LENGTH_SHORT).show();
 
         }

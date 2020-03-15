@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,14 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class FavoritosTiendas extends AppCompatActivity {
     public static ArrayList<TiendasParse.Tiendas> mTiendasFavorito;
@@ -41,21 +35,14 @@ public class FavoritosTiendas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos_tiendas);
-        Toast.makeText(FavoritosTiendas.this, "WELCOME TO FAVORITES", Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(FavoritosTiendas.this, HelperGlobal.WELCOMEFAVORITES, Toast.LENGTH_SHORT).show();
         Intent getIntent = getIntent();
-
-        mCurrentLocation.setLatitude(getIntent.getDoubleExtra("locationLat", 0.0));
-        mCurrentLocation.setLongitude(getIntent.getDoubleExtra("locationLong", 0.0));
-        ArrayList<TiendasParse.Tiendas> tiendasIntent = getIntent.getParcelableArrayListExtra("KEY_ARRAY");
-
+        mCurrentLocation.setLatitude(getIntent.getDoubleExtra(HelperGlobal.LOCATIONLAT, 0.0));
+        mCurrentLocation.setLongitude(getIntent.getDoubleExtra(HelperGlobal.LOCATIONLONG, 0.0));
+        ArrayList<TiendasParse.Tiendas> tiendasIntent = getIntent.getParcelableArrayListExtra(HelperGlobal.PARCELABLEKEYARRAY);
         mLv = findViewById(R.id.list_fav);
-
-        //leerDatosSP();
         mTiendasFavorito = new ArrayList<>();
-        Log.d("FAVORITES", String.valueOf(tiendasIntent.size()));
         for(int i = 0; i<tiendasIntent.size();i++){
-            Log.d("FAVORITESTIENDAS", tiendasIntent.get(i).getName());
             mTiendasFavorito.add(tiendasIntent.get(i));
         }
         mAdapter = new MyAdapter();
@@ -74,8 +61,8 @@ public class FavoritosTiendas extends AppCompatActivity {
             public void onCreateContextMenu(ContextMenu contextMenu,
                                             View view,
                                             ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(0, 1, 0, "ABRIR EN MAPA");
-                contextMenu.add(0, 2, 0, "ELIMINAR DE FAVORITOS");
+                contextMenu.add(0, 1, 0, HelperGlobal.ABRIRMAPSCONTEXTMENU);
+                contextMenu.add(0, 2, 0, HelperGlobal.ELIMINARFAVCONTEXTMENU);
             }
         });
     }
@@ -125,7 +112,6 @@ public class FavoritosTiendas extends AppCompatActivity {
 
             TextView tTitle = myview.findViewById(R.id.title);
             tTitle.setText(mTiendasFavorito.get(i).getName());
-            Log.d("hee",mTiendasFavorito.get(i).getName());
 
             TextView tRating = myview.findViewById(R.id.rating);
             tRating.setText("Valoración: "+String.valueOf(mTiendasFavorito.get(i).getRating())+" "+"["+
@@ -144,19 +130,19 @@ public class FavoritosTiendas extends AppCompatActivity {
         switch (item.getItemId()) {
             case 1:
                 Toast.makeText(FavoritosTiendas.this,
-                        "MAPS", Toast.LENGTH_LONG).show();
+                        HelperGlobal.MAPSTOAST, Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(FavoritosTiendas.this, MapsActivity.class);
-                intent.putExtra("TITLE", mTiendasFavorito.get(info.position).getName());
-                intent.putExtra("LAT", mTiendasFavorito.get(info.position).getLat());
-                intent.putExtra("LON", mTiendasFavorito.get(info.position).getLng());
+                intent.putExtra(HelperGlobal.TITLEINPUTTIENDASCERCANAS, mTiendasFavorito.get(info.position).getName());
+                intent.putExtra(HelperGlobal.LATINPUTTIENDASCERCANAS, mTiendasFavorito.get(info.position).getLat());
+                intent.putExtra(HelperGlobal.LONINPUTTIENDASCERCANAS, mTiendasFavorito.get(info.position).getLng());
                 startActivity(intent);
 
                 mAdapter.notifyDataSetChanged();
                 break;
             case 2:
                 mTiendasFavorito.remove(info.position);
-                Toast.makeText(FavoritosTiendas.this,"ELIMINADO DE FAVORITOS", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FavoritosTiendas.this,HelperGlobal.ELIMINADOFAV, Toast.LENGTH_SHORT).show();
                 guardarDatoSP();
                 mAdapter.notifyDataSetChanged();
                 break;

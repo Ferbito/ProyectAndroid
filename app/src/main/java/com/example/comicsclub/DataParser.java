@@ -21,23 +21,23 @@ public class DataParser
 
         try
         {
-            if (!googlePlaceJSON.isNull("name"))
+            if (!googlePlaceJSON.isNull(HelperGlobal.GOOGLEPLACESNAME))
             {
-                NameOfPlace = googlePlaceJSON.getString("name");
+                NameOfPlace = googlePlaceJSON.getString(HelperGlobal.GOOGLEPLACESNAME);
             }
-            if (!googlePlaceJSON.isNull("vicinity"))
+            if (!googlePlaceJSON.isNull(HelperGlobal.GOOGLENEARBYPLACEVICITINY))
             {
-                vicinity = googlePlaceJSON.getString("vicinity");
+                vicinity = googlePlaceJSON.getString(HelperGlobal.GOOGLENEARBYPLACEVICITINY);
             }
-            latitude = googlePlaceJSON.getJSONObject("geometry").getJSONObject("location").getString("lat");
-            longitude = googlePlaceJSON.getJSONObject("geometry").getJSONObject("location").getString("lng");
-            reference = googlePlaceJSON.getString("reference");
+            latitude = googlePlaceJSON.getJSONObject(HelperGlobal.GOOGLEPLACESGEOMETRY).getJSONObject(HelperGlobal.GOOGLEPLACESLOCATION).getString(HelperGlobal.GOOGLENEARBYPLACELAT);
+            longitude = googlePlaceJSON.getJSONObject(HelperGlobal.GOOGLEPLACESGEOMETRY).getJSONObject(HelperGlobal.GOOGLEPLACESLOCATION).getString(HelperGlobal.GOOGLENEARBYPLACELNG);
+            reference = googlePlaceJSON.getString(HelperGlobal.GOOGLEPLACESREFERENCE);
 
-            googlePlaceMap.put("place_name", NameOfPlace);
-            googlePlaceMap.put("vicinity", vicinity);
-            googlePlaceMap.put("lat", latitude);
-            googlePlaceMap.put("lng", longitude);
-            googlePlaceMap.put("reference", reference);
+            googlePlaceMap.put(HelperGlobal.GOOGLENEARBYPLACENAME, NameOfPlace);
+            googlePlaceMap.put(HelperGlobal.GOOGLENEARBYPLACEVICITINY, vicinity);
+            googlePlaceMap.put(HelperGlobal.GOOGLENEARBYPLACELAT, latitude);
+            googlePlaceMap.put(HelperGlobal.GOOGLENEARBYPLACELNG, longitude);
+            googlePlaceMap.put(HelperGlobal.GOOGLEPLACESREFERENCE, reference);
         }
         catch (JSONException e)
         {

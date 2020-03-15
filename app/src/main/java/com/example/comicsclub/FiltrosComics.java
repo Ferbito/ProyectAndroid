@@ -2,7 +2,6 @@ package com.example.comicsclub;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +25,6 @@ public class FiltrosComics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filro_comics);
 
-        //Toast.makeText(FiltroTiendas.this, "WELCOME TO FILTERS", Toast.LENGTH_SHORT).show();
         leerDatosSP();
 
         spPrecio = findViewById(R.id.spPrecio);
@@ -80,13 +78,9 @@ public class FiltrosComics extends AppCompatActivity {
         SharedPreferences mPrefs = getSharedPreferences(HelperGlobal.KEYARRAYFILTROSPREFERENCESCOMICS,MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(HelperGlobal.ARRAYCOMICSFILTROS, "");
-        //Type founderListType = new TypeToken<ArrayList<TiendasResponse.Tiendas>>(){}.getType();
-        //ArrayList<TiendasResponse.Tiendas> restoreArray = gson.fromJson(json, founderListType);
         ObjectFiltroComic jsonFiltro= gson.fromJson(json, ObjectFiltroComic.class);
-        //Log.d("PERSIST", String.valueOf(restoreArray.size()));
         if(jsonFiltro!=null){
             filtroleidocomic = jsonFiltro;
-            Log.d("PERSIST2", String.valueOf(filtroleidocomic.getPrice()));
         }
     }
 
