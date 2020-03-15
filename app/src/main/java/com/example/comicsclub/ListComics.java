@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,7 +71,6 @@ public class ListComics extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODINFILTROCOMIC) {
-            Toast.makeText(ListComics.this, HelperGlobal.VUELTAATICITY, Toast.LENGTH_SHORT).show();
             actualizar();
         }
     }

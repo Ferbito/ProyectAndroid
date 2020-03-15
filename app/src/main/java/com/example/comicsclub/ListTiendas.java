@@ -252,7 +252,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODINTFILTROTIENDA) {
-            Toast.makeText(ListTiendas.this, HelperGlobal.VUELTAATICITY, Toast.LENGTH_SHORT).show();
             actualizar();
         }else if(requestCode == CODINTFAVORITOTIENDA){
             leerDatosSPFavs();
@@ -268,8 +267,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
         switch (item.getItemId()) {
 
             case 1:
-                        Toast.makeText(ListTiendas.this,
-                        HelperGlobal.MAPSTOAST, Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(ListTiendas.this, MapsActivity.class);
                         intent.putExtra(HelperGlobal.TITLEINPUTTIENDASCERCANAS, mTiendasFinal.get(info.position).getName());
                         intent.putExtra(HelperGlobal.LATINPUTTIENDASCERCANAS, mTiendasFinal.get(info.position).getLat());
@@ -350,9 +347,6 @@ public class ListTiendas extends AppCompatActivity implements LocationListener {
                     MY_PERMISSIONS_GPS_FINE_LOCATION);
 
         } else {
-            Toast.makeText(getApplicationContext(),
-                    HelperGlobal.PERMISSIONGRANTEDPAST,
-                    Toast.LENGTH_SHORT).show();
             mPd = new ProgressDialog(ListTiendas.this);
             mPd.setProgressStyle(Spinner.ACCESSIBILITY_LIVE_REGION_ASSERTIVE);
             mPd.setTitle(HelperGlobal.PROGRESSTITTLELIBRARIES);

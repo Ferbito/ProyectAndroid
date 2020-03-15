@@ -15,7 +15,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -169,7 +168,6 @@ public class MyService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        Toast.makeText(this, HelperGlobal.TOASTNEWLOCATION, Toast.LENGTH_SHORT).show();
         mCurrentLocation = location;
         Intent intent = new Intent(HelperGlobal.INTENT_LOCALIZATION_ACTION);
         intent.putExtra(HelperGlobal.KEY_MESSAGE, mCurrentLocation);

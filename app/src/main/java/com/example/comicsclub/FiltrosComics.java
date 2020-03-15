@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,7 +37,6 @@ public class FiltrosComics extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mPrice = adapterView.getItemAtPosition(i).toString();
                 mPostPrice=i;
-                Toast.makeText(FiltrosComics.this, mPrice, Toast.LENGTH_SHORT).show();
             }
 
             @Override

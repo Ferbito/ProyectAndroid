@@ -35,7 +35,6 @@ public class FavoritosTiendas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos_tiendas);
-        Toast.makeText(FavoritosTiendas.this, HelperGlobal.WELCOMEFAVORITES, Toast.LENGTH_SHORT).show();
         Intent getIntent = getIntent();
         mCurrentLocation.setLatitude(getIntent.getDoubleExtra(HelperGlobal.LOCATIONLAT, 0.0));
         mCurrentLocation.setLongitude(getIntent.getDoubleExtra(HelperGlobal.LOCATIONLONG, 0.0));
@@ -149,9 +148,4 @@ public class FavoritosTiendas extends AppCompatActivity {
         }
         return true;
     }
-
-
-
-
-
 }

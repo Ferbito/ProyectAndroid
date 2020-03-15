@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,7 +40,6 @@ public class FiltroTiendas extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mDistance = adapterView.getItemAtPosition(i).toString();
                 mPosDistance = i;
-                Toast.makeText(FiltroTiendas.this, mDistance, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -60,7 +58,6 @@ public class FiltroTiendas extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mRating = adapterView.getItemAtPosition(i).toString();
                 mPosRating = i;
-                Toast.makeText(FiltroTiendas.this, mRating, Toast.LENGTH_SHORT).show();
             }
 
             @Override

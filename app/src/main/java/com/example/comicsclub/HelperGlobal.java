@@ -9,15 +9,12 @@ public class HelperGlobal {
     public final static String ARRAYCOMICSFILTROS = "ARRAYCOMICSFILTROS";
     public final static  String INTENT_LOCALIZATION_ACTION = "location-event-position";
     public  final static  String KEY_MESSAGE = "message";
-    public  final static  String KEYCURRENTLOCATION = "KEYCURRENTLOCATION";
-    public final static String CURRENTLOCATION = "CURRENTLOCATION";
     public final static String NAMEPARCELABLEARRAY="ARRAY_CERCANO";
     public final static String TITLEINPUTTIENDASCERCANAS="TITLE";
     public final static String LATINPUTTIENDASCERCANAS="LAT";
     public final static String LONINPUTTIENDASCERCANAS="LON";
     public final static String MAPSTOAST="MAPS";
     public final static String LISTVIEWCONTEXT ="ABRIR EN MAPA";
-    public final static String TOASTNEWLOCATION ="New Location";
     public final static String NOTIFICACIONTITLE="Foreground Service";
     public final static String NOTIFICACIONTEXT="Bucando favoritos cerca de ti.";
     public final static String NOTIFICACIONCHANNELID="1";
@@ -49,7 +46,6 @@ public class HelperGlobal {
     public final static String ELIMINADOFAV="ELIMINADO DE FAVORITOS";
     public final static String ABRIRMAPSCONTEXTMENU="ABRIR EN MAPA";
     public final static String ELIMINARFAVCONTEXTMENU="ELIMINAR DE FAVORITOS";
-    public final static String WELCOMEFAVORITES="WELCOME TO FAVORITES";
     public final static String LOCATIONLAT="locationLat";
     public final static String LOCATIONLONG="locationLong";
     public final static String PARCELABLEKEYARRAY="KEY_ARRAY";
@@ -63,12 +59,10 @@ public class HelperGlobal {
     public final static String JSONOBJECTPATH="path";
     public final static String JSONOBJECTEXTENSION="extension";
     public final static String URLCOMICS="https://gateway.marvel.com/v1/public/comics?ts=9&apikey=7a18af213a25abcf54a952288670033d&hash=0bd40620c9f9e68a70795b084480daed";
-    public final static String VUELTAATICITY="VUELTA A CASA";
     public final static String PROGRESSTITTLE="COMICS";
     public final static String PROGRESSMESSAGE="SEARCHING... WAIT A SECOND";
     public final static String AÑADIRFAV="AÑADIR A FAVORITOS";
     public final static String PROGRESSTITTLELIBRARIES="LIBRARIES";
-    public final static String PROGRESSMESSAGELIBRARIES="SEARCHING... WAIT A SECOND";
     public final static String TIENDAYAFAV="TIENDA YA EN FAVORITOS";
     public final static String AÑADIDOFAV="AÑADIDO A FAVORITOS";
     public final static String NOTIFICATIONNEARBYTITLE="TIENDAS FAVORITAS CERCA";
