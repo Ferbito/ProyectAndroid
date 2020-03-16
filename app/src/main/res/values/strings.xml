@@ -8,9 +8,9 @@
     <string name="txt_fav">FAVORITOS</string>
     <string name="txt_tiendas">TIENDAS CERCANAS</string>
     <string name="txt_tiendasCercanas">TIENDAS CERCA DE TI</string>
-    <string name="txt_spDistancia">RANGO DE DISTANCIA</string>
-    <string name="txt_spValoracion">RANGO DE VALORACION</string>
-    <string name="txt_spPrecio">RANGO DE PRECIO</string>
+    <string name="txt_spDistancia">DISTANCIA MÁXIMA</string>
+    <string name="txt_spValoracion">VALORACIÓN MÍNIMA</string>
+    <string name="txt_spPrecio">PRECIO MÁXIMO</string>
     <string name="txt_scShopping">CENTRO COMERCIAL</string>
     <string name="txt_scBook">LIBRERIA</string>
     <string name="btn_FILTROTIENDAS">APLICAR FILTROS</string>
