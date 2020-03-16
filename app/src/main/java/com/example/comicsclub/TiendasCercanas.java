@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class TiendasCercanas extends AppCompatActivity {
 
@@ -36,7 +38,12 @@ public class TiendasCercanas extends AppCompatActivity {
         Intent in=getIntent();
         if(in!=null){
             mTiendasCercanas = in.getParcelableArrayListExtra(HelperGlobal.NAMEPARCELABLEARRAY);
-
+            Collections.sort(mTiendasCercanas, new Comparator<TiendasParse.Tiendas>() {
+                @Override
+                public int compare(TiendasParse.Tiendas o1, TiendasParse.Tiendas o2) {
+                    return o1.getDistance().compareTo(o2.getDistance());
+                }
+            });
             if(mAdapter==null) {
                 mAdapter = new MyAdapter(TiendasCercanas.this);
                 mLv.setAdapter(mAdapter);
@@ -140,5 +147,12 @@ public class TiendasCercanas extends AppCompatActivity {
 
             return myview;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        Intent vueltaPrincipal = new Intent(TiendasCercanas.this, MainActivity.class);
+        startActivity(vueltaPrincipal);
+        super.onStop();
     }
 }

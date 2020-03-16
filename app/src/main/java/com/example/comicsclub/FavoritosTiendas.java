@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FavoritosTiendas extends AppCompatActivity {
     public static ArrayList<TiendasParse.Tiendas> mTiendasFavorito;
@@ -44,6 +46,14 @@ public class FavoritosTiendas extends AppCompatActivity {
         for(int i = 0; i<tiendasIntent.size();i++){
             mTiendasFavorito.add(tiendasIntent.get(i));
         }
+
+        Collections.sort(mTiendasFavorito, new Comparator<TiendasParse.Tiendas>() {
+            @Override
+            public int compare(TiendasParse.Tiendas o1, TiendasParse.Tiendas o2) {
+                return o1.getDistance().compareTo(o2.getDistance());
+            }
+        });
+
         mAdapter = new MyAdapter();
         mLv.setAdapter(mAdapter);
 
